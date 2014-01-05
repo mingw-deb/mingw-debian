@@ -62,7 +62,7 @@ libbz2.so.$(somajor): libbz2.so.$(sominor)
 
 libbz2.so.$(sominor): $(OBJS:%.o=%.sho)
 	$(CC) $(LDFLAGS) -o libbz2.so.$(sominor) -shared \
-	  -Wl,-soname,libbz2.so.$(somajor) $^ -lc
+	  -Wl,-soname,libbz2.so.$(somajor) $^
 
 %.sho: %.c
 	$(CC) $(CFLAGS) -D_REENTRANT -fPIC -o $@ -c $<
