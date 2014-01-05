@@ -1,0 +1,9 @@
+#!/bin/bash
+
+grep 'mingw64-windows-<cpu>	mingw64-<cpu>' /usr/share/dpkg/triplettable || \
+     echo 'mingw64-windows-<cpu>	mingw64-<cpu>' >> /usr/share/dpkg/triplettable
+grep 'mingw64-windows		w64-mingw32		w64-mingw32[^-]*' /usr/share/dpkg/ostable || \
+     echo 'mingw64-windows		w64-mingw32		w64-mingw32[^-]*' >> /usr/share/dpkg/ostable
+
+grep mingw64-amd64 /var/lib/dpkg/arch || dpkg --add-architecture mingw64-amd64
+grep mingw64-i386 /var/lib/dpkg/arch || dpkg --add-architecture mingw64-i386
