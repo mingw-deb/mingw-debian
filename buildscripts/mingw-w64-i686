@@ -1,0 +1,6 @@
+#!/bin/sh
+arch=i686-w64-mingw32
+
+makevarscript=`dirname $0`/mingw-w64-makevars
+. $makevarscript
+"$@"
