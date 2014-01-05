@@ -37,6 +37,16 @@ endif
 32-ARCHS=amd64 ppc64 kfreebsd-amd64 s390x
 64-ARCHS=s390 sparc i386 powerpc mips mipsel
 
+ifneq (,$(findstring w64-mingw32, $(DEB_HOST_ARCH)))
+else
+MAINMAKEFILE=-f win32/Makefile.gcc PREFIX=$(DEB_HOST_GNU_TYPE)- SHARED_MODE=1
+MINIZIPOPTS='UNZ_OBJS=miniunz.o unzip.o ioapi.o iowin32.o' 'ZIP_OBJS=minizip.o zip.o ioapi.o iowin32.o'
+INSTALLDIRS='INCLUDE_PATH=$(CURDIR)/debian/tmp/usr/include/$(DEB_HOST_GNU_TYPE)' \
+	'LIBRARY_PATH=$(CURDIR)/debian/tmp/usr/lib/$(DEB_HOST_GNU_TYPE)' \
+	'BINARY_PATH=$(CURDIR)/debian/tmp/usr/lib/$(DEB_HOST_GNU_TYPE)'
+EXEEXT=.exe
+endif
+
 ifneq (,$(findstring $(DEB_HOST_ARCH), $(32-ARCHS)))
 EXTRA_INSTALL=install32
 EXTRA_BUILD=build32-stamp
@@ -119,9 +129,9 @@ build: build-stamp $(EXTRA_BUILD)
 build-stamp: configure-stamp
 	dh_testdir
 
-	$(MAKE)
-	$(MAKE) CC=$(DEB_HOST_GNU_TYPE)-gcc CFLAGS="-I../.. $(CFLAGS)" LDFLAGS="$(LDFLAGS)" -C contrib/minizip
-	-$(MAKE) test
+	$(MAKE) $(MAINMAKEFILE)
+	$(MAKE) $(MINIZIPOPTS) CC=$(DEB_HOST_GNU_TYPE)-gcc CFLAGS="-I../.. $(CFLAGS)" LDFLAGS="$(LDFLAGS)" -C contrib/minizip
+	-$(MAKE) $(MAINMAKEFILE) test
 
 	touch $@
 
@@ -162,12 +172,7 @@ install: build
 	dh_prep
 	dh_installdirs
 
-	$(MAKE) prefix=$(CURDIR)/debian/tmp/usr install
-
-	install -d debian/tmp/lib/$(DEB_HOST_MULTIARCH) debian/tmp/usr/include/$(DEB_HOST_MULTIARCH)
-	mv debian/tmp/usr/include/zconf.h debian/tmp/usr/include/$(DEB_HOST_MULTIARCH)/
-	mv debian/tmp/usr/lib/$(DEB_HOST_MULTIARCH)/libz.so.* debian/tmp/lib/$(DEB_HOST_MULTIARCH)
-	ln -sf /lib/$(DEB_HOST_MULTIARCH)/$$(readlink debian/tmp/usr/lib/$(DEB_HOST_MULTIARCH)/libz.so) debian/tmp/usr/lib/$(DEB_HOST_MULTIARCH)/libz.so
+	$(MAKE) $(MAINMAKEFILE) $(INSTALLDIRS) prefix=$(CURDIR)/debian/tmp/usr install
 
 install64: install build64-stamp
 	$(MAKE) -C debian/64 prefix=$(CURDIR)/debian/tmp install
@@ -190,8 +195,8 @@ binary-arch: build install $(EXTRA_INSTALL)
 	dh_installdocs -s
 	dh_installexamples -s
 	mkdir -p debian/tmp/usr/bin
-	cp contrib/minizip/minizip debian/tmp/usr/bin
-	cp contrib/minizip/miniunz debian/tmp/usr/bin/miniunzip
+	cp contrib/minizip/minizip debian/tmp/usr/lib/$(DEB_HOST_GNU_TYPE)/minizip$(EXEEXT)
+	cp contrib/minizip/miniunz debian/tmp/usr/lib/$(DEB_HOST_GNU_TYPE)/miniunzip$(EXEEXT)
 	dh_install -s --sourcedir=debian/tmp
 	dh_installman -s
 	dh_lintian -s

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+cd zlib-1.2.8.dfsg
+MAKEFLAGS='-f win32/Makefile.gcc'
+export MAKEFLAGS
+. ../buildscripts/deb-mingw64-amd64
