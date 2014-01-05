@@ -1,0 +1,8 @@
+#!/bin/bash
+
+cd bzip2-1.0.6
+MAKEFLAGS='-f win32/Makefile.gcc'
+export MAKEFLAGS
+DEB_CFLAGS_SET="-g -O2 -Wformat -Werror=format-security -D_FORTIFY_SOURCE=2"
+export DEB_CFLAGS_SET
+. ../buildscripts/deb-mingw64-amd64
