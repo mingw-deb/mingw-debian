@@ -1,0 +1,12 @@
+#!/bin/bash
+LDFLAGS=-Wl,--subsystem,windows
+export LDFLAGS
+DEB_LDFLAGS_SET="$LDFLAGS"
+export DEB_LDFLAGS_SET
+DEB_BUILD_OPTIONS=nocheck 
+export DEB_BUILD_OPTIONS
+
+makevarscript=`dirname $0`/mingw-w64-x86_64
+. $makevarscript
+dpkg-buildpackage -amingw64-amd64 -rfakeroot -B -us -uc "$@"
+
