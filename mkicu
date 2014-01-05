@@ -1,0 +1,10 @@
+#!/bin/bash
+olddir=`pwd`
+
+cd icu-52.1
+MAKEFLAGS='-f win32/Makefile.gcc' # --debug=vj'
+export MAKEFLAGS
+DEB_CFLAGS_SET="-g -O2 -Wformat -Werror=format-security -D_FORTIFY_SOURCE=2"
+export DEB_CFLAGS_SET
+echo ' -*- auto-revert,compilation-shell-minor -*-' >  $olddir/`basename $0.log`
+. /usr/local/bin/deb-mingw64-amd64 2>&1 | tee -a $olddir/`basename $0.log`
