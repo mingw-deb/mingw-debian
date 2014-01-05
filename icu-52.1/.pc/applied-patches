@@ -1,0 +1,6 @@
+icudata-stdlibs.patch
+gennorm2-man.patch
+icuinfo-man.patch
+malayalam-rendering.patch
+indic-ccmp.patch
+mlym-crash.patch
