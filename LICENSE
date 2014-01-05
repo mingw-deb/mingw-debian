@@ -1,4 +1,10 @@
-This is free and unencumbered software released into the public domain.
+Each package in this repository has its own license.
+
+THESE FILES ARE NOT COVERED BY THE LICENSE BELOW.
+
+The compilation work, changes to the debian build process,
+as well as the additional scripts that are needed 
+to make this repostory work are put into Public Domain.
 
 Anyone is free to copy, modify, publish, use, compile, sell, or
 distribute this software, either in source code form or as a compiled
