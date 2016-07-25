@@ -1,0 +1,17 @@
+Description: Fix copy constructor in ebo_functor_holder
+Origin: upstream, https://github.com/boostorg/intrusive/commit/95a5a56bc092056421661cd7bba352fa49953060
+Bug: https://github.com/boostorg/intrusive/pull/19
+Bug-Debian: https://bugs.debian.org/824021
+Author: Tim Blechmann <tim@klingt.org>
+Last-Update: 2015-12-17
+--- a/boost/intrusive/detail/ebo_functor_holder.hpp
++++ b/boost/intrusive/detail/ebo_functor_holder.hpp
+@@ -183,7 +183,7 @@
+    {}
+ 
+    ebo_functor_holder(const ebo_functor_holder &x)
+-      : t_(x)
++      : t_(x.t_)
+    {}
+ 
+    ebo_functor_holder(BOOST_RV_REF(ebo_functor_holder) x)
