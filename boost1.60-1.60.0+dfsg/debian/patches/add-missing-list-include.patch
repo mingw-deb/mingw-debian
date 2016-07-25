@@ -1,0 +1,16 @@
+Description: Add missing <list> include from r_c_shortest_paths
+Origin: upstream, https://github.com/boostorg/graph/commit/6197b9c54932f161806ac6fb28344f6e245c7891
+Bug: http://lists.boost.org/boost-users/2015/12/85387.php
+Bug-Debian: https://bugs.debian.org/824022
+Author: Vladimir Prus <vladimir.prus@gmail.com>
+Last-Update: 2015-12-07
+--- a/boost/graph/r_c_shortest_paths.hpp
++++ b/boost/graph/r_c_shortest_paths.hpp
+@@ -11,6 +11,7 @@
+ #include <map>
+ #include <queue>
+ #include <vector>
++#include <list>
+ 
+ #include <boost/graph/graph_traits.hpp>
+ #include <boost/graph/iteration_macros.hpp>
