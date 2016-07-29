@@ -1,106 +1,51 @@
 #!/usr/bin/make -f
+# -*- makefile -*-
 
-export DEB_BUILD_HARDENING=1
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
 
-# Install all ICU headers files in the architecture-specific location.
-# While most files are platform-independent, platform.h is different
-# between big and little endina systems, and it's easier to have all
-# header files in a single directory so that icu-config and pkg-config
-# continue to work.
-DEB_CONFIGURE_USER_FLAGS = --libdir="\$${prefix}/lib/$(DEB_HOST_MULTIARCH)" \
-	--includedir="\$${prefix}/include/$(DEB_HOST_MULTIARCH)" \
-	--disable-samples --enable-static --enable-weak-threads
+l_SONAME=57
 
-# To distinguish variables that are truly local to this file (rather
-# than for use by cdbs), we adopt the convention of starting local
-# variables' names with l_.
+override_dh_clean:
+	dh_clean
+	find $(CURDIR)/source/ \( -name Makefile -o -name pkgdataMakefile \) \
+		-exec rm {} \;
 
-l_SONAME := 52
+override_dh_auto_configure:
+	dh_auto_configure -- --enable-static
 
-# Turn off optimization on armel to avoid some internal compiler
-# errors.  This can be removed once bug 484053 is resolved.
-ifeq ($(shell dpkg --print-architecture),armel)
-CFLAGS := $(filter-out -O%,$(CFLAGS)) -O0
-CXXFLAGS := $(filter-out -O%,$(CXXFLAGS)) -O0
-endif
+override_dh_auto_build:
+	dh_auto_build --parallel
+	$(MAKE) -C $(CURDIR)/source/ doc
 
-ifneq ($(DEB_HOST_GNU_TYPE),$(DEB_BUILD_GNU_TYPE))
-WINLDFLAGS=-Wl,--subsystem,windows
-BUILDBUILDDIR=$(PWD)/debian/buildarch-icu
-DEB_CONFIGURE_CROSSBUILD_ARGS += --with-cross-build=$(BUILDBUILDDIR) --build=$(DEB_BUILD_GNU_TYPE) --host=$(DEB_HOST_GNU_TYPE)
-endif
+override_dh_auto_install:
+	dh_auto_install
+	$(MAKE) -C $(CURDIR)/source/ install-doc DESTDIR=$(CURDIR)/debian/tmp/
+	# delete extra license file
+	rm  $(CURDIR)/debian/tmp/usr/share/icu/57.1/LICENSE
 
-# Include cdbs rules files.
-include /usr/share/cdbs/1/rules/debhelper.mk
-include /usr/share/cdbs/1/class/autotools.mk
-
-# Variables used by cdbs
-DEB_MAKE_INSTALL_TARGET := \
-	$(DEB_MAKE_INSTALL_TARGET:install=install install-doc)
-DEB_SRCDIR = source
-DEB_COMPRESS_EXCLUDE = html examples
-DEB_INSTALL_EXAMPLES_libicu-dev = \
-	source/samples/*
-DEB_DH_BUILDDEB_ARGS = -- -Zxz
-DEB_DBG_PACKAGE_libicu$(l_SONAME) = libicu$(l_SONAME)-dbg
-
-override DEB_MAKE_CHECK_TARGET = check
-
-ifneq ($(DEB_HOST_GNU_TYPE),$(DEB_BUILD_GNU_TYPE))
-BUILD_AR=$(subst $(DEB_HOST_GNU_TYPE),,$(AR))
-BUILD_AS=$(subst $(DEB_HOST_GNU_TYPE),,$(AS))
-BUILD_CC=$(subst $(DEB_HOST_GNU_TYPE),,$(CC))
-BUILD_CPP=$(subst $(DEB_HOST_GNU_TYPE),,$(CPP))
-BUILD_CPPFLAGS=$(CPPFLAGS)
-BUILD_CXX=$(subst $(DEB_HOST_GNU_TYPE),,$(CXX))
-BUILD_DLLTOOL=$(subst $(DEB_HOST_GNU_TYPE),,$(DLLTOOL))
-BUILD_LD=$(subst $(DEB_HOST_GNU_TYPE),,$(LD))
-BUILD_RANLIB=$(subst $(DEB_HOST_GNU_TYPE),,$(RANLIB))
-BUILD_DEB_CONFIGURE_SCRIPT_ENV= \
-	AS="$(BUILD_AS)" \
-	CC="$(BUILD_CC)" \
-	CPP="$(BUILD_CPP)" \
-	CXX="$(BUILD_CXX)" \
-	DLLTOOL="$(BUILD_DLLTOOL)" \
-	LD="$(BUILD_LD)" \
-	LDFLAGS="$(BUILD_LDFLAGS)"
-
-ifneq ($(subst mingw,,$(DEB_HOST_GNU_TYPE)),$(DEB_HOST_GNU_TYPE))
-BUILD_LDFLAGS=$(subst "",,$(subst $(WINLDFLAGS),,$(LDFLAGS)))
-DEB_CONFIGURE_USER_FLAGS += --bindir="\$${prefix}/lib/$(DEB_HOST_MULTIARCH)"
-else
-ifneq ($(subst mingw,,$(DEB_BUILD_GNU_TYPE)),$(DEB_BUILD_GNU_TYPE))
-BUILD_LDFLAGS=$(LDFLAGS) $(WINLDFLAGS)
-else
-BUILD_LDFLAGS=$(LDFLAGS)
-endif
-endif
-
-BUILD_DEB_MAKE_INVOKE = $(BUILD_DEB_CONFIGURE_SCRIPT_ENV) $(MAKE) -C debian/buildarch-icu
-
-
-$(cdbs_autotools_configure_stamps): debian/buildarch-icu-stamp
-debian/buildarch-icu-stamp:debian/stamp-autotools-files
-	mkdir -p $(BUILDBUILDDIR)
-# $(DEB_CONFIGURE_PATH_ARGS) ist the only element of $(DEB_CONFIGURE_NORMAL_ARGS) that can be used, here
-	cd $(BUILDBUILDDIR) && \
-	$(BUILD_DEB_CONFIGURE_SCRIPT_ENV) $(DEB_CONFIGURE_SCRIPT) $(DEB_CONFIGURE_PATH_ARGS) $(DEB_CONFIGURE_DEBUG_ARGS) \
-	$(cdbs_configure_flags) $(DEB_CONFIGURE_USER_FLAGS) --srcdir=$(CURDIR)/$(DEB_SRCDIR)
-	$(MAKE) $(BUILD_DEB_CONFIGURE_SCRIPT_ENV) -C debian/buildarch-icu $(DEB_MAKE_PARALLEL) VERBOSE=1
-	touch $@
-endif
-
-clean::
-	echo $(CROSS)
-	echo stamps=$(cdbs_autotools_configure_stamps)
-	$(RM) -rf $(BUILDBUILDDIR)
-	$(RM) -f debian/buildarch-icu-stamp
-	$(RM) *.cdbs-config_list
-
-# The libicudata library contains no symbols, so its debug library is
-# useless and triggers lintian warnings.  Just remove it.
-binary-predeb/libicu$(l_SONAME)-dbg::
-	for i in `find debian/libicu$(l_SONAME)-dbg/usr/lib/debug -type f -print`; do \
-	   if ! nm -a $$i | grep -q debug; then rm $$i; fi; \
+override_dh_installdocs-indep:
+	dh_installdocs -i
+	# symlink duplicated files
+	for file in `find debian/icu-doc/usr/share/doc/icu-doc/html/ -name \*icu_1_1\*`; do \
+		normal=`echo $$file | sed s/icu_1_1//`; \
+		if [ -f $$normal ]; then \
+			rm $$file; \
+			ln -s `basename $$normal` $$file; \
+		fi; \
 	done
-	-find debian/libicu$(l_SONAME)-dbg/usr/lib/debug -type d -empty -exec rmdir {} \;
+
+override_dh_strip:
+	dh_strip -plibicu$(l_SONAME) --dbg-package=libicu$(l_SONAME)-dbg
+	dh_strip -picu-devtools --dbg-package=icu-devtools-dbg
+	# libicudata library doesn't contain any debug symbols, remove that
+	for file in `find debian/libicu$(l_SONAME)-dbg/usr/lib/debug -type f -print`; do \
+		if ! nm -a $$file | grep -q debug; then rm $$file; fi; \
+	done
+
+%:
+	dh $@ --sourcedirectory=$(CURDIR/)source/ --parallel
+
+.PHONY: override_dh_clean override_dh_auto_configure override_dh_auto_build \
+	override_dh_auto_install override_dh_installdocs-indep \
+	override_dh_strip

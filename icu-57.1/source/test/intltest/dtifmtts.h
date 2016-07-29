@@ -1,6 +1,6 @@
 /********************************************************************
  * COPYRIGHT: 
- * Copyright (c) 2008-2013 International Business Machines Corporation and
+ * Copyright (c) 2008-2016 International Business Machines Corporation and
  * others. All Rights Reserved.
  ********************************************************************/
 
@@ -51,6 +51,13 @@ public:
      * Stress test -- stress test formatting on 40 locales
      */
     void testStress();
+
+    void testTicket11583_2();
+
+    void testTicket11985();
+
+    void testTicket11669();
+    void threadFunc11669(int32_t threadNum);
 
 private:
     /**

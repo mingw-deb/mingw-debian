@@ -1,5 +1,7 @@
 This package was debianized by Jay Berkenbilt <qjb@debian.org> on
 August 5, 2005.
+The packaging was taken over by Laszlo Boszormenyi (GCS) <gcs@debian.org> on
+Tue, 17 Mar 2015.
 
 The original source was downloaded from
 http://icu-project.org/download/latest_milestone.html

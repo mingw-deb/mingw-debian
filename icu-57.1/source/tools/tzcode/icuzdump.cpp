@@ -1,7 +1,7 @@
 /*
 *******************************************************************************
 *
-*   Copyright (C) 2007, International Business Machines
+*   Copyright (C) 2007-2016, International Business Machines
 *   Corporation and others.  All Rights Reserved.
 *
 *******************************************************************************
@@ -34,6 +34,7 @@
 #include "unicode/ustream.h"
 #include "unicode/putil.h"
 
+#include "cmemory.h"
 #include "uoptions.h"
 
 using namespace std;
@@ -196,9 +197,6 @@ private:
         hi = gcal->getTime(status);
     }
 
-    void dumpZone(ostream& out, const char* linesep, UnicodeString tzid, int32_t low, int32_t high) {
-    }
-
     TimeZone*   timezone;
     int32_t     loyear;
     int32_t     hiyear;
@@ -292,7 +290,7 @@ main(int argc, char *argv[]) {
     const char *linesep = NULL;
 
     U_MAIN_INIT_ARGS(argc, argv);
-    argc = u_parseArgs(argc, argv, sizeof(options)/sizeof(options[0]), options);
+    argc = u_parseArgs(argc, argv, UPRV_LENGTHOF(options), options);
 
     if (argc < 0) {
         cerr << "Illegal command line argument(s)" << endl << endl;

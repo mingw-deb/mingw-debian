@@ -1,7 +1,7 @@
 /*
  ******************************************************************************
  *
- *   Copyright (C) 1998-2011, International Business Machines
+ *   Copyright (C) 1998-2016, International Business Machines
  *   Corporation and others.  All Rights Reserved.
  *
  ******************************************************************************
@@ -18,6 +18,9 @@
  */
 
 #include "unicode/ustdio.h"
+
+#if !UCONFIG_NO_CONVERSION
+
 #include "unicode/putil.h"
 #include "cmemory.h"
 #include "cstring.h"
@@ -293,7 +296,7 @@ u_fputc(UChar32      uc,
     int32_t idx = 0;
     UBool isError = FALSE;
 
-    U16_APPEND(buf, idx, sizeof(buf)/sizeof(*buf), uc, isError);
+    U16_APPEND(buf, idx, UPRV_LENGTHOF(buf), uc, isError);
     if (isError) {
         return U_EOF;
     }
@@ -724,3 +727,4 @@ u_file_read(    UChar        *chars,
 
     return read;
 }
+#endif

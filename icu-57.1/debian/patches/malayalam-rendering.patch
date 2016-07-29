@@ -155,7 +155,7 @@ Index: icu-52~m1/source/layout/IndicReordering.cpp
                  if (postBase <= lastConsonant) {
                      for (i = postBase; i <= lastConsonant; i += 1) {
                          output.writeChar(chars[i], i, tagArray3);
-@@ -1200,7 +1156,7 @@
+@@ -1203,7 +1159,7 @@
  }
  
  

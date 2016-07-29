@@ -1,6 +1,6 @@
 /********************************************************************
  * COPYRIGHT: 
- * Copyright (c) 1997-2007,2011,2013, International Business Machines
+ * Copyright (c) 1997-2016, International Business Machines
  * Corporation and others. All Rights Reserved.
  ********************************************************************/
 /********************************************************************************
@@ -26,6 +26,7 @@ void addCalTest(TestNode**);
 void addDateForTest(TestNode**);
 void addDateTimePatternGeneratorTest(TestNode**);
 void addDateIntervalFormatTest(TestNode**);
+void addRelativeDateFormatTest(TestNode**);
 void addNumForTest(TestNode**);
 void addMsgForTest(TestNode**);
 void addDateForRgrTest(TestNode**);
@@ -35,6 +36,7 @@ void addUtmsTest(TestNode**);
 void addCurrencyTest(TestNode**);
 void addPluralRulesTest(TestNode**);
 void addURegionTest(TestNode** root);
+void addUListFmtTest(TestNode** root);
 
 void addFormatTest(TestNode** root);
 
@@ -44,6 +46,9 @@ void addFormatTest(TestNode** root)
     addDateForTest(root);
     addDateTimePatternGeneratorTest(root);
     addDateIntervalFormatTest(root);
+#if !UCONFIG_NO_BREAK_ITERATION
+    addRelativeDateFormatTest(root);
+#endif /* !UCONFIG_NO_BREAK_ITERATION */
     addNumForTest(root);
     addNumFrDepTest(root);
     addMsgForTest(root);
@@ -53,6 +58,7 @@ void addFormatTest(TestNode** root)
     addCurrencyTest(root);
     addPluralRulesTest(root);
     addURegionTest(root);
+    addUListFmtTest(root);
 }
 /*Internal functions used*/
 

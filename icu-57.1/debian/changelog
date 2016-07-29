@@ -1,3 +1,135 @@
+icu (57.1-1) experimental; urgency=low
+
+  * New major upstream release (closes: #804026).
+  * Update package names due to soname bump.
+  * Add icu-devtools debug package.
+  * Drop CVE-2015-2632.patch as this release contains it.
+  * Update patches.
+  * Keep rebuildable.
+  * Update Standars-Version to 3.9.7 .
+
+  [ Helmut Grohne <helmut@subdivi.de> ]
+  * Move icu-config to a M-A:no package (closes: #776821).
+    + Move icu-config from icu-devtools to libicu-dev.
+    + Declare relevant Breaks and Replaces.
+    + Remove Multi-Arch:same from libicu-dev.
+
+  [ Guido Günther <agx@sigxcpu.org> ]
+  * Add build and smoke autopkgtest (closes: #813338).
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Sun, 27 Mar 2016 10:46:16 +0000
+
+icu (55.1-7) unstable; urgency=high
+
+  * Fix CVE-2015-2632 vulnerability.
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Sun, 03 Jan 2016 16:44:55 +0100
+
+icu (55.1-6) unstable; urgency=low
+
+  * Don't force libicu-dev to depend on g++ (closes: #799100, #799101).
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Tue, 03 Nov 2015 19:07:10 +0100
+
+icu (55.1-5) unstable; urgency=high
+
+  * Correct patch for CVE-2015-1270 (closes: #798647).
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Fri, 11 Sep 2015 15:23:53 +0000
+
+icu (55.1-4) unstable; urgency=low
+
+  [ Helmut Grohne <helmut@subdivi.de> ]
+  * Support parallel building (closes: #794617).
+  * Support cross compilation (closes: #784668).
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Sat, 08 Aug 2015 10:39:07 +0000
+
+icu (55.1-3.1) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Fix build on hurd-i386 (Samuel Thibault). Closes: #794404.
+
+ -- Matthias Klose <doko@debian.org>  Mon, 03 Aug 2015 12:21:04 +0200
+
+icu (55.1-3) unstable; urgency=high
+
+  * Fix CVE-2015-1270 .
+  * Add fixes for CVE-2014-6585.patch and CVE-2015-4760.patch .
+  * Upload to unstable for GCC 5 transition (closes: #791072).
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Sun, 02 Aug 2015 14:13:05 +0200
+
+icu (55.1-2) experimental; urgency=low
+
+  [ Matthias Klose <doko@debian.org> ]
+  * Build using GCC 5.
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Sat, 18 Jul 2015 12:33:19 +0000
+
+icu (55.1-1) experimental; urgency=low
+
+  * New upstream release (closes: #779245).
+  * Remove two-digit-year-test.patch , mlym-crash.patch and icu-config.patch
+    as applied upstream.
+  * Doesn't build with clang (closes: #778501).
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Sat, 04 Apr 2015 07:57:47 +0000
+
+icu (52.1-8) unstable; urgency=high
+
+  * New maintainer (closes: #777694).
+  * Update Standars-Version to 3.9.6 .
+
+  [ Michael Gilbert <mgilbert@debian.org> ]
+  * Apply a more complete fix for CVE-2014-7940 (closes: #780503).
+    - Thanks to Marc Deslauriers.
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Tue, 17 Mar 2015 11:14:15 +0000
+
+icu (52.1-7.1) unstable; urgency=high
+
+  * Non-maintainer upload by the Security Team.
+  * Unfixed issue from the previous upload (closes: #776264)
+    - CVE-2014-6585: out-of-bounds read.
+  * Issues fixed in chromium 40.0.2214.91 (closes: #776265, #776719).
+    - CVE-2014-7923: memory corruption in regular expression comparison.
+    - CVE-2014-7926: memory corruption in regular expression comparison.
+    - CVE-2014-7940: uninitialized memory in i18n/icol.cpp.
+    - CVE-2014-9654: more regular expression handling issues.
+
+ -- Michael Gilbert <mgilbert@debian.org>  Sun, 15 Feb 2015 22:19:14 +0000
+
+icu (52.1-7) unstable; urgency=high
+
+  * Patch to CVE-2014-6591, CVE-2014-6585 a font parsing bug.
+    (Closes: #775884)
+
+ -- Jay Berkenbilt <qjb@debian.org>  Wed, 21 Jan 2015 21:33:19 -0500
+
+icu (52.1-6) unstable; urgency=medium
+
+  * Ensure that only flags intended to be set by users make it into
+    icu-config. Previously hardening flags were sneaking in there.
+    (Closes: #759792)
+
+ -- Jay Berkenbilt <qjb@debian.org>  Mon, 29 Sep 2014 09:59:09 -0400
+
+icu (52.1-5) unstable; urgency=medium
+
+  * Switch hardening back to dpkg-buildflags. It wasn't previously working
+    but now is, probably because of other bugfixes that have happened in
+    the mean time.
+
+ -- Jay Berkenbilt <qjb@debian.org>  Sat, 26 Jul 2014 12:54:32 -0400
+
+icu (52.1-4) unstable; urgency=medium
+
+  * Fix test case that fails with gcc 4.9. Fix is from upstream. (Closes:
+    #746860)
+
+ -- Jay Berkenbilt <qjb@debian.org>  Sat, 21 Jun 2014 16:52:47 -0400
+
 icu (52.1-3) unstable; urgency=medium
 
   * Add package dependency information to assist with upgrades in Ubuntu.

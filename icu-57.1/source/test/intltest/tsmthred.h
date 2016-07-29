@@ -1,6 +1,6 @@
 /********************************************************************
  * COPYRIGHT: 
- * Copyright (c) 1997-2012, International Business Machines Corporation and
+ * Copyright (c) 1997-2015, International Business Machines Corporation and
  * others. All Rights Reserved.
  ********************************************************************/
 
@@ -44,8 +44,13 @@ public:
      **/
     void TestThreadedIntl(void);
 #endif
-  void TestCollators(void);
-  void TestString();
+    void TestCollators(void);
+    void TestString();
+    void TestAnyTranslit();
+    void TestConditionVariables();
+    void TestUnifiedCache();
+    void TestBreakTranslit();
+
 };
 
 #endif

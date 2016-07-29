@@ -1,6 +1,6 @@
 /*
 ********************************************************************************
-*   Copyright (C) 2005-2013, International Business Machines
+*   Copyright (C) 2005-2016, International Business Machines
 *   Corporation and others.  All Rights Reserved.
 ********************************************************************************
 *
@@ -136,7 +136,7 @@ static void freeCurrencyFormat(CURRENCYFMTW *fmt)
 }
 
 Win32NumberFormat::Win32NumberFormat(const Locale &locale, UBool currency, UErrorCode &status)
-  : NumberFormat(), fCurrency(currency), fFractionDigitsSet(FALSE), fFormatInfo(NULL)
+  : NumberFormat(), fCurrency(currency), fFormatInfo(NULL), fFractionDigitsSet(FALSE)
 {
     if (!U_FAILURE(status)) {
         fLCID = locale.getLCID();
@@ -144,7 +144,7 @@ Win32NumberFormat::Win32NumberFormat(const Locale &locale, UBool currency, UErro
         // Resolve actual locale to be used later
         UErrorCode tmpsts = U_ZERO_ERROR;
         char tmpLocID[ULOC_FULLNAME_CAPACITY];
-        int32_t len = uloc_getLocaleForLCID(fLCID, tmpLocID, sizeof(tmpLocID)/sizeof(tmpLocID[0]) - 1, &tmpsts);
+        int32_t len = uloc_getLocaleForLCID(fLCID, tmpLocID, UPRV_LENGTHOF(tmpLocID) - 1, &tmpsts);
         if (U_SUCCESS(tmpsts)) {
             tmpLocID[len] = 0;
             fLocale = Locale((const char*)tmpLocID);
@@ -242,7 +242,7 @@ void Win32NumberFormat::setMinimumFractionDigits(int32_t newValue)
     NumberFormat::setMinimumFractionDigits(newValue);
 }
 
-UnicodeString &Win32NumberFormat::format(int32_t numDigits, UnicodeString &appendTo, wchar_t *fmt, ...) const
+UnicodeString &Win32NumberFormat::format(int32_t numDigits, UnicodeString &appendTo, const wchar_t *fmt, ...) const
 {
     wchar_t nStackBuffer[STACK_BUFFER_SIZE];
     wchar_t *nBuffer = nStackBuffer;

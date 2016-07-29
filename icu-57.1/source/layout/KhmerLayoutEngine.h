@@ -1,7 +1,6 @@
-
 /*
  *
- * (C) Copyright IBM Corp. 1998-2013 - All Rights Reserved 
+ * (C) Copyright IBM Corp. 1998-2016 - All Rights Reserved 
  *
  * This file is a modification of the ICU file IndicLayoutEngine.h
  * by Jens Herden and Javier Sola for Khmer language 
@@ -11,20 +10,20 @@
 #ifndef __KHMERLAYOUTENGINE_H
 #define __KHMERLAYOUTENGINE_H
 
-// #include "LETypes.h"
-// #include "LEFontInstance.h"
-// #include "LEGlyphFilter.h"
-// #include "LayoutEngine.h"
-// #include "OpenTypeLayoutEngine.h"
+#include "LETypes.h"
+#include "LEFontInstance.h"
+#include "LEGlyphFilter.h"
+#include "LayoutEngine.h"
+#include "OpenTypeLayoutEngine.h"
 
-// #include "GlyphSubstitutionTables.h"
-// #include "GlyphDefinitionTables.h"
-// #include "GlyphPositioningTables.h"
+#include "GlyphSubstitutionTables.h"
+#include "GlyphDefinitionTables.h"
+#include "GlyphPositioningTables.h"
 
 U_NAMESPACE_BEGIN
 
-// class MPreFixups;
-// class LEGlyphStorage;
+class MPreFixups;
+class LEGlyphStorage;
 
 /**
  * This class implements OpenType layout for Khmer OpenType fonts, as
@@ -87,14 +86,14 @@ public:
     /**
      * ICU "poor man's RTTI", returns a UClassID for the actual class.
      *
-     * @stable ICU 2.8
+     * @deprecated ICU 54. See {@link icu::LayoutEngine}
      */
     virtual UClassID getDynamicClassID() const;
 
     /**
      * ICU "poor man's RTTI", returns a UClassID for this class.
      *
-     * @stable ICU 2.8
+     * @deprecated ICU 54. See {@link icu::LayoutEngine}
      */
     static UClassID getStaticClassID();
 
@@ -128,4 +127,3 @@ protected:
 
 U_NAMESPACE_END
 #endif
-

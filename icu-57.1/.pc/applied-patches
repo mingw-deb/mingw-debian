@@ -3,4 +3,6 @@ gennorm2-man.patch
 icuinfo-man.patch
 malayalam-rendering.patch
 indic-ccmp.patch
-mlym-crash.patch
+CVE-2014-6585.patch
+CVE-2015-4760.patch
+hurd-fix.diff

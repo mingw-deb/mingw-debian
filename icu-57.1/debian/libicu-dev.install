@@ -1,3 +1,5 @@
+usr/bin/icu-config
+usr/lib/*/lib*.so
 usr/lib/*/lib*.a
 usr/lib/*/icu
 usr/lib/*/pkgconfig/*.pc

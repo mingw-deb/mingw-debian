@@ -32,7 +32,7 @@ Index: icu-52~m1/source/layout/IndicReordering.cpp
  #define positioningFormsMask ( kernFeatureMask | distFeatureMask | abvmFeatureMask | blwmFeatureMask )
  #define presentationFormsMask ( presFeatureMask | abvsFeatureMask | blwsFeatureMask | pstsFeatureMask | halnFeatureMask | caltFeatureMask )
  
-@@ -484,6 +486,7 @@
+@@ -515,6 +517,7 @@
  #define tagArray0 (rphfFeatureMask | tagArray1)
  
  static const FeatureMap featureMap[] = {
@@ -40,7 +40,7 @@ Index: icu-52~m1/source/layout/IndicReordering.cpp
      {loclFeatureTag, loclFeatureMask},
      {initFeatureTag, initFeatureMask},
      {nuktFeatureTag, nuktFeatureMask},
-@@ -506,6 +509,7 @@
+@@ -537,6 +540,7 @@
  static const le_int32 featureCount = LE_ARRAY_SIZE(featureMap);
  
  static const FeatureMap v2FeatureMap[] = {

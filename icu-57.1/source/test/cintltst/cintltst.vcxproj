@@ -287,6 +287,7 @@
     <ClCompile Include="cldrtest.c" />
     <ClCompile Include="cloctst.c" />
     <ClCompile Include="cposxtst.c" />
+    <ClCompile Include="crelativedateformattest.c" />
     <ClCompile Include="crestst.c" />
     <ClCompile Include="creststn.c" />
     <ClCompile Include="calltest.c" />
@@ -314,6 +315,7 @@
     <ClCompile Include="sprpdata.c" />
     <ClCompile Include="spooftest.c" />
     <ClCompile Include="uregiontest.c" />
+    <ClCompile Include="ulistfmttest.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cbiditst.h" />

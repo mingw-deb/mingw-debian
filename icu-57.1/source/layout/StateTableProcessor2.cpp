@@ -1,6 +1,6 @@
 /*
  *
- * (C) Copyright IBM Corp.  and others 1998-2013 - All Rights Reserved
+ * (C) Copyright IBM Corp.  and others 1998-2016 - All Rights Reserved
  *
  */
 
@@ -21,10 +21,17 @@ StateTableProcessor2::StateTableProcessor2()
 }
 
 StateTableProcessor2::StateTableProcessor2(const LEReferenceTo<MorphSubtableHeader2> &morphSubtableHeader, LEErrorCode &success)
-  : SubtableProcessor2(morphSubtableHeader, success), stateTableHeader(morphSubtableHeader, success),
-    stHeader(stateTableHeader, success, (const StateTableHeader2*)&stateTableHeader->stHeader),
-    nClasses(0), classTableOffset(0), stateArrayOffset(0), entryTableOffset(0), classTable(), format(0),
-    stateArray()
+  : SubtableProcessor2(morphSubtableHeader, success), 
+    dir(1),
+    format(0),
+    nClasses(0), 
+    classTableOffset(0), 
+    stateArrayOffset(0), 
+    entryTableOffset(0), 
+    classTable(), 
+    stateArray(),
+    stateTableHeader(morphSubtableHeader, success),
+    stHeader(stateTableHeader, success, (const StateTableHeader2*)&stateTableHeader->stHeader)
 {
   if (LE_FAILURE(success)) {
     return;
@@ -34,7 +41,7 @@ StateTableProcessor2::StateTableProcessor2(const LEReferenceTo<MorphSubtableHead
   stateArrayOffset = SWAPL(stHeader->stateArrayOffset);
   entryTableOffset = SWAPL(stHeader->entryTableOffset);
   
-  classTable = LEReferenceTo<LookupTable>(stHeader, success, classTableOffset);
+  classTable = LEReferenceTo<LookupTableBase>(stHeader, success, classTableOffset);
   format = SWAPW(classTable->format);
   
   stateArray = LEReferenceToArrayOf<EntryTableIndex2>(stHeader, success, stateArrayOffset, LE_UNBOUNDED_ARRAY);
@@ -78,6 +85,7 @@ void StateTableProcessor2::process(LEGlyphStorage &glyphStorage, LEErrorCode &su
                 if (currGlyph == glyphCount || currGlyph == -1) {
                     // XXX: How do we handle EOT vs. EOL?
                     classCode = classCodeEOT;
+                    break;
                 } else {
                     LEGlyphID gid = glyphStorage[currGlyph];
                     TTGlyphID glyphCode = (TTGlyphID) LE_GET_GLYPH(gid);
@@ -109,6 +117,7 @@ void StateTableProcessor2::process(LEGlyphStorage &glyphStorage, LEErrorCode &su
                 if (currGlyph == glyphCount || currGlyph == -1) {
                     // XXX: How do we handle EOT vs. EOL?
                     classCode = classCodeEOT;
+                    break;
                 } else {
                     LEGlyphID gid = glyphStorage[currGlyph];
                     TTGlyphID glyphCode = (TTGlyphID) LE_GET_GLYPH(gid);
@@ -146,6 +155,7 @@ void StateTableProcessor2::process(LEGlyphStorage &glyphStorage, LEErrorCode &su
                 if (currGlyph == glyphCount || currGlyph == -1) {
                     // XXX: How do we handle EOT vs. EOL?
                     classCode = classCodeEOT;
+                    break;
                 } else if(currGlyph > glyphCount) {
                   // note if > glyphCount, we've run off the end (bad font)
                   currGlyph = glyphCount;
@@ -186,6 +196,7 @@ void StateTableProcessor2::process(LEGlyphStorage &glyphStorage, LEErrorCode &su
                 if (currGlyph == glyphCount || currGlyph == -1) {
                     // XXX: How do we handle EOT vs. EOL?
                     classCode = classCodeEOT;
+                    break;
                 } else {
                     TTGlyphID glyphCode = (TTGlyphID) LE_GET_GLYPH(glyphStorage[currGlyph]);
                     if (glyphCode == 0xFFFF) {

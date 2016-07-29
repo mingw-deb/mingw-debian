@@ -1,6 +1,6 @@
 /*
  **********************************************************************
- *   Copyright (C) 1999-2012, International Business Machines
+ *   Copyright (C) 1999-2016, International Business Machines
  *   Corporation and others.  All Rights Reserved.
  **********************************************************************
  *   Date        Name        Description
@@ -1501,6 +1501,7 @@ UBool Transliterator::initializeRegistry(UErrorCode &status) {
     UResourceBundle *bundle, *transIDs, *colBund;
     bundle = ures_open(U_ICUDATA_TRANSLIT, NULL/*open default locale*/, &status);
     transIDs = ures_getByKey(bundle, RB_RULE_BASED_IDS, 0, &status);
+    const UnicodeString T_PART = UNICODE_STRING_SIMPLE("-t-");
 
     int32_t row, maxRows;
     if (U_SUCCESS(status)) {
@@ -1509,6 +1510,10 @@ UBool Transliterator::initializeRegistry(UErrorCode &status) {
             colBund = ures_getByIndex(transIDs, row, 0, &status);
             if (U_SUCCESS(status)) {
                 UnicodeString id(ures_getKey(colBund), -1, US_INV);
+                if(id.indexOf(T_PART) != -1) {
+                    ures_close(colBund);
+                    continue;
+                }
                 UResourceBundle* res = ures_getNextResource(colBund, NULL, &status);
                 const char* typeStr = ures_getKey(res);
                 UChar type;
@@ -1619,7 +1624,7 @@ UBool Transliterator::initializeRegistry(UErrorCode &status) {
 
 U_NAMESPACE_END
 
-// Defined in ucln_in.h:
+// Defined in transreg.h:
 
 /**
  * Release all static memory held by transliterator.  This will
