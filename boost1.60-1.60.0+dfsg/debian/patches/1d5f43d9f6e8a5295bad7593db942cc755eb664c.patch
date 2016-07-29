@@ -1,0 +1,22 @@
+From 1d5f43d9f6e8a5295bad7593db942cc755eb664c Mon Sep 17 00:00:00 2001
+From: jzmaddock <john@johnmaddock.co.uk>
+Date: Tue, 21 Jul 2015 18:54:48 +0100
+Subject: [PATCH] Remove depricated type_traits usage.
+
+---
+ boost/graph/adjacency_matrix.hpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/boost/graph/adjacency_matrix.hpp b/boost/graph/adjacency_matrix.hpp
+index b1078d9..ade7351 100644
+--- a/boost/graph/adjacency_matrix.hpp
++++ b/boost/graph/adjacency_matrix.hpp
+@@ -443,7 +443,7 @@ namespace boost {
+     // graph type. Instead, use directedS, which also provides the
+     // functionality required for a Bidirectional Graph (in_edges,
+     // in_degree, etc.).
+-    BOOST_STATIC_ASSERT(type_traits::ice_not<(is_same<Directed, bidirectionalS>::value)>::value);
++    BOOST_STATIC_ASSERT(!(is_same<Directed, bidirectionalS>::value));
+ 
+     typedef typename mpl::if_<is_directed,
+                                     bidirectional_tag, undirected_tag>::type

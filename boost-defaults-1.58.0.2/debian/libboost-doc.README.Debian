@@ -1,0 +1,16 @@
+	BOOST_ROOT
+	----------
+
+Several places in the documentation and examples refer to the
+top-level directory of the Boost source tree as "BOOST_ROOT".
+Typically, this is used to refer to example code
+("BOOST_ROOT/libs/program_options/example directory") or to a
+documentation file ("$BOOST_ROOT/doc/html").
+
+Most such references may be found by looking either in
+/usr/share/doc/libboost-doc/examples or in
+/usr/share/doc/libboost-doc/HTML.  In rare cases, you may need to
+obtain the source tree itself to find the file.
+
+
+ -- Steve M. Robbins <smr@debian.org>, Sun, 23 Sep 2012 21:10:55 -0500

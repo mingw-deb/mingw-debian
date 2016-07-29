@@ -1,0 +1,34 @@
+Author: Jonathan Wakely <jwakely@redhat.com>
+Date:   Mon Sep 14 15:05:24 2015 +0100
+Description: Do not qualify <fenv.h> names that might be macros.
+Forwarded: no
+Reviewed-by: Steve Robbins <smr@debian.org>
+
+    Patch taken from RedHat.
+    See https://bugzilla.redhat.com/show_bug.cgi?id=1262444
+
+
+--- boost1.60-1.60.0+dfsg.orig/boost/test/impl/execution_monitor.ipp
++++ boost1.60-1.60.0+dfsg/boost/test/impl/execution_monitor.ipp
+@@ -1380,8 +1380,8 @@
+ 
+     return ~old_cw & BOOST_FPE_ALL;
+ #elif defined(__GLIBC__) && defined(__USE_GNU) && !defined(BOOST_CLANG) && !defined(BOOST_NO_FENV_H)
+-    ::feclearexcept(BOOST_FPE_ALL);
+-    int res = ::feenableexcept( mask );
++    feclearexcept(BOOST_FPE_ALL);
++    int res = feenableexcept( mask );
+     return res == -1 ? (unsigned)BOOST_FPE_INV : (unsigned)res;
+ #else
+     /* Not Implemented  */
+@@ -1417,8 +1417,8 @@
+ 
+     return ~old_cw & BOOST_FPE_ALL;
+ #elif defined(__GLIBC__) && defined(__USE_GNU) && !defined(BOOST_CLANG) && !defined(BOOST_NO_FENV_H)
+-    ::feclearexcept(BOOST_FPE_ALL);
+-    int res = ::fedisableexcept( mask );
++    feclearexcept(BOOST_FPE_ALL);
++    int res = fedisableexcept( mask );
+     return res == -1 ? (unsigned)BOOST_FPE_INV : (unsigned)res;
+ #else
+     /* Not Implemented */
