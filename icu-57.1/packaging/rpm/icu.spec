@@ -134,21 +134,21 @@ make install DESTDIR=$RPM_BUILD_ROOT
 /usr/share/icu/%{version}/icudt34l/*.icu
 /usr/share/icu/%{version}/icudt34l/*.spp
 
-/usr/bin/derb
-/usr/bin/genbrk
-/usr/bin/gencnval
-/usr/bin/genrb
-/usr/bin/icu-config
-/usr/bin/makeconv
-/usr/bin/pkgdata
-/usr/bin/uconv
+/usr/bin/derb.exe
+/usr/bin/genbrk.exe
+/usr/bin/gencnval.exe
+/usr/bin/genrb.exe
+/usr/bin/icu-config.exe
+/usr/bin/makeconv.exe
+/usr/bin/pkgdata.exe
+/usr/bin/uconv.exe
 
-/usr/sbin/decmn
-/usr/sbin/genccode
-/usr/sbin/gencmn
-/usr/sbin/gensprep
-/usr/sbin/genuca
-/usr/sbin/icuswap
+/usr/sbin/decmn.exe
+/usr/sbin/genccode.exe
+/usr/sbin/gencmn.exe
+/usr/sbin/gensprep.exe
+/usr/sbin/genuca.exe
+/usr/sbin/icuswap.exe
 /usr/share/icu/%{version}/mkinstalldirs
 
 /usr/man/man1/derb.1.*

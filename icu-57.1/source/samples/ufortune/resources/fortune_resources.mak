@@ -42,7 +42,7 @@ BIN=bin
 #  -t fools make into thinking there are files such as es.res, etc
 #
 .txt.res:
-	$(ICUDIR)\$(BIN)\genrb -d . $*.txt
+	$(ICUDIR)\$(BIN)\genrb$(EXEEXT) -d . $*.txt
 
 #
 #  all - nmake starts here by default
@@ -50,5 +50,5 @@ BIN=bin
 all: fortune_resources.dll
 
 fortune_resources.dll: $(RESFILES)
-	$(ICUDIR)\$(BIN)\pkgdata --name fortune_resources -v --mode dll -d . res-file-list.txt
+	$(ICUDIR)\$(BIN)\pkgdata$(EXEEXT) --name fortune_resources -v --mode dll -d . res-file-list.txt
 

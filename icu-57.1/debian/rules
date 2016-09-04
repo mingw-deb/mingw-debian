@@ -3,26 +3,70 @@
 
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
+LDFLAGS=
+CPPFLAGS=-Wdate-time
+CFLAGS=-O3 -g -O2 -Wformat -Werror=format-security
+CXXFLAGS=-O3 --std=c++03
 
 l_SONAME=57
 
+TARGETS := \
+	x86_64-w64-mingw32 \
+	i686-w64-mingw32
+WINEPREFIX = $(CURDIR)/build-$$target/wineprefix
+WINEDLLPATH = \
+$(CURDIR)/build-$${target}/bin:\
+$(CURDIR)/build-$${target}/lib:\
+$(CURDIR)/build-$${target}/stubdata:\
+$(CURDIR)/build-$${target}/tools/testfw
+
+EXECUTE = \
+	FORCE_WINEPREFIX="$(WINEPREFIX)" \
+	PATH="$(WINEDLLPATH):$$PATH" \
+	WINEDLLPATH="$(WINEDLLPATH)" \
+	LDFLAGS="$(LDFLAGS)" CFLAGS="$(CFLAGS)" \
+	CXXFLAGS="$(CXXFLAGS)" CPPFLAGS="$(CPPFLAGS)" \
+	/usr/bin/$${target}
+
 override_dh_clean:
+	for target in $(TARGETS); do \
+		rm -rf build-$$target; \
+	done
 	dh_clean
-	find $(CURDIR)/source/ \( -name Makefile -o -name pkgdataMakefile \) \
+#	find $(CURDIR)/source/ \( -name Makefile -o -name pkgdataMakefile \) \
 		-exec rm {} \;
 
 override_dh_auto_configure:
-	dh_auto_configure -- --enable-static
+	for target in $(TARGETS); do \
+		mkdir -p build-$$target/bin && \
+		cd build-$$target && \
+		cp -a /usr/$$target/bin/run-native-$$target.exe bin/bash.exe && \
+		$(EXECUTE) /usr/bin/prepare-winedllpath && \
+		$(EXECUTE) ../source/runConfigureICU MinGW \
+			"--host=$$target" "--build=$$target" \
+			--enable-static "--prefix=/usr/$$target" || exit ; \
+		cd .. ; \
+	done
 
 override_dh_auto_build:
-	dh_auto_build --parallel
-	$(MAKE) -C $(CURDIR)/source/ doc
+	for target in $(TARGETS); do \
+		cd build-$$target && \
+		$(EXECUTE) $(MAKE) && \
+		$(EXECUTE) $(MAKE) doc || exit ; \
+		cd .. ; \
+	done
 
 override_dh_auto_install:
-	dh_auto_install
-	$(MAKE) -C $(CURDIR)/source/ install-doc DESTDIR=$(CURDIR)/debian/tmp/
-	# delete extra license file
-	rm  $(CURDIR)/debian/tmp/usr/share/icu/57.1/LICENSE
+	for target in $(TARGETS); do \
+		cd build-$$target && \
+		$(EXECUTE) $(MAKE) install DESTDIR=$(CURDIR)/debian/tmp/ && \
+		$(EXECUTE) $(MAKE) install-doc DESTDIR=$(CURDIR)/debian/tmp/ && \
+		echo delete extra license file && \
+		rm  -f $(CURDIR)/debian/tmp/usr/$$target/share/icu/57.1/LICENSE || exit ; \
+		cd .. ; \
+	done
+	# this should be redundant as fakeroot treats all unknown files to be owned by root.
+	fakeroot chown -R root:root "$(CURDIR)/debian/tmp"
 
 override_dh_installdocs-indep:
 	dh_installdocs -i
@@ -34,18 +78,42 @@ override_dh_installdocs-indep:
 			ln -s `basename $$normal` $$file; \
 		fi; \
 	done
+	fakeroot chown -R root:root "$(CURDIR)/debian/tmp"
 
 override_dh_strip:
-	dh_strip -plibicu$(l_SONAME) --dbg-package=libicu$(l_SONAME)-dbg
-	dh_strip -picu-devtools --dbg-package=icu-devtools-dbg
+	fakeroot dh_strip -plibicu$(l_SONAME) --dbg-package=libicu$(l_SONAME)-mingw-w64-dbg
+	fakeroot dh_strip -picu-devtools --dbg-package=icu-devtools-mingw-w64-dbg
 	# libicudata library doesn't contain any debug symbols, remove that
-	for file in `find debian/libicu$(l_SONAME)-dbg/usr/lib/debug -type f -print`; do \
-		if ! nm -a $$file | grep -q debug; then rm $$file; fi; \
+	for file in `find debian/libicu$(l_SONAME)-mingw-w64-dbg/usr/lib/debug -type f -print`; do \
+		fakeroot /bin/sh -c "if ! nm -a '$$file' | grep -q debug; then rm '$$file' ; fi"; \
 	done
 
+binary:
+	dh binary --sourcedirectory=$(CURDIR)/source/
+
+override_dh_testroot:
+	fakeroot dh_testroot -O --sourcedirectory=$(CURDIR)/source/
+override_dh_fixperms:
+	fakeroot dh_fixperms -O --sourcedirectory=$(CURDIR)/source/
+override_dh_compress:
+	fakeroot dh_compress -O --sourcedirectory=$(CURDIR)/source/
+override_dh_makeshlibs:
+	fakeroot dh_makeshlibs -O --sourcedirectory=$(CURDIR)/source/
+override_dh_gencontrol:
+	fakeroot dh_gencontrol -O --sourcedirectory=$(CURDIR)/source/
+override_dh_md5sums:
+	fakeroot dh_md5sums -O --sourcedirectory=$(CURDIR)/source/
+override_dh_builddeb:
+	fakeroot dh_builddeb -O --sourcedirectory=$(CURDIR)/source/
+
 %:
-	dh $@ --sourcedirectory=$(CURDIR/)source/ --parallel
+	dh $@ --sourcedirectory=$(CURDIR)/source/
+	#dh $@ --sourcedirectory=$(CURDIR/)source/ --parallel
 
 .PHONY: override_dh_clean override_dh_auto_configure override_dh_auto_build \
 	override_dh_auto_install override_dh_installdocs-indep \
 	override_dh_strip
+
+# Local Variables:
+# compile-command: "(cd .. ; debuild -r env)"
+# End:

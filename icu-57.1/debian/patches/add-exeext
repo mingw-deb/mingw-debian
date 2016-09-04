@@ -1,0 +1,666 @@
+Description: Add missing $(EXEEXT) for invoking binaries
+---
+The information above should follow the Patch Tagging Guidelines, please
+checkout http://dep.debian.net/deps/dep3/ to learn about the format. Here
+are templates for supplementary fields that you might want to add:
+
+Last-Update: 2016-07-29
+
+--- icu-57.1.orig/packaging/rpm/icu.spec
++++ icu-57.1/packaging/rpm/icu.spec
+@@ -134,21 +134,21 @@ make install DESTDIR=$RPM_BUILD_ROOT
+ /usr/share/icu/%{version}/icudt34l/*.icu
+ /usr/share/icu/%{version}/icudt34l/*.spp
+ 
+-/usr/bin/derb
+-/usr/bin/genbrk
+-/usr/bin/gencnval
+-/usr/bin/genrb
+-/usr/bin/icu-config
+-/usr/bin/makeconv
+-/usr/bin/pkgdata
+-/usr/bin/uconv
++/usr/bin/derb.exe
++/usr/bin/genbrk.exe
++/usr/bin/gencnval.exe
++/usr/bin/genrb.exe
++/usr/bin/icu-config.exe
++/usr/bin/makeconv.exe
++/usr/bin/pkgdata.exe
++/usr/bin/uconv.exe
+ 
+-/usr/sbin/decmn
+-/usr/sbin/genccode
+-/usr/sbin/gencmn
+-/usr/sbin/gensprep
+-/usr/sbin/genuca
+-/usr/sbin/icuswap
++/usr/sbin/decmn.exe
++/usr/sbin/genccode.exe
++/usr/sbin/gencmn.exe
++/usr/sbin/gensprep.exe
++/usr/sbin/genuca.exe
++/usr/sbin/icuswap.exe
+ /usr/share/icu/%{version}/mkinstalldirs
+ 
+ /usr/man/man1/derb.1.*
+--- icu-57.1.orig/source/config/Makefile.inc.in
++++ icu-57.1/source/config/Makefile.inc.in
+@@ -139,6 +139,7 @@ ECHO_T=@ICU_ECHO_T@
+ ##################################################################
+ # Environment variable to set a runtime search path
+ #   (Overridden when necessary in -mh files)
++EXEEXT = @EXEEXT@
+ LDLIBRARYPATH_ENVVAR = LD_LIBRARY_PATH
+ 
+ # Versioned target for a shared library
+@@ -148,11 +149,11 @@ MIDDLE_SO_TARGET = $(SO_TARGET).$(SO_TAR
+ # Access to important ICU tools.
+ # Use as follows:  $(INVOKE) $(GENRB) arguments .. 
+ INVOKE = $(LDLIBRARYPATH_ENVVAR)=$(libdir):$$$(LDLIBRARYPATH_ENVVAR) $(LEAK_CHECKER)
+-GENCCODE = $(sbindir)/genccode
+-ICUPKG   = $(sbindir)/icupkg
+-GENCMN   = $(sbindir)/gencmn
+-GENRB    = $(bindir)/genrb
+-PKGDATA  = $(bindir)/pkgdata
++GENCCODE = $(sbindir)/genccode$(EXEEXT)
++ICUPKG   = $(sbindir)/icupkg$(EXEEXT)
++GENCMN   = $(sbindir)/gencmn$(EXEEXT)
++GENRB    = $(bindir)/genrb$(EXEEXT)
++PKGDATA  = $(bindir)/pkgdata$(EXEEXT)
+ 
+ # moved here because of dependencies
+ pkgdatadir = $(datadir)/$(PACKAGE)$(ICULIBSUFFIX)/$(VERSION)
+--- icu-57.1.orig/source/data/Makefile.in
++++ icu-57.1/source/data/Makefile.in
+@@ -45,9 +45,9 @@ ifeq ($(CURDIR),)
+ CURDIR=.
+ endif
+ ifeq ($(OS390BATCH),1)
+-PKGDATA = $(TOOLBINDIR)/pkgdata $(PKGDATA_OPTS) -z -q -c -s $(CURDIR)/out/build/$(ICUDATA_PLATFORM_NAME) -d $(ICUPKGDATA_OUTDIR)
++PKGDATA = $(TOOLBINDIR)/pkgdata$(EXEEXT) $(PKGDATA_OPTS) -z -q -c -s $(CURDIR)/out/build/$(ICUDATA_PLATFORM_NAME) -d $(ICUPKGDATA_OUTDIR)
+ else
+-PKGDATA = $(TOOLBINDIR)/pkgdata $(PKGDATA_OPTS) -q -c -s $(CURDIR)/out/build/$(ICUDATA_PLATFORM_NAME) -d $(ICUPKGDATA_OUTDIR)
++PKGDATA = $(TOOLBINDIR)/pkgdata$(EXEEXT) $(PKGDATA_OPTS) -q -c -s $(CURDIR)/out/build/$(ICUDATA_PLATFORM_NAME) -d $(ICUPKGDATA_OUTDIR)
+ endif
+ OS390_PDS_NAME = -z -L $(BATCH_STUB_TARGET)
+ 
+@@ -169,7 +169,7 @@ ICUDATA_ARCHIVE = $(firstword $(wildcard
+ ifneq ($(ICUDATA_ARCHIVE),)
+ ICUDATA_SOURCE_ARCHIVE = $(OUTDIR)/$(ICUDATA_PLATFORM_NAME).dat
+ $(ICUDATA_SOURCE_ARCHIVE): $(ICUDATA_ARCHIVE) $(OUTDIR)
+-	$(INVOKE) $(TOOLBINDIR)/icupkg -t$(ICUDATA_CHAR) $(ICUDATA_ARCHIVE) $(ICUDATA_SOURCE_ARCHIVE)
++	$(INVOKE) $(TOOLBINDIR)/icupkg$(EXEEXT) -t$(ICUDATA_CHAR) $(ICUDATA_ARCHIVE) $(ICUDATA_SOURCE_ARCHIVE)
+ endif
+ else
+ ifneq ($(ENABLE_STATIC),YES)
+@@ -488,7 +488,7 @@ $(PKGDATA_LIST): $(SRCLISTDEPS) $(ICUDAT
+ ifneq ($(ICUDATA_SOURCE_IS_NATIVE_TARGET),YES)
+ 	@echo "Unpacking $(ICUDATA_SOURCE_ARCHIVE) and generating $@ (list of data files)"
+ 	@-$(RMV) $@
+-	$(INVOKE) $(TOOLBINDIR)/icupkg -d $(BUILDDIR) --list -x \* $(ICUDATA_SOURCE_ARCHIVE) -o $@
++	$(INVOKE) $(TOOLBINDIR)/icupkg$(EXEEXT) -d $(BUILDDIR) --list -x \* $(ICUDATA_SOURCE_ARCHIVE) -o $@
+ else
+ 	@echo "$@" > $@
+ endif
+@@ -522,29 +522,29 @@ endif
+ 
+ # cnvalias.icu
+ $(BUILDDIR)/cnvalias.icu: $(UCMSRCDIR)/convrtrs.txt $(TOOLBINDIR)/gencnval$(TOOLEXEEXT)
+-	$(INVOKE) $(TOOLBINDIR)/gencnval -d $(BUILDDIR) $(UCMSRCDIR)/convrtrs.txt
++	$(INVOKE) $(TOOLBINDIR)/gencnval$(EXEEXT) -d $(BUILDDIR) $(UCMSRCDIR)/convrtrs.txt
+ 
+ # Targets for prebuilt Unicode data
+ $(BUILDDIR)/%.icu: $(SRCDATADIR)/in/%.icu
+-	$(INVOKE) $(TOOLBINDIR)/icupkg -t$(ICUDATA_CHAR) $< $@
++	$(INVOKE) $(TOOLBINDIR)/icupkg$(EXEEXT) -t$(ICUDATA_CHAR) $< $@
+ 
+ $(BUILDDIR)/%.nrm: $(SRCDATADIR)/in/%.nrm
+-	$(INVOKE) $(TOOLBINDIR)/icupkg -t$(ICUDATA_CHAR) $< $@
++	$(INVOKE) $(TOOLBINDIR)/icupkg$(EXEEXT) -t$(ICUDATA_CHAR) $< $@
+ 
+ $(BUILDDIR)/coll/ucadata.icu: $(SRCDATADIR)/in/coll/ucadata-unihan.icu
+-	$(INVOKE) $(TOOLBINDIR)/icupkg -t$(ICUDATA_CHAR) $< $@
++	$(INVOKE) $(TOOLBINDIR)/icupkg$(EXEEXT) -t$(ICUDATA_CHAR) $< $@
+ 
+ ####################################################    SPP
+ # SPP FILES
+ 
+ $(BUILDDIR)/%.spp: $(SPREPSRCDIR)/%.txt $(TOOLBINDIR)/gensprep$(TOOLEXEEXT) $(BUILDDIR)/unames.icu
+-	$(INVOKE) $(TOOLBINDIR)/gensprep -d $(BUILDDIR) -i $(BUILDDIR) -s $(SPREPSRCDIR) -b $(@F:%.spp=%) -m $(UNICODEDATADIR) -u 3.2.0 $(<F)
++	$(INVOKE) $(TOOLBINDIR)/gensprep$(EXEEXT) -d $(BUILDDIR) -i $(BUILDDIR) -s $(SPREPSRCDIR) -b $(@F:%.spp=%) -m $(UNICODEDATADIR) -u 3.2.0 $(<F)
+ 
+ ####################################################    BRK
+ # BRK FILES
+ 
+ $(BRKBLDDIR)/%.brk: $(BRKRULESRCDIR)/%.txt $(TOOLBINDIR)/genbrk$(TOOLEXEEXT) $(DAT_FILES)
+-	$(INVOKE) $(TOOLBINDIR)/genbrk -c -i $(BUILDDIR) -r $< -o $@
++	$(INVOKE) $(TOOLBINDIR)/genbrk$(EXEEXT) -c -i $(BUILDDIR) -r $< -o $@
+ 
+ ####################################################    DICT
+ # DICT FILES
+@@ -552,20 +552,20 @@ $(BRKBLDDIR)/%.brk: $(BRKRULESRCDIR)/%.t
+ # .dict file generated regardless of whether dictionary file exists
+ 
+ $(BRKBLDDIR)/%.dict: $(TOOLBINDIR)/gendict$(TOOLEXEEXT) $(DAT_FILES)
+-	$(INVOKE) $(TOOLBINDIR)/gendict --uchars -c -i $(BUILDDIR) $(DICTSRCDIR)/$(*F).txt $@
++	$(INVOKE) $(TOOLBINDIR)/gendict$(EXEEXT) --uchars -c -i $(BUILDDIR) $(DICTSRCDIR)/$(*F).txt $@
+ 
+ $(BRKBLDDIR)/thaidict.dict: $(TOOLBINDIR)/gendict$(TOOLEXEEXT) $(DAT_FILES)
+-	$(INVOKE) $(TOOLBINDIR)/gendict --bytes --transform offset-0x0e00 -c -i $(BUILDDIR) $(DICTSRCDIR)/thaidict.txt $(BRKBLDDIR)/thaidict.dict
++	$(INVOKE) $(TOOLBINDIR)/gendict$(EXEEXT) --bytes --transform offset-0x0e00 -c -i $(BUILDDIR) $(DICTSRCDIR)/thaidict.txt $(BRKBLDDIR)/thaidict.dict
+ 
+ $(BRKBLDDIR)/laodict.dict: $(TOOLBINDIR)/gendict$(TOOLEXEEXT) $(DAT_FILES)
+-	$(INVOKE) $(TOOLBINDIR)/gendict --bytes --transform offset-0x0e80 -c -i $(BUILDDIR) $(DICTSRCDIR)/laodict.txt $(BRKBLDDIR)/laodict.dict
++	$(INVOKE) $(TOOLBINDIR)/gendict$(TOOLEXEEXT) --bytes --transform offset-0x0e80 -c -i $(BUILDDIR) $(DICTSRCDIR)/laodict.txt $(BRKBLDDIR)/laodict.dict
+ 
+ $(BRKBLDDIR)/burmesedict.dict: $(TOOLBINDIR)/gendict$(TOOLEXEEXT) $(DAT_FILES)
+-	$(INVOKE) $(TOOLBINDIR)/gendict --bytes --transform offset-0x1000 -c -i $(BUILDDIR) $(DICTSRCDIR)/burmesedict.txt $(BRKBLDDIR)/burmesedict.dict
++	$(INVOKE) $(TOOLBINDIR)/gendict$(TOOLEXEEXT) --bytes --transform offset-0x1000 -c -i $(BUILDDIR) $(DICTSRCDIR)/burmesedict.txt $(BRKBLDDIR)/burmesedict.dict
+ 
+ # TODO: figure out why combining characters are here?
+ $(BRKBLDDIR)/khmerdict.dict: $(TOOLBINDIR)/gendict$(TOOLEXEEXT) $(DAT_FILES)
+-	$(INVOKE) $(TOOLBINDIR)/gendict --bytes --transform offset-0x1780 -c -i $(BUILDDIR) $(DICTSRCDIR)/khmerdict.txt $(BRKBLDDIR)/khmerdict.dict
++	$(INVOKE) $(TOOLBINDIR)/gendict$(TOOLEXEEXT) --bytes --transform offset-0x1780 -c -i $(BUILDDIR) $(DICTSRCDIR)/khmerdict.txt $(BRKBLDDIR)/khmerdict.dict
+ 
+ ####################################################    CFU
+ # CFU FILES
+@@ -584,24 +584,24 @@ $(CFU_FILES): $(ALL_CFU_SOURCE) $(TOOLBI
+ ####################################################    CNV
+ # CNV FILES
+ $(CNV_FILES_SPECIAL) : $(UCM_FILES_SPECIAL) $(TOOLBINDIR)/makeconv$(TOOLEXEEXT) 
+-	$(INVOKE) $(TOOLBINDIR)/makeconv --ignore-siso-check -c -d $(BUILDDIR) $(UCMSRCDIR)/$(@F:%.cnv=%.ucm) 
++	$(INVOKE) $(TOOLBINDIR)/makeconv$(TOOLEXEEXT) --ignore-siso-check -c -d $(BUILDDIR) $(UCMSRCDIR)/$(@F:%.cnv=%.ucm) 
+ $(BUILDDIR)/%.cnv: $(UCMSRCDIR)/%.ucm $(TOOLBINDIR)/makeconv$(TOOLEXEEXT)
+-	$(INVOKE) $(TOOLBINDIR)/makeconv -c -d $(BUILDDIR) $(UCMSRCDIR)/$(<F)
++	$(INVOKE) $(TOOLBINDIR)/makeconv$(TOOLEXEEXT) -c -d $(BUILDDIR) $(UCMSRCDIR)/$(<F)
+ 
+ ####################################################    RES
+ # RES FILES
+ 
+ ### curr res
+ $(CURRBLDDIR)/%.res: $(CURRSRCDIR)/%.txt  $(TOOLBINDIR)/genrb$(TOOLEXEEXT) $(DAT_FILES)
+-	$(INVOKE) $(TOOLBINDIR)/genrb --usePoolBundle $(GENRBOPTS) -i $(BUILDDIR) -s $(CURRSRCDIR) -d $(CURRBLDDIR) $(<F)
++	$(INVOKE) $(TOOLBINDIR)/genrb$(TOOLEXEEXT) --usePoolBundle $(GENRBOPTS) -i $(BUILDDIR) -s $(CURRSRCDIR) -d $(CURRBLDDIR) $(<F)
+ 
+ # copy the curr/pool.res file from the source folder to the build output folder
+ # and swap it to native endianness
+ $(CURRBLDDIR)/pool.res: $(CURRSRCDIR)/pool.res
+-	$(INVOKE) $(TOOLBINDIR)/icupkg -t$(ICUDATA_CHAR) $(CURRSRCDIR)/pool.res $(CURRBLDDIR)/pool.res
++	$(INVOKE) $(TOOLBINDIR)/icupkg$(TOOLEXEEXT) -t$(ICUDATA_CHAR) $(CURRSRCDIR)/pool.res $(CURRBLDDIR)/pool.res
+ 
+ $(CURRBLDDIR)/$(INDEX_NAME).res: $(OUTTMPDIR)/$(CURR_TREE)/$(INDEX_NAME).txt $(TOOLBINDIR)/genrb$(TOOLEXEEXT)
+-	$(INVOKE) $(TOOLBINDIR)/genrb $(GENRBOPTS) -i $(BUILDDIR) -s $(OUTTMPDIR)/$(CURR_TREE) -d $(CURRBLDDIR) $(INDEX_NAME).txt
++	$(INVOKE) $(TOOLBINDIR)/genrb$(TOOLEXEEXT) $(GENRBOPTS) -i $(BUILDDIR) -s $(OUTTMPDIR)/$(CURR_TREE) -d $(CURRBLDDIR) $(INDEX_NAME).txt
+ 
+ $(CURR_INDEX_FILE): $(SRCLISTDEPS)
+ 	@echo "generating $@ (list of installed currency name locales)"; \
+@@ -617,15 +617,15 @@ $(CURR_INDEX_FILE): $(SRCLISTDEPS)
+ 
+ ### lang res
+ $(LANGBLDDIR)/%.res: $(LANGSRCDIR)/%.txt  $(TOOLBINDIR)/genrb$(TOOLEXEEXT) $(DAT_FILES)
+-	$(INVOKE) $(TOOLBINDIR)/genrb --usePoolBundle $(GENRBOPTS) -i $(BUILDDIR) -s $(LANGSRCDIR) -d $(LANGBLDDIR) $(<F)
++	$(INVOKE) $(TOOLBINDIR)/genrb$(TOOLEXEEXT) --usePoolBundle $(GENRBOPTS) -i $(BUILDDIR) -s $(LANGSRCDIR) -d $(LANGBLDDIR) $(<F)
+ 
+ # copy the lang/pool.res file from the source folder to the build output folder
+ # and swap it to native endianness
+ $(LANGBLDDIR)/pool.res: $(LANGSRCDIR)/pool.res
+-	$(INVOKE) $(TOOLBINDIR)/icupkg -t$(ICUDATA_CHAR) $(LANGSRCDIR)/pool.res $(LANGBLDDIR)/pool.res
++	$(INVOKE) $(TOOLBINDIR)/icupkg$(TOOLEXEEXT) -t$(ICUDATA_CHAR) $(LANGSRCDIR)/pool.res $(LANGBLDDIR)/pool.res
+ 
+ $(LANGBLDDIR)/$(INDEX_NAME).res: $(OUTTMPDIR)/$(LANG_TREE)/$(INDEX_NAME).txt $(TOOLBINDIR)/genrb$(TOOLEXEEXT)
+-	$(INVOKE) $(TOOLBINDIR)/genrb $(GENRBOPTS) -i $(BUILDDIR) -s $(OUTTMPDIR)/$(LANG_TREE) -d $(LANGBLDDIR) $(INDEX_NAME).txt
++	$(INVOKE) $(TOOLBINDIR)/genrb$(TOOLEXEEXT) $(GENRBOPTS) -i $(BUILDDIR) -s $(OUTTMPDIR)/$(LANG_TREE) -d $(LANGBLDDIR) $(INDEX_NAME).txt
+ 
+ $(LANG_INDEX_FILE): $(SRCLISTDEPS)
+ 	@echo "generating $@ (list of installed language name locales)"; \
+@@ -641,15 +641,15 @@ $(LANG_INDEX_FILE): $(SRCLISTDEPS)
+ 
+ ### region res
+ $(REGIONBLDDIR)/%.res: $(REGIONSRCDIR)/%.txt  $(TOOLBINDIR)/genrb$(TOOLEXEEXT) $(DAT_FILES)
+-	$(INVOKE) $(TOOLBINDIR)/genrb --usePoolBundle $(GENRBOPTS) -i $(BUILDDIR) -s $(REGIONSRCDIR) -d $(REGIONBLDDIR) $(<F)
++	$(INVOKE) $(TOOLBINDIR)/genrb$(TOOLEXEEXT) --usePoolBundle $(GENRBOPTS) -i $(BUILDDIR) -s $(REGIONSRCDIR) -d $(REGIONBLDDIR) $(<F)
+ 
+ # copy the region/pool.res file from the source folder to the build output folder
+ # and swap it to native endianness
+ $(REGIONBLDDIR)/pool.res: $(REGIONSRCDIR)/pool.res
+-	$(INVOKE) $(TOOLBINDIR)/icupkg -t$(ICUDATA_CHAR) $(REGIONSRCDIR)/pool.res $(REGIONBLDDIR)/pool.res
++	$(INVOKE) $(TOOLBINDIR)/icupkg$(TOOLEXEEXT) -t$(ICUDATA_CHAR) $(REGIONSRCDIR)/pool.res $(REGIONBLDDIR)/pool.res
+ 
+ $(REGIONBLDDIR)/$(INDEX_NAME).res: $(OUTTMPDIR)/$(REGION_TREE)/$(INDEX_NAME).txt $(TOOLBINDIR)/genrb$(TOOLEXEEXT)
+-	$(INVOKE) $(TOOLBINDIR)/genrb $(GENRBOPTS) -i $(BUILDDIR) -s $(OUTTMPDIR)/$(REGION_TREE) -d $(REGIONBLDDIR) $(INDEX_NAME).txt
++	$(INVOKE) $(TOOLBINDIR)/genrb$(TOOLEXEEXT) $(GENRBOPTS) -i $(BUILDDIR) -s $(OUTTMPDIR)/$(REGION_TREE) -d $(REGIONBLDDIR) $(INDEX_NAME).txt
+ 
+ $(REGION_INDEX_FILE): $(SRCLISTDEPS)
+ 	@echo "generating $@ (list of installed region name locales)"; \
+@@ -665,15 +665,15 @@ $(REGION_INDEX_FILE): $(SRCLISTDEPS)
+ 
+ ### zone res
+ $(ZONEBLDDIR)/%.res: $(ZONESRCDIR)/%.txt  $(TOOLBINDIR)/genrb$(TOOLEXEEXT) $(DAT_FILES)
+-	$(INVOKE) $(TOOLBINDIR)/genrb --usePoolBundle $(GENRBOPTS) -i $(BUILDDIR) -s $(ZONESRCDIR) -d $(ZONEBLDDIR) $(<F)
++	$(INVOKE) $(TOOLBINDIR)/genrb$(TOOLEXEEXT) --usePoolBundle $(GENRBOPTS) -i $(BUILDDIR) -s $(ZONESRCDIR) -d $(ZONEBLDDIR) $(<F)
+ 
+ # copy the zone/pool.res file from the source folder to the build output folder
+ # and swap it to native endianness
+ $(ZONEBLDDIR)/pool.res: $(ZONESRCDIR)/pool.res
+-	$(INVOKE) $(TOOLBINDIR)/icupkg -t$(ICUDATA_CHAR) $(ZONESRCDIR)/pool.res $(ZONEBLDDIR)/pool.res
++	$(INVOKE) $(TOOLBINDIR)/icupkg$(TOOLEXEEXT) -t$(ICUDATA_CHAR) $(ZONESRCDIR)/pool.res $(ZONEBLDDIR)/pool.res
+ 
+ $(ZONEBLDDIR)/$(INDEX_NAME).res: $(OUTTMPDIR)/$(ZONE_TREE)/$(INDEX_NAME).txt $(TOOLBINDIR)/genrb$(TOOLEXEEXT)
+-	$(INVOKE) $(TOOLBINDIR)/genrb $(GENRBOPTS) -i $(BUILDDIR) -s $(OUTTMPDIR)/$(ZONE_TREE) -d $(ZONEBLDDIR) $(INDEX_NAME).txt
++	$(INVOKE) $(TOOLBINDIR)/genrb$(TOOLEXEEXT) $(GENRBOPTS) -i $(BUILDDIR) -s $(OUTTMPDIR)/$(ZONE_TREE) -d $(ZONEBLDDIR) $(INDEX_NAME).txt
+ 
+ $(ZONE_INDEX_FILE): $(SRCLISTDEPS)
+ 	@echo "generating $@ (list of installed time zone name locales)"; \
+@@ -689,15 +689,15 @@ $(ZONE_INDEX_FILE): $(SRCLISTDEPS)
+ 
+ ### unit res
+ $(UNITBLDDIR)/%.res: $(UNITSRCDIR)/%.txt  $(TOOLBINDIR)/genrb$(TOOLEXEEXT) $(DAT_FILES)
+-	$(INVOKE) $(TOOLBINDIR)/genrb --usePoolBundle $(GENRBOPTS) -i $(BUILDDIR) -s $(UNITSRCDIR) -d $(UNITBLDDIR) $(<F)
++	$(INVOKE) $(TOOLBINDIR)/genrb$(TOOLEXEEXT) --usePoolBundle $(GENRBOPTS) -i $(BUILDDIR) -s $(UNITSRCDIR) -d $(UNITBLDDIR) $(<F)
+ 
+ # copy the unit/pool.res file from the source folder to the build output folder
+ # and swap it to native endianness
+ $(UNITBLDDIR)/pool.res: $(UNITSRCDIR)/pool.res
+-	$(INVOKE) $(TOOLBINDIR)/icupkg -t$(ICUDATA_CHAR) $(UNITSRCDIR)/pool.res $(UNITBLDDIR)/pool.res
++	$(INVOKE) $(TOOLBINDIR)/icupkg$(TOOLEXEEXT) -t$(ICUDATA_CHAR) $(UNITSRCDIR)/pool.res $(UNITBLDDIR)/pool.res
+ 
+ $(UNITBLDDIR)/$(INDEX_NAME).res: $(OUTTMPDIR)/$(UNIT_TREE)/$(INDEX_NAME).txt $(TOOLBINDIR)/genrb$(TOOLEXEEXT)
+-	$(INVOKE) $(TOOLBINDIR)/genrb $(GENRBOPTS) -i $(BUILDDIR) -s $(OUTTMPDIR)/$(UNIT_TREE) -d $(UNITBLDDIR) $(INDEX_NAME).txt
++	$(INVOKE) $(TOOLBINDIR)/genrb$(TOOLEXEEXT) $(GENRBOPTS) -i $(BUILDDIR) -s $(OUTTMPDIR)/$(UNIT_TREE) -d $(UNITBLDDIR) $(INDEX_NAME).txt
+ 
+ $(UNIT_INDEX_FILE): $(SRCLISTDEPS)
+ 	@echo "generating $@ (list of installed time zone name locales)"; \
+@@ -713,10 +713,10 @@ $(UNIT_INDEX_FILE): $(SRCLISTDEPS)
+ 
+ ### collation res
+ $(COLBLDDIR)/%.res: $(COLSRCDIR)/%.txt  $(TOOLBINDIR)/genrb$(TOOLEXEEXT) $(DAT_FILES)
+-	$(INVOKE) $(TOOLBINDIR)/genrb $(GENRBOPTS) -i $(BUILDDIR) -s $(COLSRCDIR) -d $(COLBLDDIR) $(<F)
++	$(INVOKE) $(TOOLBINDIR)/genrb$(TOOLEXEEXT) $(GENRBOPTS) -i $(BUILDDIR) -s $(COLSRCDIR) -d $(COLBLDDIR) $(<F)
+ 
+ $(COLBLDDIR)/$(INDEX_NAME).res: $(OUTTMPDIR)/$(COLLATION_TREE)/$(INDEX_NAME).txt $(TOOLBINDIR)/genrb$(TOOLEXEEXT)
+-	$(INVOKE) $(TOOLBINDIR)/genrb $(GENRBOPTS) -i $(BUILDDIR) -s $(OUTTMPDIR)/$(COLLATION_TREE) -d $(COLBLDDIR) $(INDEX_NAME).txt
++	$(INVOKE) $(TOOLBINDIR)/genrb$(TOOLEXEEXT) $(GENRBOPTS) -i $(BUILDDIR) -s $(OUTTMPDIR)/$(COLLATION_TREE) -d $(COLBLDDIR) $(INDEX_NAME).txt
+ 
+ $(COLLATION_INDEX_FILE): $(SRCLISTDEPS)
+ 	@echo "generating $@ (list of installed collation locales)"; \
+@@ -732,10 +732,10 @@ $(COLLATION_INDEX_FILE): $(SRCLISTDEPS)
+ 
+ ### brk res
+ $(BRKBLDDIR)/%.res: $(BRKSRCDIR)/%.txt $(TOOLBINDIR)/genrb$(TOOLEXEEXT) $(BRK_FILES) $(DICT_FILES) $(DAT_FILES)
+-	$(INVOKE) $(TOOLBINDIR)/genrb $(GENRBOPTS) -i $(BUILDDIR) -s $(BRKSRCDIR) -d $(BRKBLDDIR) $(<F)
++	$(INVOKE) $(TOOLBINDIR)/genrb$(TOOLEXEEXT) $(GENRBOPTS) -i $(BUILDDIR) -s $(BRKSRCDIR) -d $(BRKBLDDIR) $(<F)
+ 
+ $(BRKBLDDIR)/$(INDEX_NAME).res: $(OUTTMPDIR)/$(BREAK_TREE)/$(INDEX_NAME).txt $(TOOLBINDIR)/genrb$(TOOLEXEEXT)
+-	$(INVOKE) $(TOOLBINDIR)/genrb $(GENRBOPTS) -i $(BUILDDIR) -s $(OUTTMPDIR)/$(BREAK_TREE) -d $(BRKBLDDIR) $(INDEX_NAME).txt
++	$(INVOKE) $(TOOLBINDIR)/genrb$(TOOLEXEEXT) $(GENRBOPTS) -i $(BUILDDIR) -s $(OUTTMPDIR)/$(BREAK_TREE) -d $(BRKBLDDIR) $(INDEX_NAME).txt
+ 
+ $(BRK_RES_INDEX_FILE): $(SRCLISTDEPS)
+ 	@echo "generating $@ (list of installed break locales)"; \
+@@ -751,10 +751,10 @@ $(BRK_RES_INDEX_FILE): $(SRCLISTDEPS)
+ 
+ ### RBNF res
+ $(RBNFBLDDIR)/%.res: $(RBNFSRCDIR)/%.txt  $(TOOLBINDIR)/genrb$(TOOLEXEEXT) $(DAT_FILES)
+-	$(INVOKE) $(TOOLBINDIR)/genrb $(GENRBOPTS) -i $(BUILDDIR) -s $(RBNFSRCDIR) -d $(RBNFBLDDIR) $(<F)
++	$(INVOKE) $(TOOLBINDIR)/genrb$(TOOLEXEEXT) $(GENRBOPTS) -i $(BUILDDIR) -s $(RBNFSRCDIR) -d $(RBNFBLDDIR) $(<F)
+ 
+ $(RBNFBLDDIR)/$(INDEX_NAME).res: $(OUTTMPDIR)/$(RBNF_TREE)/$(INDEX_NAME).txt $(TOOLBINDIR)/genrb$(TOOLEXEEXT)
+-	$(INVOKE) $(TOOLBINDIR)/genrb $(GENRBOPTS) -i $(BUILDDIR) -s $(OUTTMPDIR)/$(RBNF_TREE) -d $(RBNFBLDDIR) $(INDEX_NAME).txt
++	$(INVOKE) $(TOOLBINDIR)/genrb$(TOOLEXEEXT) $(GENRBOPTS) -i $(BUILDDIR) -s $(OUTTMPDIR)/$(RBNF_TREE) -d $(RBNFBLDDIR) $(INDEX_NAME).txt
+ 
+ $(RBNF_INDEX_FILE): $(SRCLISTDEPS)
+ 	@echo "generating $@ (list of installed RBNF locales)"; \
+@@ -770,18 +770,18 @@ $(RBNF_INDEX_FILE): $(SRCLISTDEPS)
+ 
+ ### TRANSLIT res
+ $(TRANSLITBLDDIR)/%.res: $(TRANSLITSRCDIR)/%.txt  $(TOOLBINDIR)/genrb$(TOOLEXEEXT) $(DAT_FILES)
+-	$(INVOKE) $(TOOLBINDIR)/genrb $(GENRBOPTS) -i $(BUILDDIR) -s $(TRANSLITSRCDIR) -d $(TRANSLITBLDDIR) $(<F)
++	$(INVOKE) $(TOOLBINDIR)/genrb$(TOOLEXEEXT) $(GENRBOPTS) -i $(BUILDDIR) -s $(TRANSLITSRCDIR) -d $(TRANSLITBLDDIR) $(<F)
+ 
+ ### normal (locale) res
+ all-RES:  $(RES_FILES)
+ 
+ $(BUILDDIR)/%.res: $(LOCSRCDIR)/%.txt $(TOOLBINDIR)/genrb$(TOOLEXEEXT) $(DAT_FILES)
+-	$(INVOKE) $(TOOLBINDIR)/genrb --usePoolBundle $(GENRBOPTS) -i $(BUILDDIR) -s $(LOCSRCDIR) -d $(BUILDDIR) $(<F)
++	$(INVOKE) $(TOOLBINDIR)/genrb$(TOOLEXEEXT) --usePoolBundle $(GENRBOPTS) -i $(BUILDDIR) -s $(LOCSRCDIR) -d $(BUILDDIR) $(<F)
+ 
+ # copy the locales/pool.res file from the source folder to the build output folder
+ # and swap it to native endianness
+ $(BUILDDIR)/pool.res: $(LOCSRCDIR)/pool.res
+-	$(INVOKE) $(TOOLBINDIR)/icupkg -t$(ICUDATA_CHAR) $(LOCSRCDIR)/pool.res $(BUILDDIR)/pool.res
++	$(INVOKE) $(TOOLBINDIR)/icupkg$(TOOLEXEEXT) -t$(ICUDATA_CHAR) $(LOCSRCDIR)/pool.res $(BUILDDIR)/pool.res
+ 
+ # if the tzcode directory contains a new tzdata*.tar.gz file, use it for zoneinfo
+ ifeq ($(TZDATA),)
+@@ -793,11 +793,11 @@ ifneq ($(TZDATA),)
+ TZCODE_DIR=$(top_builddir)/tools/tzcode
+ ZONEINFO=$(TZCODE_DIR)/zoneinfo64.txt
+ 
+-# Override the normal genrb for zoneinfo to always pull from
++# Override the normal genrb$(TOOLEXEEXT) for zoneinfo to always pull from
+ # icu/source/tools/tzcode/zoneinfo64.txt
+ $(BUILDDIR)/zoneinfo64.res: $(ZONEINFO) $(TOOLBINDIR)/genrb$(TOOLEXEEXT)
+ 	@echo Note: $(MISCSRCDIR)/zoneinfo.txt is IGNORED because $(TZDATA) is present.
+-	$(INVOKE) $(TOOLBINDIR)/genrb $(GENRBOPTS) -q -i $(BUILDDIR) -d $(BUILDDIR) $(ZONEINFO)
++	$(INVOKE) $(TOOLBINDIR)/genrb$(TOOLEXEEXT) $(GENRBOPTS) -q -i $(BUILDDIR) -d $(BUILDDIR) $(ZONEINFO)
+ 
+ # Create the tzcode tool and zoneinfo as needed.
+ $(ZONEINFO): $(TZDATA)
+@@ -809,7 +809,7 @@ endif
+ 
+ # zoneinfo has some issues. Ignore some warnings with -q
+ $(BUILDDIR)/%.res: $(MISCSRCDIR)/%.txt $(TOOLBINDIR)/genrb$(TOOLEXEEXT)
+-	$(INVOKE) $(TOOLBINDIR)/genrb $(GENRBOPTS) -q -i $(BUILDDIR) -s $(MISCSRCDIR) -d $(BUILDDIR) $(<F)
++	$(INVOKE) $(TOOLBINDIR)/genrb$(TOOLEXEEXT) $(GENRBOPTS) -q -i $(BUILDDIR) -s $(MISCSRCDIR) -d $(BUILDDIR) $(<F)
+ 
+ 
+ 
+@@ -830,7 +830,7 @@ clean-resindex:
+ 	-$(RMV) $(BUILDDIR)/$(INDEX_NAME).txt $(PKGDATA_LIST)
+ 
+ $(BUILDDIR)/$(INDEX_NAME).res: $(INDEX_FILE) $(TOOLBINDIR)/genrb$(TOOLEXEEXT)
+-	$(INVOKE) $(TOOLBINDIR)/genrb $(GENRBOPTS) -i $(BUILDDIR) -d $(BUILDDIR) $(INDEX_FILE)
++	$(INVOKE) $(TOOLBINDIR)/genrb$(TOOLEXEEXT) $(GENRBOPTS) -i $(BUILDDIR) -d $(BUILDDIR) $(INDEX_FILE)
+ 
+ # The core Unicode properties files (pnames.icu, uprops.icu, ucase.icu, ubidi.icu)
+ # are hardcoded in the common DLL and therefore not included in the data package any more.
+@@ -860,7 +860,7 @@ generate-data: build-dir packagedata $(O
+ 	mkdir -p $(OUTDIR)/icu4j/$(ICU4J_DATA_DIRNAME)
+ 	mkdir -p $(OUTDIR)/icu4j/tzdata/$(ICU4J_DATA_DIRNAME)
+ 	echo $(UNI_CORE_DATA) > $(OUTDIR)/icu4j/add.txt
+-	$(INVOKE) $(TOOLBINDIR)/icupkg $(OUTTMPDIR)/$(ICUDATA_PLATFORM_NAME).dat $(OUTDIR)/icu4j/$(ICUDATA_BASENAME_VERSION)b.dat -a $(OUTDIR)/icu4j/add.txt -s $(BUILDDIR) -x '*' -tb -d $(OUTDIR)/icu4j/$(ICU4J_DATA_DIRNAME)
++	$(INVOKE) $(TOOLBINDIR)/icupkg$(TOOLEXEEXT) $(OUTTMPDIR)/$(ICUDATA_PLATFORM_NAME).dat $(OUTDIR)/icu4j/$(ICUDATA_BASENAME_VERSION)b.dat -a $(OUTDIR)/icu4j/add.txt -s $(BUILDDIR) -x '*' -tb -d $(OUTDIR)/icu4j/$(ICU4J_DATA_DIRNAME)
+ 	mv $(ICU4J_TZDATA_PATHS:%=$(OUTDIR)/icu4j/%) "$(OUTDIR)/icu4j/tzdata/$(ICU4J_DATA_DIRNAME)"
+ 
+ $(OUTDIR)/icu4j/icutzdata.jar: generate-data
+--- icu-57.1.orig/source/data/icupkg.inc.in
++++ icu-57.1/source/data/icupkg.inc.in
+@@ -50,8 +50,8 @@ U_IS_BIG_ENDIAN=@U_IS_BIG_ENDIAN@
+ 
+ ##### Add the following to source/config/Makefile.in
+ 
+-GENCCODE=$(BINDIR)/genccode
+-GENCMN=$(BINDIR)/gencmn
+-ICUPKG=$(BINDIR)/icupkg
++GENCCODE=$(BINDIR)/genccode$(EXEEXT)
++GENCMN=$(BINDIR)/gencmn$(EXEEXT)
++ICUPKG=$(BINDIR)/icupkg$(EXEEXT)
+ 
+ 
+--- icu-57.1.orig/source/extra/uconv/Makefile.in
++++ icu-57.1/source/extra/uconv/Makefile.in
+@@ -108,7 +108,7 @@ clean-local: resclean
+ 	$(RMV) $(OBJECTS) $(TARGET)
+ 
+ resclean:
+-	@#-$(INVOKE) $(TOOLBINDIR)/pkgdata --clean -p $(RESDIR) -O pkgdata.inc -m $(PKGMODE) -d $(RESDIR) -T $(RESDIR) $(RESDIR)/$(RESDIR).lst
++	@#-$(INVOKE) $(TOOLBINDIR)/pkgdata$(EXEEXT) --clean -p $(RESDIR) -O pkgdata.inc -m $(PKGMODE) -d $(RESDIR) -T $(RESDIR) $(RESDIR)/$(RESDIR).lst
+ 	$(RMV) pkgdata.inc $(RESDIR)
+ 
+ distclean-local: clean-local
+@@ -152,7 +152,7 @@ $(RESFILES) $(RESDIR)/$(RESDIR).lst: | b
+ endif
+ 
+ $(UCONVMSG_LIB): $(RESFILES) $(RESDIR)/$(RESDIR).lst pkgdata.inc
+-	$(INVOKE) $(PKGDATA_INVOKE_OPTS) $(TOOLBINDIR)/pkgdata -p $(MSGNAME) $(PKGDATA_OPTS) -m $(PKGMODE) -s $(RESDIR) -d $(RESDIR) -T $(RESDIR) $(RESDIR)/$(RESDIR).lst
++	$(INVOKE) $(PKGDATA_INVOKE_OPTS) $(TOOLBINDIR)/pkgdata$(EXEEXT) -p $(MSGNAME) $(PKGDATA_OPTS) -m $(PKGMODE) -s $(RESDIR) -d $(RESDIR) -T $(RESDIR) $(RESDIR)/$(RESDIR).lst
+ 
+ $(RESDIR)/$(RESDIR).lst: Makefile $(srcdir)/resfiles.mk
+ 	@-$(RMV) $@
+@@ -164,13 +164,13 @@ $(RESDIR)/$(RESDIR).lst: Makefile $(srcd
+ ifneq ($(UCONVMSG_MODE),static)
+ install-resfiles: $(RESFILES) $(RESDIR)/$(RESDIR).lst pkgdata.inc 
+ 	$(MKINSTALLDIRS) $(DESTDIR)$(ICUDATA_DIR)
+-	$(INVOKE) $(TOOLBINDIR)/pkgdata -p $(RESDIR) -O pkgdata.inc -m $(PKGMODE) -d $(RESDIR) -I $(INSTALLTO) -T $(RESDIR) $(RESDIR)/$(RESDIR).lst
++	$(INVOKE) $(TOOLBINDIR)/pkgdata$(EXEEXT) -p $(RESDIR) -O pkgdata.inc -m $(PKGMODE) -d $(RESDIR) -I $(INSTALLTO) -T $(RESDIR) $(RESDIR)/$(RESDIR).lst
+ else
+ install-resfiles:
+ endif
+ 
+ $(MSGNAME)/%.res: $(srcdir)/$(RESOURCESDIR)/%.txt
+-	$(INVOKE) $(TOOLBINDIR)/genrb -e UTF-8 -s $(^D) -d $(@D) $(^F)
++	$(INVOKE) $(TOOLBINDIR)/genrb$(EXEEXT) -e UTF-8 -s $(^D) -d $(@D) $(^F)
+ 
+ install-man: $(ALL_MAN_FILES)
+ 	$(MKINSTALLDIRS) $(DESTDIR)$(mandir)/man$(SECTION)
+--- icu-57.1.orig/source/extra/uconv/pkgdata.inc.in
++++ icu-57.1/source/extra/uconv/pkgdata.inc.in
+@@ -55,8 +55,8 @@ platform=@platform@
+ 
+ ##### Add the following to source/config/Makefile.in
+ 
+-GENCCODE=$(BINDIR)/genccode
+-GENCMN=$(BINDIR)/gencmn
+-ICUPKG=$(BINDIR)/icupkg
++GENCCODE=$(BINDIR)/genccode$(EXEEXT)
++GENCMN=$(BINDIR)/gencmn$(EXEEXT)
++ICUPKG=$(BINDIR)/icupkg$(EXEEXT)
+ 
+ 
+--- icu-57.1.orig/source/samples/ufortune/resources/fortune_resources.mak
++++ icu-57.1/source/samples/ufortune/resources/fortune_resources.mak
+@@ -42,7 +42,7 @@ BIN=bin
+ #  -t fools make into thinking there are files such as es.res, etc
+ #
+ .txt.res:
+-	$(ICUDIR)\$(BIN)\genrb -d . $*.txt
++	$(ICUDIR)\$(BIN)\genrb$(EXEEXT) -d . $*.txt
+ 
+ #
+ #  all - nmake starts here by default
+@@ -50,5 +50,5 @@ BIN=bin
+ all: fortune_resources.dll
+ 
+ fortune_resources.dll: $(RESFILES)
+-	$(ICUDIR)\$(BIN)\pkgdata --name fortune_resources -v --mode dll -d . res-file-list.txt
++	$(ICUDIR)\$(BIN)\pkgdata$(EXEEXT) --name fortune_resources -v --mode dll -d . res-file-list.txt
+ 
+--- icu-57.1.orig/source/test/testdata/Makefile.in
++++ icu-57.1/source/test/testdata/Makefile.in
+@@ -111,7 +111,7 @@ ifeq ($(CURDIR),)
+ CURDIR=.
+ endif
+ 
+-PKGDATA = $(TOOLBINDIR)/pkgdata -q -c -s $(CURDIR)/out/build/$(ICUDATA_PLATFORM_NAME)
++PKGDATA = $(TOOLBINDIR)/pkgdata$(TOOLEXEEXT) -q -c -s $(CURDIR)/out/build/$(ICUDATA_PLATFORM_NAME)
+ PKGDATA_INVOKE:=$(INVOKE) $(PKGDATA_INVOKE_OPTS)
+ 
+ # Contains all 'intermediate' files (and temp files) except for 'unpackaged data' below
+@@ -165,45 +165,45 @@ $(TESTBUILDDIR)/testtable32.txt:  $(GENT
+ 	$(INVOKE) $(GENTEST) -r -d $(TESTBUILDDIR) 
+ 
+ $(TESTBUILDDIR)/testtable32.res: $(TESTBUILDDIR)/testtable32.txt $(TOOLBINDIR)/genrb$(EXEEXT)
+-	$(INVOKE) $(TOOLBINDIR)/genrb $(GENRBOPTS) -s $(TESTBUILDDIR) $(ICU_DATA_OPT) -d $(TESTBUILDDIR) $(<F)
++	$(INVOKE) $(TOOLBINDIR)/genrb$(TOOLEXEEXT) $(GENRBOPTS) -s $(TESTBUILDDIR) $(ICU_DATA_OPT) -d $(TESTBUILDDIR) $(<F)
+ 
+ # Targets for nfscsi.spp
+ $(TESTBUILDDIR)/nfscsi.spp: $(TOOLBINDIR)/gensprep$(EXEEXT) $(TESTSRCDATADIR)/nfs4_cs_prep_ci.txt
+ 	@echo Building nfscsi.icu
+-	$(INVOKE) $(TOOLBINDIR)/gensprep -s $(TESTSRCDATADIR) $(ICU_DATA_OPT) -d $(TESTBUILDDIR) -b nfscsi -u 3.2.0 nfs4_cs_prep_ci.txt
++	$(INVOKE) $(TOOLBINDIR)/gensprep$(TOOLEXEEXT) -s $(TESTSRCDATADIR) $(ICU_DATA_OPT) -d $(TESTBUILDDIR) -b nfscsi -u 3.2.0 nfs4_cs_prep_ci.txt
+ 
+ # Targets for nfscss.spp
+ $(TESTBUILDDIR)/nfscss.spp: $(TOOLBINDIR)/gensprep$(EXEEXT) $(TESTSRCDATADIR)/nfs4_cs_prep_cs.txt
+ 	@echo Building nfscss.icu
+-	$(INVOKE) $(TOOLBINDIR)/gensprep -s $(TESTSRCDATADIR) $(ICU_DATA_OPT) -d $(TESTBUILDDIR) -b nfscss -u 3.2.0 nfs4_cs_prep_cs.txt
++	$(INVOKE) $(TOOLBINDIR)/gensprep$(TOOLEXEEXT) -s $(TESTSRCDATADIR) $(ICU_DATA_OPT) -d $(TESTBUILDDIR) -b nfscss -u 3.2.0 nfs4_cs_prep_cs.txt
+ 
+ # Targets for nfscis.spp
+ $(TESTBUILDDIR)/nfscis.spp: $(TOOLBINDIR)/gensprep$(EXEEXT) $(TESTSRCDATADIR)/nfs4_cis_prep.txt
+ 	@echo Building nfscis.spp
+-	$(INVOKE) $(TOOLBINDIR)/gensprep -s $(TESTSRCDATADIR) $(ICU_DATA_OPT) -d $(TESTBUILDDIR) -b nfscis -k -n $(UNICODEDATADIR) -u 3.2.0 nfs4_cis_prep.txt
++	$(INVOKE) $(TOOLBINDIR)/gensprep$(TOOLEXEEXT) -s $(TESTSRCDATADIR) $(ICU_DATA_OPT) -d $(TESTBUILDDIR) -b nfscis -k -n $(UNICODEDATADIR) -u 3.2.0 nfs4_cis_prep.txt
+ 
+ # Targets for nfsmxs.spp
+ $(TESTBUILDDIR)/nfsmxs.spp: $(TOOLBINDIR)/gensprep$(EXEEXT) $(TESTSRCDATADIR)/nfs4_mixed_prep_s.txt
+ 	@echo Building nfsmxs.spp
+-	$(INVOKE) $(TOOLBINDIR)/gensprep -s $(TESTSRCDATADIR) $(ICU_DATA_OPT) -d $(TESTBUILDDIR) -b nfsmxs -k -n $(UNICODEDATADIR) -u 3.2.0 nfs4_mixed_prep_s.txt
++	$(INVOKE) $(TOOLBINDIR)/gensprep$(TOOLEXEEXT) -s $(TESTSRCDATADIR) $(ICU_DATA_OPT) -d $(TESTBUILDDIR) -b nfsmxs -k -n $(UNICODEDATADIR) -u 3.2.0 nfs4_mixed_prep_s.txt
+ 
+ # Targets for nfsmxp.spp
+ $(TESTBUILDDIR)/nfsmxp.spp: $(TOOLBINDIR)/gensprep$(EXEEXT) $(TESTSRCDATADIR)/nfs4_mixed_prep_p.txt
+ 	@echo Building nfsmxp.spp
+-	$(INVOKE) $(TOOLBINDIR)/gensprep -s $(TESTSRCDATADIR) $(ICU_DATA_OPT) -d $(TESTBUILDDIR) -b nfsmxp -k -n $(UNICODEDATADIR) -u 3.2.0 nfs4_mixed_prep_p.txt
++	$(INVOKE) $(TOOLBINDIR)/gensprep$(TOOLEXEEXT) -s $(TESTSRCDATADIR) $(ICU_DATA_OPT) -d $(TESTBUILDDIR) -b nfsmxp -k -n $(UNICODEDATADIR) -u 3.2.0 nfs4_mixed_prep_p.txt
+ 
+ $(TESTBUILDDIR)/%.cnv: $(TESTSRCDATADIR)/%.ucm $(TOOLBINDIR)/makeconv$(EXEEXT)
+-	$(INVOKE) $(TOOLBINDIR)/makeconv --small -c -d $(TESTBUILDDIR) $(TESTSRCDATADIR)/$(<F)
++	$(INVOKE) $(TOOLBINDIR)/makeconv$(TOOLEXEEXT) --small -c -d $(TESTBUILDDIR) $(TESTSRCDATADIR)/$(<F)
+ 
+ $(TESTBUILDDIR)/%.nrm: $(TESTSRCDATADIR)/%.txt $(TOOLBINDIR)/gennorm2$(EXEEXT)
+-	$(INVOKE) $(TOOLBINDIR)/gennorm2 -s $(TESTSRCDATADIR) $(<F) -o $@
++	$(INVOKE) $(TOOLBINDIR)/gennorm2$(TOOLEXEEXT) -s $(TESTSRCDATADIR) $(<F) -o $@
+ 
+ $(TESTBUILDDIR)/%.res: $(TESTSRCDATADIR)/%.txt $(TOOLBINDIR)/genrb$(EXEEXT) $(DAT_FILES)
+-	$(INVOKE) $(TOOLBINDIR)/genrb $(GENRBOPTS) -q -s $(TESTSRCDATADIR) $(ICU_DATA_OPT) -d $(TESTBUILDDIR) $(<F)
++	$(INVOKE) $(TOOLBINDIR)/genrb$(TOOLEXEEXT) $(GENRBOPTS) -q -s $(TESTSRCDATADIR) $(ICU_DATA_OPT) -d $(TESTBUILDDIR) $(<F)
+ 
+ $(TESTBUILDDIR)/encoded.res:  $(TESTSRCDATADIR)/encoded.utf16be $(TOOLBINDIR)/genrb$(EXEEXT)
+ 	@echo Testing genrb -e option
+-	ICU_DATA=$(BUILDDIR) $(INVOKE) $(TOOLBINDIR)/genrb $(GENRBOPTS) -s $(TESTSRCDATADIR) -eUTF-16BE -d $(TESTBUILDDIR) $(<F)
++	ICU_DATA=$(BUILDDIR) $(INVOKE) $(TOOLBINDIR)/genrb$(TOOLEXEEXT) $(GENRBOPTS) -s $(TESTSRCDATADIR) -eUTF-16BE -d $(TESTBUILDDIR) $(<F)
+ 	@echo Finished testing genrb -e option
+ 
+ ################################################################### TYP
+@@ -243,7 +243,7 @@ JAR=jar
+ # - package them into the .jar file
+ $(OUTDIR)/icu4j/testdata.jar: build-dir testdata $(TESTOUTDIR)/testdata.dat
+ 	mkdir -p $(OUTDIR)/icu4j/com/ibm/icu/dev/data/testdata
+-	$(INVOKE) $(TOOLBINDIR)/icupkg $(TESTOUTDIR)/testdata.dat -r test.icu -x '*' -tb -d $(OUTDIR)/icu4j/com/ibm/icu/dev/data/testdata
++	$(INVOKE) $(TOOLBINDIR)/icupkg$(TOOLEXEEXT) $(TESTOUTDIR)/testdata.dat -r test.icu -x '*' -tb -d $(OUTDIR)/icu4j/com/ibm/icu/dev/data/testdata
+ 	$(JAR) cf $(OUTDIR)/icu4j/testdata.jar -C $(OUTDIR)/icu4j com/ibm/icu/dev/data/testdata
+ 
+ 
+--- icu-57.1.orig/source/test/testdata/pkgdata.inc.in
++++ icu-57.1/source/test/testdata/pkgdata.inc.in
+@@ -15,6 +15,6 @@ include $(top_builddir)/icudefs.mk
+ 
+ ##### Add the following to source/config/Makefile.in
+ 
+-GENCCODE=$(BINDIR)/genccode
+-ICUPKG=$(BINDIR)/icupkg
++GENCCODE=$(BINDIR)/genccode$(EXEEXT)
++ICUPKG=$(BINDIR)/icupkg$(EXEEXT)
+ 
+--- icu-57.1.orig/source/test/testdata/testdata.mak
++++ icu-57.1/source/test/testdata/testdata.mak
+@@ -34,7 +34,7 @@ TEST_RES_FILES = $(TEST_RES_SOURCE:.txt=
+ 	@copy "$(TESTDATA)\old_l_testtypes.res" "$(TESTDATABLD)"
+ 	@copy "$(TESTDATA)\old_e_testtypes.res" "$(TESTDATABLD)"
+ 	@copy "$(TESTDATABLD)\zoneinfo64.res" "$(TESTDATAOUT)\$(TESTDT)"
+-	"$(ICUPBIN)\pkgdata" -f -v -m common -c -p"$(TESTPKG)" -d "$(TESTDATAOUT)" -T "$(TESTDATABLD)" -s "$(TESTDATABLD)" <<
++	"$(ICUPBIN)\pkgdata$(TOOLEXEEXT)" -f -v -m common -c -p"$(TESTPKG)" -d "$(TESTDATAOUT)" -T "$(TESTDATABLD)" -s "$(TESTDATABLD)" <<
+ casing.res
+ conversion.res
+ mc.res
+@@ -79,65 +79,65 @@ $(TEST_RES_FILES:.res =.res
+ # The -q option is there on purpose, so we don't see it normally.
+ {$(TESTDATA)}.txt.res:: 
+ 	@echo Making Test Resource Bundle files $<
+-	@"$(ICUTOOLS)\genrb\$(CFG)\genrb" -q -s"$(TESTDATA)" -d"$(TESTDATABLD)" $<
++	@"$(ICUTOOLS)\genrb\$(CFG)\genrb$(TOOLEXEEXT)" -q -s"$(TESTDATA)" -d"$(TESTDATABLD)" $<
+ 
+ "$(TESTDATABLD)\encoded.res": "$(TESTDATA)\encoded.utf16be"
+ 	@echo Making Test Resource Bundle file with encoding
+-	"$(ICUTOOLS)\genrb\$(CFG)\genrb" -s"$(TESTDATA)" -eUTF-16BE -d"$(TESTDATABLD)" encoded.utf16be
++	"$(ICUTOOLS)\genrb\$(CFG)\genrb$(TOOLEXEEXT)" -s"$(TESTDATA)" -eUTF-16BE -d"$(TESTDATABLD)" encoded.utf16be
+ 
+ "$(TESTDATABLD)\idna_rules.res": "$(TESTDATA)\idna_rules.txt"
+ 	@echo Making Test Resource Bundle file for IDNA reference implementation
+-	@"$(ICUTOOLS)\genrb\$(CFG)\genrb" -s"$(TESTDATA)" -d"$(TESTDATABLD)" idna_rules.txt
++	@"$(ICUTOOLS)\genrb\$(CFG)\genrb$(TOOLEXEEXT)" -s"$(TESTDATA)" -d"$(TESTDATABLD)" idna_rules.txt
+ 
+ 
+ "$(TESTDATABLD)\test.icu" : {"$(ICUTOOLS)\gentest\$(CFG)"}gentest.exe
+-	"$(ICUTOOLS)\gentest\$(CFG)\gentest" -d"$(TESTDATABLD)"
++	"$(ICUTOOLS)\gentest\$(CFG)\gentest$(TOOLEXEEXT)" -d"$(TESTDATABLD)"
+ 
+ # testtable32 resource file
+ "$(TESTDATABLD)\testtable32.txt" : {"$(ICUTOOLS)\gentest\$(CFG)"}gentest.exe
+-	"$(ICUTOOLS)\gentest\$(CFG)\gentest" -r -d"$(TESTDATABLD)"
++	"$(ICUTOOLS)\gentest\$(CFG)\gentest$(TOOLEXEEXT)" -r -d"$(TESTDATABLD)"
+ 
+ "$(TESTDATABLD)\testtable32.res": "$(TESTDATABLD)\testtable32.txt"
+-	"$(ICUTOOLS)\genrb\$(CFG)\genrb" -s"$(TESTDATABLD)" -d"$(TESTDATABLD)" testtable32.txt
++	"$(ICUTOOLS)\genrb\$(CFG)\genrb$(TOOLEXEEXT)" -s"$(TESTDATABLD)" -d"$(TESTDATABLD)" testtable32.txt
+ 
+ # Targets for nfscsi.spp
+ "$(TESTDATABLD)\nfscsi.spp" : {"$(ICUTOOLS)\gensprep\$(CFG)"}gensprep.exe "$(TESTDATA)\nfs4_cs_prep_ci.txt"
+ 	@echo Building $@
+-	@"$(ICUTOOLS)\gensprep\$(CFG)\gensprep" -s "$(TESTDATA)" -d "$(TESTDATABLD)\\" -b nfscsi -u 3.2.0 nfs4_cs_prep_ci.txt
++	@"$(ICUTOOLS)\gensprep\$(CFG)\gensprep$(TOOLEXEEXT)" -s "$(TESTDATA)" -d "$(TESTDATABLD)\\" -b nfscsi -u 3.2.0 nfs4_cs_prep_ci.txt
+ 
+ # Targets for nfscss.spp
+ "$(TESTDATABLD)\nfscss.spp" : {"$(ICUTOOLS)\gensprep\$(CFG)"}gensprep.exe "$(TESTDATA)\nfs4_cs_prep_cs.txt"
+ 	@echo Building $@
+-	@"$(ICUTOOLS)\gensprep\$(CFG)\gensprep" -s "$(TESTDATA)" -d "$(TESTDATABLD)\\" -b nfscss -u 3.2.0 nfs4_cs_prep_cs.txt
++	@"$(ICUTOOLS)\gensprep\$(CFG)\gensprep$(TOOLEXEEXT)" -s "$(TESTDATA)" -d "$(TESTDATABLD)\\" -b nfscss -u 3.2.0 nfs4_cs_prep_cs.txt
+ 
+ # Targets for nfscis.spp
+ "$(TESTDATABLD)\nfscis.spp" : {"$(ICUTOOLS)\gensprep\$(CFG)"}gensprep.exe "$(TESTDATA)\nfs4_cis_prep.txt"
+ 	@echo Building $@
+-	@"$(ICUTOOLS)\gensprep\$(CFG)\gensprep" -s "$(TESTDATA)" -d "$(TESTDATABLD)\\" -b nfscis -u 3.2.0 -k -n "$(ICUTOOLS)\..\data\unidata" nfs4_cis_prep.txt
++	@"$(ICUTOOLS)\gensprep\$(CFG)\gensprep$(TOOLEXEEXT)" -s "$(TESTDATA)" -d "$(TESTDATABLD)\\" -b nfscis -u 3.2.0 -k -n "$(ICUTOOLS)\..\data\unidata" nfs4_cis_prep.txt
+ 
+ # Targets for nfsmxs.spp
+ "$(TESTDATABLD)\nfsmxs.spp" : {"$(ICUTOOLS)\gensprep\$(CFG)"}gensprep.exe "$(TESTDATA)\nfs4_mixed_prep_s.txt"
+ 	@echo Building $@
+-	@"$(ICUTOOLS)\gensprep\$(CFG)\gensprep" -s "$(TESTDATA)" -d "$(TESTDATABLD)\\" -b nfsmxs -u 3.2.0 -k -n "$(ICUTOOLS)\..\data\unidata" nfs4_mixed_prep_s.txt
++	@"$(ICUTOOLS)\gensprep\$(CFG)\gensprep$(TOOLEXEEXT)" -s "$(TESTDATA)" -d "$(TESTDATABLD)\\" -b nfsmxs -u 3.2.0 -k -n "$(ICUTOOLS)\..\data\unidata" nfs4_mixed_prep_s.txt
+ 
+ # Targets for nfsmxp.spp
+ "$(TESTDATABLD)\nfsmxp.spp" : {"$(ICUTOOLS)\gensprep\$(CFG)"}gensprep.exe "$(TESTDATA)\nfs4_mixed_prep_p.txt"
+ 	@echo Building $@
+-	@"$(ICUTOOLS)\gensprep\$(CFG)\gensprep" -s "$(TESTDATA)" -d "$(TESTDATABLD)\\" -b nfsmxp -u 3.2.0 -k -n "$(ICUTOOLS)\..\data\unidata" nfs4_mixed_prep_p.txt
++	@"$(ICUTOOLS)\gensprep\$(CFG)\gensprep$(TOOLEXEEXT)" -s "$(TESTDATA)" -d "$(TESTDATABLD)\\" -b nfsmxp -u 3.2.0 -k -n "$(ICUTOOLS)\..\data\unidata" nfs4_mixed_prep_p.txt
+ 
+ 
+ # Targets for test converter data
+ "$(TESTDATABLD)\test1.cnv": "$(TESTDATA)\test1.ucm"
+ 	@echo Building $@
+-	@"$(ICUTOOLS)\makeconv\$(CFG)\makeconv" --small -d"$(TESTDATABLD)" $**
++	@"$(ICUTOOLS)\makeconv\$(CFG)\makeconv$(TOOLEXEEXT)" --small -d"$(TESTDATABLD)" $**
+ 
+ "$(TESTDATABLD)\test1bmp.cnv": "$(TESTDATA)\test1bmp.ucm"
+ 	@echo Building $@
+-	@"$(ICUTOOLS)\makeconv\$(CFG)\makeconv" --small -d"$(TESTDATABLD)" $**
++	@"$(ICUTOOLS)\makeconv\$(CFG)\makeconv$(TOOLEXEEXT)" --small -d"$(TESTDATABLD)" $**
+ 
+ "$(TESTDATABLD)\test2.cnv": "$(TESTDATA)\test2.ucm"
+ 	@echo Building $@
+-	@"$(ICUTOOLS)\makeconv\$(CFG)\makeconv" --small -d"$(TESTDATABLD)" $**
++	@"$(ICUTOOLS)\makeconv\$(CFG)\makeconv$(TOOLEXEEXT)" --small -d"$(TESTDATABLD)" $**
+ 
+ "$(TESTDATABLD)\test3.cnv": "$(TESTDATA)\test3.ucm"
+ 	@echo Building $@
+@@ -145,21 +145,25 @@ $(TEST_RES_FILES:.res =.res
+ 
+ "$(TESTDATABLD)\test4.cnv": "$(TESTDATA)\test4.ucm"
+ 	@echo Building $@
+-	@"$(ICUTOOLS)\makeconv\$(CFG)\makeconv" --small -d"$(TESTDATABLD)" $**
++	@"$(ICUTOOLS)\makeconv\$(CFG)\makeconv$(TOOLEXEEXT)" --small -d"$(TESTDATABLD)" $**
+ 
+ "$(TESTDATABLD)\test4x.cnv": "$(TESTDATA)\test4x.ucm"
+ 	@echo Building $@
+-	@"$(ICUTOOLS)\makeconv\$(CFG)\makeconv" --small -d"$(TESTDATABLD)" $**
++	@"$(ICUTOOLS)\makeconv\$(CFG)\makeconv$(TOOLEXEEXT)" --small -d"$(TESTDATABLD)" $**
+ 
+ "$(TESTDATABLD)\test5.cnv": "$(TESTDATA)\test5.ucm"
+ 	@echo Building $@
+-	@"$(ICUTOOLS)\makeconv\$(CFG)\makeconv" --small -d"$(TESTDATABLD)" $**
++	@"$(ICUTOOLS)\makeconv\$(CFG)\makeconv$(TOOLEXEEXT)" --small -d"$(TESTDATABLD)" $**
+ 
+ "$(TESTDATABLD)\ibm9027.cnv": "$(TESTDATA)\ibm9027.ucm"
+ 	@echo Building $@
+-	@"$(ICUTOOLS)\makeconv\$(CFG)\makeconv" --small -d"$(TESTDATABLD)" $**
++	@"$(ICUTOOLS)\makeconv\$(CFG)\makeconv$(TOOLEXEEXT)" --small -d"$(TESTDATABLD)" $**
+ 
+ # Target for test normalization data
+ "$(TESTDATABLD)\testnorm.nrm": "$(TESTDATA)\testnorm.txt"
+ 	@echo Building $@
+-	@"$(ICUTOOLS)\gennorm2\$(CFG)\gennorm2" -s "$(TESTDATA)" testnorm.txt -o $@
++	@"$(ICUTOOLS)\gennorm2\$(CFG)\gennorm2$(TOOLEXEEXT)" -s "$(TESTDATA)" testnorm.txt -o $@
++
++# Local Variables:
++# mode: makefile
++# End:

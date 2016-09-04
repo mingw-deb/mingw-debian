@@ -1,0 +1,16 @@
+Description: run bash from cmd
+This patch runs subprocess shells using cmd /c bash -c in order to be able to use the underlying unix shell.
+
+Last-Update: 2016-07-28
+
+--- icu-57.1.orig/source/tools/pkgdata/pkgdata.cpp
++++ icu-57.1/source/tools/pkgdata/pkgdata.cpp
+@@ -517,7 +517,7 @@ static int runCommand(const char* comman
+             cmd = cmdBuffer;
+         }
+ #if defined(USING_CYGWIN) || U_PLATFORM == U_PF_MINGW
+-        sprintf(cmd, "bash -c \"%s\"", command);
++        sprintf(cmd, "cmd /c bash -c \"%s\"", command);
+ 
+ #elif U_PLATFORM == U_PF_OS400
+         sprintf(cmd, "QSH CMD('%s')", command);

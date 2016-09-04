@@ -15,6 +15,6 @@ include $(top_builddir)/icudefs.mk
 
 ##### Add the following to source/config/Makefile.in
 
-GENCCODE=$(BINDIR)/genccode
-ICUPKG=$(BINDIR)/icupkg
+GENCCODE=$(BINDIR)/genccode$(EXEEXT)
+ICUPKG=$(BINDIR)/icupkg$(EXEEXT)
 

@@ -1,0 +1,12 @@
+usr/*/bin/derb.exe
+usr/*/bin/genbrk.exe
+usr/*/bin/gencfu.exe
+usr/*/bin/gencnval.exe
+usr/*/bin/gendict.exe
+usr/*/bin/genrb.exe
+usr/*/bin/icuinfo.exe
+usr/*/bin/makeconv.exe
+usr/*/bin/pkgdata.exe
+usr/*/bin/uconv.exe
+usr/*/sbin
+usr/*/share/man

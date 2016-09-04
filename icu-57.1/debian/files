@@ -1,0 +1,6 @@
+icu-devtools-mingw-w64-dbg_57.1-1_amd64.deb debug extra
+icu-devtools-mingw-w64_57.1-1_amd64.deb libdevel optional
+icu-mingw-w64-doc_57.1-1_all.deb doc optional
+libicu-mingw-w64-dev_57.1-1_amd64.deb libdevel optional
+libicu57-mingw-w64-dbg_57.1-1_amd64.deb debug extra
+libicu57-mingw-w64_57.1-1_amd64.deb libs optional

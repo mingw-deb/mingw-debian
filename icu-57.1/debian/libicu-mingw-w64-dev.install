@@ -1,0 +1,6 @@
+usr/*/bin/icu-config
+usr/*/lib/lib*.a
+usr/*/lib/icu
+usr/*/lib/*/*.pc
+usr/*/include
+usr/*/share/icu

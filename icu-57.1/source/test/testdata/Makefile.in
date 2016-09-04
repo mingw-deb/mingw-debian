@@ -111,7 +111,7 @@ ifeq ($(CURDIR),)
 CURDIR=.
 endif
 
-PKGDATA = $(TOOLBINDIR)/pkgdata -q -c -s $(CURDIR)/out/build/$(ICUDATA_PLATFORM_NAME)
+PKGDATA = $(TOOLBINDIR)/pkgdata$(TOOLEXEEXT) -q -c -s $(CURDIR)/out/build/$(ICUDATA_PLATFORM_NAME)
 PKGDATA_INVOKE:=$(INVOKE) $(PKGDATA_INVOKE_OPTS)
 
 # Contains all 'intermediate' files (and temp files) except for 'unpackaged data' below
@@ -165,45 +165,45 @@ $(TESTBUILDDIR)/testtable32.txt:  $(GENTEST)
 	$(INVOKE) $(GENTEST) -r -d $(TESTBUILDDIR) 
 
 $(TESTBUILDDIR)/testtable32.res: $(TESTBUILDDIR)/testtable32.txt $(TOOLBINDIR)/genrb$(EXEEXT)
-	$(INVOKE) $(TOOLBINDIR)/genrb $(GENRBOPTS) -s $(TESTBUILDDIR) $(ICU_DATA_OPT) -d $(TESTBUILDDIR) $(<F)
+	$(INVOKE) $(TOOLBINDIR)/genrb$(TOOLEXEEXT) $(GENRBOPTS) -s $(TESTBUILDDIR) $(ICU_DATA_OPT) -d $(TESTBUILDDIR) $(<F)
 
 # Targets for nfscsi.spp
 $(TESTBUILDDIR)/nfscsi.spp: $(TOOLBINDIR)/gensprep$(EXEEXT) $(TESTSRCDATADIR)/nfs4_cs_prep_ci.txt
 	@echo Building nfscsi.icu
-	$(INVOKE) $(TOOLBINDIR)/gensprep -s $(TESTSRCDATADIR) $(ICU_DATA_OPT) -d $(TESTBUILDDIR) -b nfscsi -u 3.2.0 nfs4_cs_prep_ci.txt
+	$(INVOKE) $(TOOLBINDIR)/gensprep$(TOOLEXEEXT) -s $(TESTSRCDATADIR) $(ICU_DATA_OPT) -d $(TESTBUILDDIR) -b nfscsi -u 3.2.0 nfs4_cs_prep_ci.txt
 
 # Targets for nfscss.spp
 $(TESTBUILDDIR)/nfscss.spp: $(TOOLBINDIR)/gensprep$(EXEEXT) $(TESTSRCDATADIR)/nfs4_cs_prep_cs.txt
 	@echo Building nfscss.icu
-	$(INVOKE) $(TOOLBINDIR)/gensprep -s $(TESTSRCDATADIR) $(ICU_DATA_OPT) -d $(TESTBUILDDIR) -b nfscss -u 3.2.0 nfs4_cs_prep_cs.txt
+	$(INVOKE) $(TOOLBINDIR)/gensprep$(TOOLEXEEXT) -s $(TESTSRCDATADIR) $(ICU_DATA_OPT) -d $(TESTBUILDDIR) -b nfscss -u 3.2.0 nfs4_cs_prep_cs.txt
 
 # Targets for nfscis.spp
 $(TESTBUILDDIR)/nfscis.spp: $(TOOLBINDIR)/gensprep$(EXEEXT) $(TESTSRCDATADIR)/nfs4_cis_prep.txt
 	@echo Building nfscis.spp
-	$(INVOKE) $(TOOLBINDIR)/gensprep -s $(TESTSRCDATADIR) $(ICU_DATA_OPT) -d $(TESTBUILDDIR) -b nfscis -k -n $(UNICODEDATADIR) -u 3.2.0 nfs4_cis_prep.txt
+	$(INVOKE) $(TOOLBINDIR)/gensprep$(TOOLEXEEXT) -s $(TESTSRCDATADIR) $(ICU_DATA_OPT) -d $(TESTBUILDDIR) -b nfscis -k -n $(UNICODEDATADIR) -u 3.2.0 nfs4_cis_prep.txt
 
 # Targets for nfsmxs.spp
 $(TESTBUILDDIR)/nfsmxs.spp: $(TOOLBINDIR)/gensprep$(EXEEXT) $(TESTSRCDATADIR)/nfs4_mixed_prep_s.txt
 	@echo Building nfsmxs.spp
-	$(INVOKE) $(TOOLBINDIR)/gensprep -s $(TESTSRCDATADIR) $(ICU_DATA_OPT) -d $(TESTBUILDDIR) -b nfsmxs -k -n $(UNICODEDATADIR) -u 3.2.0 nfs4_mixed_prep_s.txt
+	$(INVOKE) $(TOOLBINDIR)/gensprep$(TOOLEXEEXT) -s $(TESTSRCDATADIR) $(ICU_DATA_OPT) -d $(TESTBUILDDIR) -b nfsmxs -k -n $(UNICODEDATADIR) -u 3.2.0 nfs4_mixed_prep_s.txt
 
 # Targets for nfsmxp.spp
 $(TESTBUILDDIR)/nfsmxp.spp: $(TOOLBINDIR)/gensprep$(EXEEXT) $(TESTSRCDATADIR)/nfs4_mixed_prep_p.txt
 	@echo Building nfsmxp.spp
-	$(INVOKE) $(TOOLBINDIR)/gensprep -s $(TESTSRCDATADIR) $(ICU_DATA_OPT) -d $(TESTBUILDDIR) -b nfsmxp -k -n $(UNICODEDATADIR) -u 3.2.0 nfs4_mixed_prep_p.txt
+	$(INVOKE) $(TOOLBINDIR)/gensprep$(TOOLEXEEXT) -s $(TESTSRCDATADIR) $(ICU_DATA_OPT) -d $(TESTBUILDDIR) -b nfsmxp -k -n $(UNICODEDATADIR) -u 3.2.0 nfs4_mixed_prep_p.txt
 
 $(TESTBUILDDIR)/%.cnv: $(TESTSRCDATADIR)/%.ucm $(TOOLBINDIR)/makeconv$(EXEEXT)
-	$(INVOKE) $(TOOLBINDIR)/makeconv --small -c -d $(TESTBUILDDIR) $(TESTSRCDATADIR)/$(<F)
+	$(INVOKE) $(TOOLBINDIR)/makeconv$(TOOLEXEEXT) --small -c -d $(TESTBUILDDIR) $(TESTSRCDATADIR)/$(<F)
 
 $(TESTBUILDDIR)/%.nrm: $(TESTSRCDATADIR)/%.txt $(TOOLBINDIR)/gennorm2$(EXEEXT)
-	$(INVOKE) $(TOOLBINDIR)/gennorm2 -s $(TESTSRCDATADIR) $(<F) -o $@
+	$(INVOKE) $(TOOLBINDIR)/gennorm2$(TOOLEXEEXT) -s $(TESTSRCDATADIR) $(<F) -o $@
 
 $(TESTBUILDDIR)/%.res: $(TESTSRCDATADIR)/%.txt $(TOOLBINDIR)/genrb$(EXEEXT) $(DAT_FILES)
-	$(INVOKE) $(TOOLBINDIR)/genrb $(GENRBOPTS) -q -s $(TESTSRCDATADIR) $(ICU_DATA_OPT) -d $(TESTBUILDDIR) $(<F)
+	$(INVOKE) $(TOOLBINDIR)/genrb$(TOOLEXEEXT) $(GENRBOPTS) -q -s $(TESTSRCDATADIR) $(ICU_DATA_OPT) -d $(TESTBUILDDIR) $(<F)
 
 $(TESTBUILDDIR)/encoded.res:  $(TESTSRCDATADIR)/encoded.utf16be $(TOOLBINDIR)/genrb$(EXEEXT)
 	@echo Testing genrb -e option
-	ICU_DATA=$(BUILDDIR) $(INVOKE) $(TOOLBINDIR)/genrb $(GENRBOPTS) -s $(TESTSRCDATADIR) -eUTF-16BE -d $(TESTBUILDDIR) $(<F)
+	ICU_DATA=$(BUILDDIR) $(INVOKE) $(TOOLBINDIR)/genrb$(TOOLEXEEXT) $(GENRBOPTS) -s $(TESTSRCDATADIR) -eUTF-16BE -d $(TESTBUILDDIR) $(<F)
 	@echo Finished testing genrb -e option
 
 ################################################################### TYP
@@ -243,7 +243,7 @@ JAR=jar
 # - package them into the .jar file
 $(OUTDIR)/icu4j/testdata.jar: build-dir testdata $(TESTOUTDIR)/testdata.dat
 	mkdir -p $(OUTDIR)/icu4j/com/ibm/icu/dev/data/testdata
-	$(INVOKE) $(TOOLBINDIR)/icupkg $(TESTOUTDIR)/testdata.dat -r test.icu -x '*' -tb -d $(OUTDIR)/icu4j/com/ibm/icu/dev/data/testdata
+	$(INVOKE) $(TOOLBINDIR)/icupkg$(TOOLEXEEXT) $(TESTOUTDIR)/testdata.dat -r test.icu -x '*' -tb -d $(OUTDIR)/icu4j/com/ibm/icu/dev/data/testdata
 	$(JAR) cf $(OUTDIR)/icu4j/testdata.jar -C $(OUTDIR)/icu4j com/ibm/icu/dev/data/testdata
 
 

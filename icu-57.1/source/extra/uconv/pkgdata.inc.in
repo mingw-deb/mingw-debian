@@ -55,8 +55,8 @@ platform=@platform@
 
 ##### Add the following to source/config/Makefile.in
 
-GENCCODE=$(BINDIR)/genccode
-GENCMN=$(BINDIR)/gencmn
-ICUPKG=$(BINDIR)/icupkg
+GENCCODE=$(BINDIR)/genccode$(EXEEXT)
+GENCMN=$(BINDIR)/gencmn$(EXEEXT)
+ICUPKG=$(BINDIR)/icupkg$(EXEEXT)
 
 
