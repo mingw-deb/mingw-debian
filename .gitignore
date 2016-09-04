@@ -1,3 +1,9 @@
 *.deb
 *.udeb
 *.dsc
+build-i686-w64-mingw32
+build-x86_64-w64-mingw32
+*/debian/tmp
+icu-*/debian/*icu*-mingw*/*
+*/debian/*.log
+*/debian/*.substvars
