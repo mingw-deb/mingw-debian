@@ -8,5 +8,5 @@ export DEB_BUILD_OPTIONS
 
 makevarscript=`dirname $0`/mingw-w64-x86_64
 . $makevarscript
-dpkg-buildpackage -amingw64-amd64 -rfakeroot -B -us -uc "$@"
+dpkg-buildpackage -amingw64-amd64 -tx86_64-w64-mingw32 -rfakeroot -B -us -uc "$@"
 

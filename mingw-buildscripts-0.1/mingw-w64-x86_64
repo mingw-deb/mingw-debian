@@ -1,5 +1,6 @@
-#!/bin/sh
-arch=i686-w64-mingw32
+#!/bin/bash
+arch=x86_64-w64-mingw32
+export arch
 
 makevarscript=`dirname $0`/mingw-w64-makevars
 . $makevarscript

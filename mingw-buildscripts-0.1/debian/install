@@ -1,0 +1,14 @@
+deb-mingw64-amd64 /usr/bin
+deb-mingw64-i386 /usr/bin
+make-architecture /usr/share/doc/mingw-buildscripts
+mingw-w64-i686 /usr/bin
+mingw-w64-makevars /usr/bin
+mingw-w64-x86_64 /usr/bin
+prepare-winedllpath /usr/bin
+i686-w64-mingw32-helloworld.exe /usr/bin
+x86_64-w64-mingw32-helloworld.exe /usr/bin
+bash.exe /usr/share/mingw-buildscripts
+run-native/run-native-x86_64-w64-mingw32.exe /usr/x86_64-w64-mingw32/bin
+run-native/run-native-i686-w64-mingw32.exe /usr/i686-w64-mingw32/bin
+run-native/native-func/native-func-x86_64-w64-mingw32.dll.so /usr/x86_64-w64-mingw32/lib
+run-native/native-func/native-func-i686-w64-mingw32.dll.so /usr/i686-w64-mingw32/lib

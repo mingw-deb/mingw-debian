@@ -1,0 +1,16 @@
+Source: mingw-buildscripts
+Section: unknown
+Priority: optional
+Maintainer: Tobias Schlemmer <tobias@tobias4.schlemmersoft.de>
+Build-Depends: debhelper (>=9), lib32gcc-5-dev
+Standards-Version: 3.9.8
+Homepage: <insert the upstream URL, if relevant>
+#Vcs-Git: git://anonscm.debian.org/collab-maint/mingw-buildscripts.git
+#Vcs-Browser: https://anonscm.debian.org/cgit/collab-maint/mingw-buildscripts.git
+
+Package: mingw-buildscripts
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Helper scripts for compiling packages with mingw (native) and wine on Debian systems
+ This package provides some scripts that help to set up build environments with mingw-w64.
+ Instead of using a cross compiling environment these scripts allow to use wine for build system checks.

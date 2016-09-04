@@ -1,0 +1,5 @@
+mingw-buildscripts (0.1) unstable; urgency=medium
+
+  * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+
+ -- Tobias Schlemmer <keinstein@users.sourceforge.net>  Mon, 25 Jul 2016 21:29:40 +0200

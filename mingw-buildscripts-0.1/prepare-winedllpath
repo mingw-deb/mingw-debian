@@ -1,0 +1,17 @@
+#!/bin/bash
+#~/.i686-w64-mingw32-wine/system.reg:"PATH"=str(2):"C:\\windows\\system32;C:\\windows;C:\\windows\\system32\\wbem"
+# start wine so that we get the prefix
+
+/usr/bin/${arch}-helloworld.exe
+
+case "$arch" in
+*i686*)
+    /usr/lib/wine/wineserver32 --wait
+    ;;
+*x86_64*)
+    /usr/lib/wine/wineserver64 --wait
+    ;;
+esac
+	   
+winedllpath=`echo -n "$WINWINEDLLPATH" | sed -e 's,\\\\,\\\\\\\\,g'`
+sed -i '/^"PATH"=str(2):"/ s,C:,'"$winedllpath"';C:,' $WINEPREFIX/system.reg
