@@ -1,0 +1,41 @@
+Description: add .exe to executables	
+ windows binaryries carry the extension .exe, which must be added when called from Linux.
+ .
+ zlib (1:1.2.8.dfsg-2) unstable; urgency=low
+ .
+   * Drop zlib-bin package as minizip has now been packaged separately,
+     delay due to lack of notice regarding upload (closes: #753070).
+Author: Mark Brown <broonie@debian.org>
+
+---
+The information above should follow the Patch Tagging Guidelines, please
+checkout http://dep.debian.net/deps/dep3/ to learn about the format. Here
+are templates for supplementary fields that you might want to add:
+
+Origin: <vendor|upstream|other>, <url of original patch>
+Bug: <url in upstream bugtracker>
+Bug-Debian: https://bugs.debian.org/<bugnumber>
+Bug-Ubuntu: https://launchpad.net/bugs/<bugnumber>
+Forwarded: <no|not-needed|url proving that it has been forwarded>
+Reviewed-By: <name and email of someone who approved the patch>
+Last-Update: 2016-11-01
+
+--- zlib-1.2.8.dfsg.orig/win32/Makefile.gcc
++++ zlib-1.2.8.dfsg/win32/Makefile.gcc
+@@ -74,12 +74,12 @@ OBJA =
+ all: $(STATICLIB) $(SHAREDLIB) $(IMPLIB) example.exe minigzip.exe example_d.exe minigzip_d.exe
+ 
+ test: example.exe minigzip.exe
+-	./example
+-	echo hello world | ./minigzip | ./minigzip -d
++	./example.exe
++	echo hello world | ./minigzip.exe | ./minigzip.exe -d
+ 
+ testdll: example_d.exe minigzip_d.exe
+-	./example_d
+-	echo hello world | ./minigzip_d | ./minigzip_d -d
++	./example_d.exe
++	echo hello world | ./minigzip_d.exe | ./minigzip_d.exe -d
+ 
+ .c.o:
+ 	$(CC) $(CFLAGS) -c -o $@ $<

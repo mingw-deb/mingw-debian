@@ -8,209 +8,258 @@
 
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
+LDFLAGS=
+CPPFLAGS=-Wdate-time
+CFLAGS=-O3 -g -O2 -Wformat -Werror=format-security
+CXXFLAGS=-O3 --std=c++03
 
 # These are used for cross-compiling and for saving the configure script
 # from having to guess our platform (since we know it already)
-DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
-DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
-DEB_HOST_ARCH       ?= $(shell dpkg-architecture -qDEB_HOST_ARCH)
-DEB_HOST_ARCH_OS    ?= $(shell dpkg-architecture -qDEB_HOST_GNU_OS)
-DEB_HOST_MULTIARCH  ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
+TARGETS := \
+	x86_64-w64-mingw32 \
+	i686-w64-mingw32
+WINEPREFIX = $(CURDIR)/build-$$target/wineprefix
+WINEDLLPATH = \
+$(CURDIR)/build-$${target}/bin:\
+$(CURDIR)/build-$${target}/lib:\
+$(CURDIR)/build-$${target}/stubdata:\
+$(CURDIR)/build-$${target}/tools/testfw
 
-CFLAGS = `dpkg-buildflags --get CFLAGS` `dpkg-buildflags --get CPPFLAGS` -Wall -D_REENTRANT
-LDFLAGS = `dpkg-buildflags --get LDFLAGS`
+EXECUTE = \
+	FORCE_WINEPREFIX="$(WINEPREFIX)" \
+	PATH="$(WINEDLLPATH):$$PATH" \
+	WINEDLLPATH="$(WINEDLLPATH)" \
+	LDFLAGS="$(LDFLAGS)" \
+	CFLAGS="$(CFLAGS)" \
+	CXXFLAGS="$(CXXFLAGS)" \
+	CPPFLAGS="$(CPPFLAGS)" \
+	CC="$${target}-gcc" \
+	AR="$${target}-ar" \
+	uname="mingw32-w64" \
+	/usr/bin/$${target}
 
-# binutils doesn't supply the prefixed version normally like GCC does so
-# we can't just unconditionally use DEB_HOST_GNU_TYPE-ar
-ifeq ($(DEB_HOST_GNU_TYPE),$(DEB_BUILD_GNU_TYPE))
-	AR=ar
-else
-	AR=$(DEB_HOST_GNU_TYPE)-ar
-endif
 
-ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
-	CFLAGS += -O0
-else
-	CFLAGS += -O3
-endif
 
-32-ARCHS=amd64 ppc64 kfreebsd-amd64 s390x
-64-ARCHS=s390 sparc i386 powerpc mips mipsel
-
-ifneq (,$(findstring $(DEB_HOST_ARCH), $(32-ARCHS)))
-EXTRA_INSTALL=install32
-EXTRA_BUILD=build32-stamp
-# s390x fails at compatibility.
-ifneq (,$(findstring $(DEB_HOST_ARCH), s390x))
-m32=-m31
-else
-m32=-m32
-endif
-endif
-
-ifneq (,$(findstring s390x, $(DEB_HOST_ARCH)))
-else
-ifneq (,$(findstring $(DEB_HOST_ARCH), $(64-ARCHS)))
-EXTRA_INSTALL=install64
-EXTRA_BUILD=build64-stamp
-# MIPS doesn't use -m64
-ifneq (,$(findstring $(DEB_HOST_ARCH), mips mipsel))
-m64=-mabi=64
-else
-m64=-m64
-endif
-endif
-endif
-
-N32-ARCHS=mips mipsel
-ifneq (,$(findstring $(DEB_HOST_ARCH), $(N32-ARCHS)))
-EXTRA_INSTALL+=installn32
-EXTRA_BUILD+=buildn32-stamp
-mn32=-mabi=n32
-endif
-
-UNALIGNED_ARCHS=i386 amd64 kfreebsd-i386 kfreebsd-amd64 hurd-i386 lpia
-ifneq (,$(findstring $(DEB_HOST_ARCH), $(UNALIGNED_ARCHS)))
-CFLAGS+=-DUNALIGNED_OK
-endif
+AR=$${target}-ar
 
 COPYLIST=*.h *.c *.in zlib.map configure zlib.3 test
 
-configure-stamp: configure
-	dh_testdir
 
-	if [ ! -f Makefile.stash ]; then cp Makefile Makefile.stash ; fi
+override_dh_clean:
+	for target in $(TARGETS); do \
+		rm -rf build-$$target; \
+	done
+#	-mv Makefile.stash Makefile
+#	-mv zlibdefs.h.stash zlibdefs.h
+	dh_clean
+#	rm -f configure manual.texi bzip2.info manual.fo manual.html manual.pdf manual.ps
+#	find $(CURDIR)/source/ \( -name Makefile -o -name pkgdataMakefile \) \
+		-exec rm {} \;
 
-	AR=$(AR) CC="$(DEB_HOST_GNU_TYPE)-gcc" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" uname=GNU ./configure --shared --prefix=/usr --libdir=\$${prefix}/lib/$(DEB_HOST_MULTIARCH)
 
-	touch $@
 
-configure64-stamp: configure
-	dh_testdir
+override_dh_auto_configure:
+	#	autoconf
+	#if [ ! -f Makefile.stash ]; then cp Makefile Makefile.stash ; fi
+	for target in $(TARGETS); do \
+		mkdir -p build-$$target/bin && \
+		cp -r *.h *.c Makefile.in zlib.pc.in zlib.3 \
+			win32 \
+			test build-$$target && \
+		cd build-$$target && \
+		cp -a /usr/$$target/bin/run-native-$$target.exe bin/bash.exe && \
+		$(EXECUTE) /usr/bin/prepare-winedllpath && \
+		cd .. ; \
+	done
+	#		$(EXECUTE) ../configure \
+	#			--shared \
+	#			"--prefix=/usr/$$target" || exit ; 
 
-	mkdir -p debian/64
-	cp -r $(COPYLIST) debian/64
-	cd debian/64 && AR=$(AR) CC="$(DEB_HOST_GNU_TYPE)-gcc $(m64)" \
-	    CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
-	    uname=GNU ./configure --shared --prefix=/usr  --libdir=\$${prefix}/usr/lib64
-	touch $@
+#configure-stamp: configure
+#	dh_testdir
 
-configure32-stamp: configure
-	dh_testdir
 
-	mkdir -p debian/32
-	cp -r $(COPYLIST) debian/32
-	cd debian/32 && AR=$(AR) CC="$(DEB_HOST_GNU_TYPE)-gcc $(m32)" \
-	    CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
-	    uname=GNU ./configure --shared --prefix=/usr --libdir=\$${prefix}/usr/lib32
-	touch $@
+#	AR=$(AR) CC="$(DEB_HOST_GNU_TYPE)-gcc" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" uname=GNU ./configure --shared --prefix=/usr --libdir=\$${prefix}/lib/$(DEB_HOST_MULTIARCH)
 
-configuren32-stamp: configure
-	dh_testdir
+#	touch $@
 
-	mkdir -p debian/n32
-	cp -r $(COPYLIST) debian/n32
-	cd debian/n32 && AR=$(AR) CC="$(DEB_HOST_GNU_TYPE)-gcc $(mn32)" \
-	    CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
-	    uname=GNU ./configure --shared --prefix=/usr --libdir=\$${prefix}/usr/lib32
-	touch $@
+#configure64-stamp: configure
+#	dh_testdir
+#
+#	mkdir -p debian/64
+#	cp -r $(COPYLIST) debian/64
+#	cd debian/64 && AR=$(AR) CC="$(DEB_HOST_GNU_TYPE)-gcc $(m64)" \
+#	    CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
+#	    uname=GNU ./configure --shared --prefix=/usr  --libdir=\$${prefix}/usr/lib64
+#	touch $@
+#
+#configure32-stamp: configure
+#	dh_testdir
+#
+#	mkdir -p debian/32
+#	cp -r $(COPYLIST) debian/32
+#	cd debian/32 && AR=$(AR) CC="$(DEB_HOST_GNU_TYPE)-gcc $(m32)" \
+#	    CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
+#	    uname=GNU ./configure --shared --prefix=/usr --libdir=\$${prefix}/usr/lib32
+#	touch $@
+#
+#configuren32-stamp: configure
+#	dh_testdir
+#
+#	mkdir -p debian/n32
+#	cp -r $(COPYLIST) debian/n32
+#	cd debian/n32 && AR=$(AR) CC="$(DEB_HOST_GNU_TYPE)-gcc $(mn32)" \
+#	    CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
+#	    uname=GNU ./configure --shared --prefix=/usr --libdir=\$${prefix}/usr/lib32
+#	touch $@
+#
 
-build: build-stamp $(EXTRA_BUILD)
-build-stamp: configure-stamp
-	dh_testdir
+override_dh_auto_build: #manual.texi
+	for target in $(TARGETS); do \
+		cd build-$$target && \
+		$(EXECUTE) $(MAKE) -fwin32/Makefile.gcc "PREFIX=$$target-" || exit ; \
+		$(EXECUTE) $(MAKE) -fwin32/Makefile.gcc "PREFIX=$$target-" test || exit ; \
+		cd .. ; \
+	done
+		#$(EXECUTE) $(MAKE) manual || exit ; \
+	#makeinfo -o bzip2.info manual.texi
+	#cat debian/copyright.in > debian/copyright
+	#sed -e 's/^/  /; s/^  /  ./' < LICENSE >>  debian/copyright
 
-	$(MAKE)
-	-$(MAKE) test
+# #build: build-stamp $(EXTRA_BUILD)
+#build64-stamp: configure64-stamp
+#	dh_testdir
+#	make -C debian/64
+#	touch $@
+#
+#build32-stamp: configure32-stamp
+#	dh_testdir
+#	make -C debian/32
+#	touch $@
+#
+#buildn32-stamp: configuren32-stamp
+#	dh_testdir
+#	make -C debian/n32
+#	touch $@
 
-	touch $@
+override_dh_auto_install:
+	for target in $(TARGETS); do \
+		cd build-$$target && \
+		$(EXECUTE) $(MAKE) -fwin32/Makefile.gcc \
+			INCLUDE_PATH=/include \
+			LIBRARY_PATH=/lib \
+			BINARY_PATH=/bin \
+			DESTDIR=$(CURDIR)/debian/tmp/usr/$$target \
+			SHARED_MODE=1  install && \
+		cd .. ; \
+	done
+	# gzip -v9 $(CURDIR)/debian/tmp/usr/$$target/share/man/man3/*.3 || exit && \
+	# this should be redundant as fakeroot treats all unknown files to be owned by root.
+	fakeroot chown -R root:root "$(CURDIR)/debian/tmp"
 
-build64-stamp: configure64-stamp
-	dh_testdir
-	make -C debian/64
-	touch $@
-
-build32-stamp: configure32-stamp
-	dh_testdir
-	make -C debian/32
-	touch $@
-
-buildn32-stamp: configuren32-stamp
-	dh_testdir
-	make -C debian/n32
-	touch $@
-
-clean:
-	dh_testdir
-	dh_testroot
-
-	$(MAKE) distclean
-
-	rm -f build-stamp configure-stamp foo.gz 
-	rm -rf debian/64 build64-stamp configure64-stamp
-	rm -rf debian/32 build32-stamp configure32-stamp
-	rm -rf debian/n32 buildn32-stamp configuren32-stamp
-	-mv Makefile.stash Makefile
-	-mv zlibdefs.h.stash zlibdefs.h
-
-	dh_clean 
-
-install: build
-	dh_testdir
-	dh_testroot
-	dh_prep
-	dh_installdirs
-
-	$(MAKE) prefix=$(CURDIR)/debian/tmp/usr install
-
-	install -d debian/tmp/lib/$(DEB_HOST_MULTIARCH) debian/tmp/usr/include/$(DEB_HOST_MULTIARCH)
-	mv debian/tmp/usr/include/zconf.h debian/tmp/usr/include/$(DEB_HOST_MULTIARCH)/
-	mv debian/tmp/usr/lib/$(DEB_HOST_MULTIARCH)/libz.so.* debian/tmp/lib/$(DEB_HOST_MULTIARCH)
-	ln -sf /lib/$(DEB_HOST_MULTIARCH)/$$(readlink debian/tmp/usr/lib/$(DEB_HOST_MULTIARCH)/libz.so) debian/tmp/usr/lib/$(DEB_HOST_MULTIARCH)/libz.so
-
-install64: install build64-stamp
-	$(MAKE) -C debian/64 prefix=$(CURDIR)/debian/tmp install
-
-install32: install build32-stamp
-	$(MAKE) -C debian/32 prefix=$(CURDIR)/debian/tmp install
-
-installn32: install buildn32-stamp
-	$(MAKE) -C debian/n32 prefix=$(CURDIR)/debian/tmp install
-
+#
+#install: build
+#	dh_testdir
+#	dh_testroot
+#	dh_prep
+#	dh_installdirs
+#
+#	$(MAKE) prefix=$(CURDIR)/debian/tmp/usr install
+#
+#	install -d debian/tmp/lib/$(DEB_HOST_MULTIARCH) debian/tmp/usr/include/$(DEB_HOST_MULTIARCH)
+#	mv debian/tmp/usr/include/zconf.h debian/tmp/usr/include/$(DEB_HOST_MULTIARCH)/
+#	mv debian/tmp/usr/lib/$(DEB_HOST_MULTIARCH)/libz.so.* debian/tmp/lib/$(DEB_HOST_MULTIARCH)
+#	ln -sf /lib/$(DEB_HOST_MULTIARCH)/$$(readlink debian/tmp/usr/lib/$(DEB_HOST_MULTIARCH)/libz.so) debian/tmp/usr/lib/$(DEB_HOST_MULTIARCH)/libz.so
+#
+#install64: install build64-stamp
+#	$(MAKE) -C debian/64 prefix=$(CURDIR)/debian/tmp install
+#
+#install32: install build32-stamp
+#	$(MAKE) -C debian/32 prefix=$(CURDIR)/debian/tmp install
+#
+#installn32: install buildn32-stamp
+#	$(MAKE) -C debian/n32 prefix=$(CURDIR)/debian/tmp install
+#
 # Build architecture-independent files here.
-binary-indep: build install
-# We have nothing to do by default.
+#binary-indep: build install
+## We have nothing to do by default.
+#
+## Build architecture-dependent files here.
+#binary-arch: build install $(EXTRA_INSTALL)
+#	dh_testdir
+#	dh_testroot
+#	dh_installchangelogs -s ChangeLog
+#	dh_installdocs -s
+#	dh_installexamples -s
+#	dh_install -s --sourcedir=debian/tmp
+#	dh_installman -s
+#	dh_lintian -s
+#	dh_link -s
+#	dh_strip -s --dbg-package=zlib1g-dbg
+#	dh_compress -s
+#	dh_fixperms -s
+#	dh_makeshlibs -pzlib1g -V"zlib1g (>= 1:1.2.3.3.dfsg-1)" --add-udeb=zlib1g-udeb
+#ifneq (,$(findstring $(DEB_HOST_ARCH), $(32-ARCHS)))
+#	dh_makeshlibs -plib32z1 -V"lib32z1 (>= 1:1.2.3.3.dfsg-1)"
+#endif
+#ifneq (,$(findstring $(DEB_HOST_ARCH), $(32-ARCHS)))
+#ifneq (,$(findstring $(DEB_HOST_ARCH), $(64-ARCHS)))
+#	dh_makeshlibs -plib64z1 -V"lib64z1 (>= 1:1.2.3.3.dfsg-1)"
+#endif
+#endif
+#ifneq (,$(findstring $(DEB_HOST_ARCH), $(N32-ARCHS)))
+#	dh_makeshlibs -plibn32z1 -V"libn32z1 (>= 1:1.2.3.3.dfsg-1)"
+#endif
+#	dh_installdeb -s
+#	dh_shlibdeps -s
+#	dh_gencontrol -s
+#	dh_md5sums -s
+#	dh_builddeb -s
+#
+#binary: binary-indep binary-arch
+#.PHONY: build clean binary-indep binary-arch binary install install64 install32
+#
 
-# Build architecture-dependent files here.
-binary-arch: build install $(EXTRA_INSTALL)
-	dh_testdir
-	dh_testroot
-	dh_installchangelogs -s ChangeLog
-	dh_installdocs -s
-	dh_installexamples -s
-	dh_install -s --sourcedir=debian/tmp
-	dh_installman -s
-	dh_lintian -s
-	dh_link -s
-	dh_strip -s --dbg-package=zlib1g-dbg
-	dh_compress -s
-	dh_fixperms -s
-	dh_makeshlibs -pzlib1g -V"zlib1g (>= 1:1.2.3.3.dfsg-1)" --add-udeb=zlib1g-udeb
-ifneq (,$(findstring $(DEB_HOST_ARCH), $(32-ARCHS)))
-	dh_makeshlibs -plib32z1 -V"lib32z1 (>= 1:1.2.3.3.dfsg-1)"
-endif
-ifneq (,$(findstring $(DEB_HOST_ARCH), $(32-ARCHS)))
-ifneq (,$(findstring $(DEB_HOST_ARCH), $(64-ARCHS)))
-	dh_makeshlibs -plib64z1 -V"lib64z1 (>= 1:1.2.3.3.dfsg-1)"
-endif
-endif
-ifneq (,$(findstring $(DEB_HOST_ARCH), $(N32-ARCHS)))
-	dh_makeshlibs -plibn32z1 -V"libn32z1 (>= 1:1.2.3.3.dfsg-1)"
-endif
-	dh_installdeb -s
-	dh_shlibdeps -s
-	dh_gencontrol -s
-	dh_md5sums -s
-	dh_builddeb -s
 
-binary: binary-indep binary-arch
-.PHONY: build clean binary-indep binary-arch binary install install64 install32
+override_dh_strip:
+	fakeroot dh_strip
+	#fakeroot dh_strip -plibicu$(l_SONAME) --dbg-package=libicu$(l_SONAME)-mingw-w64-dbg
+	#fakeroot dh_strip -picu-devtools --dbg-package=icu-devtools-mingw-w64-dbg
+	# libicudata library doesn't contain any debug symbols, remove that
+	#for file in `find debian/libicu$(l_SONAME)-mingw-w64-dbg/usr/lib/debug -type f -print`; do \
+	#	fakeroot /bin/sh -c "if ! nm -a '$$file' | grep -q debug; then rm '$$file' ; fi"; \
+	#done
+
+binary:
+	dh binary --sourcedirectory=$(CURDIR)
+
+override_dh_testroot:
+	fakeroot dh_testroot -O --sourcedirectory=$(CURDIR)
+override_dh_fixperms:
+	fakeroot dh_fixperms -O --sourcedirectory=$(CURDIR)
+override_dh_compress:
+	fakeroot dh_compress -O --sourcedirectory=$(CURDIR)
+override_dh_makeshlibs:
+	fakeroot dh_makeshlibs -O --sourcedirectory=$(CURDIR)
+override_dh_gencontrol:
+	fakeroot dh_gencontrol -O --sourcedirectory=$(CURDIR)
+override_dh_md5sums:
+	fakeroot dh_md5sums -O --sourcedirectory=$(CURDIR)
+override_dh_builddeb:
+	fakeroot dh_builddeb -O --sourcedirectory=$(CURDIR)
+override_dh_installdocs:
+	fakeroot dh_installdocs -O --sourcedirectory=$(CURDIR)
+
+%:
+	dh $@ --sourcedirectory=$(CURDIR)
+	#dh $@ --sourcedirectory=$(CURDIR/)source/ --parallel
+
+.PHONY: override_dh_clean override_dh_auto_configure override_dh_auto_build \
+	override_dh_auto_install override_dh_installdocs-indep \
+	override_dh_strip
+
+
+
+# Local Variables:
+# compile-command: "(cd .. ; debuild -r env)"
+# End:
