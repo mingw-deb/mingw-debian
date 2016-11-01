@@ -128,7 +128,7 @@
 #if BZ_LCCWIN32
 #   include <io.h>
 #   include <fcntl.h>
-#   include <sys/stat.h>
+#   include <sys\stat.h>
 
 #   define NORETURN       /**/
 #   define PATH_SEP       '\\'
@@ -1890,9 +1890,7 @@ IntNative main ( IntNative argc, Char *argv[] )
                case '8': blockSize100k    = 8; break;
                case '9': blockSize100k    = 9; break;
                case 'V':
-               case 'L': license();
-			 exit ( 0 );
-			 break;
+               case 'L': license();            break;
                case 'v': verbosity++; break;
                case 'h': usage ( progName );
                          exit ( 0 );
@@ -1918,8 +1916,8 @@ IntNative main ( IntNative argc, Char *argv[] )
       if (ISFLAG("--keep"))              keepInputFiles   = True;    else
       if (ISFLAG("--small"))             smallMode        = True;    else
       if (ISFLAG("--quiet"))             noisy            = False;   else
-      if (ISFLAG("--version"))           { license(); exit ( 0 ); }  else
-      if (ISFLAG("--license"))           { license(); exit ( 0 ); }  else
+      if (ISFLAG("--version"))           license();                  else
+      if (ISFLAG("--license"))           license();                  else
       if (ISFLAG("--exponential"))       workFactor = 1;             else 
       if (ISFLAG("--repetitive-best"))   redundant(aa->name);        else
       if (ISFLAG("--repetitive-fast"))   redundant(aa->name);        else
@@ -2005,14 +2003,12 @@ IntNative main ( IntNative argc, Char *argv[] )
             testf ( aa->name );
 	 }
       }
-      if (testFailsExist) {
-	 if (noisy) {
-            fprintf ( stderr,
-               "\n"
-               "You can use the `bzip2recover' program to attempt to recover\n"
-               "data from undamaged sections of corrupted files.\n\n"
-            );
-	 }
+      if (testFailsExist && noisy) {
+         fprintf ( stderr,
+           "\n"
+           "You can use the `bzip2recover' program to attempt to recover\n"
+           "data from undamaged sections of corrupted files.\n\n"
+         );
          setExit(2);
          exit(exitValue);
       }

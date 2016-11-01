@@ -1,5 +1,5 @@
---- a/manual.texi	2011-12-04 13:55:53.589856334 +1100
-+++ b/manual.texi	2011-12-04 18:16:28.000000000 +1100
+--- /dev/null
++++ b/manual.texi
 @@ -0,0 +1,2880 @@
 +\input texinfo
 +@setfilename untitled.info
@@ -2881,8 +2881,8 @@
 +@end display
 +
 +@bye
---- a/bzexe.1	2011-12-04 13:55:53.589856334 +1100
-+++ b/bzexe.1	2011-12-04 18:16:28.000000000 +1100
+--- /dev/null
++++ b/bzexe.1
 @@ -0,0 +1,43 @@
 +.TH BZEXE 1
 +.SH NAME
@@ -2927,8 +2927,8 @@
 +.I chmod
 +or
 +.I chown.
---- a/manual.info	2011-12-04 13:55:53.589856334 +1100
-+++ b/manual.info	2011-12-04 18:16:28.000000000 +1100
+--- /dev/null
++++ b/manual.info
 @@ -0,0 +1,2338 @@
 +This is manual.info, produced by makeinfo version 4.8 from manual.texi.
 +
@@ -5268,8 +5268,8 @@
 +Node: Further Reading85859
 +
 +End Tag Table
---- a/bzip2recover.c	2010-09-11 09:18:40.000000000 +1000
-+++ b/bzip2recover.c	2011-12-04 18:16:28.000000000 +1100
+--- a/bzip2recover.c
++++ b/bzip2recover.c
 @@ -24,6 +24,8 @@
  #include <errno.h>
  #include <stdlib.h>
@@ -5279,7 +5279,7 @@
  
  
  /* This program records bit locations in the file to be recovered.
-@@ -269,6 +271,19 @@ static Bool endsInBz2 ( Char* name )
+@@ -269,6 +271,19 @@
         name[n-1] == '2');
  }
  
@@ -5299,7 +5299,7 @@
  
  /*---------------------------------------------------*/
  /*---                                             ---*/
-@@ -486,7 +501,7 @@ Int32 main ( Int32 argc, Char** argv )
+@@ -486,7 +501,7 @@
           fprintf ( stderr, "   writing block %d to `%s' ...\n",
                             wrBlock+1, outFileName );
  
@@ -5308,8 +5308,8 @@
           if (outFile == NULL) {
              fprintf ( stderr, "%s: can't write `%s'\n",
                        progName, outFileName );
---- a/bzgrep	2007-01-03 13:00:55.000000000 +1100
-+++ b/bzgrep	2011-12-04 18:16:28.000000000 +1100
+--- a/bzgrep
++++ b/bzgrep
 @@ -1,27 +1,75 @@
  #!/bin/sh
  
@@ -5395,7 +5395,7 @@
    -*)	   opt="$opt $1";;
     *)      if test -z "$pat"; then
  	     pat="$1"
-@@ -35,19 +83,9 @@ done
+@@ -35,19 +83,9 @@
  if test -z "$pat"; then
    echo "grep through bzip2 files"
    echo "usage: $prog [grep_options] pattern [files]"
@@ -5416,7 +5416,7 @@
  if test $# -eq 0; then
    bzip2 -cdfq | $grep $opt "$pat"
    exit $?
-@@ -55,21 +93,40 @@ fi
+@@ -55,21 +93,40 @@
  
  res=0
  for i do
@@ -5473,9 +5473,9 @@
 +  test $res -lt $r && res=$r
  done
  exit $res
---- a/bzdiff	2007-01-03 13:00:55.000000000 +1100
-+++ b/bzdiff	2011-12-04 18:16:28.000000000 +1100
-@@ -37,10 +37,6 @@ if test -z "$FILES"; then
+--- a/bzdiff
++++ b/bzdiff
+@@ -37,10 +37,6 @@
  	echo "Usage: $prog [${comp}_options] file [file]"
  	exit 1
  fi
@@ -5486,7 +5486,7 @@
  set $FILES
  if test $# -eq 1; then
  	FILE=`echo "$1" | sed 's/.bz2$//'`
-@@ -53,10 +49,14 @@ elif test $# -eq 2; then
+@@ -53,10 +49,14 @@
                  case "$2" in
  	        *.bz2)
  			F=`echo "$2" | sed 's|.*/||;s|.bz2$||'`
@@ -5504,7 +5504,7 @@
  
                  *)      bzip2 -cdfq "$1" | $comp $OPTIONS - "$2"
                          STAT="$?";;
-@@ -69,8 +69,8 @@ elif test $# -eq 2; then
+@@ -69,8 +69,8 @@
                          STAT="$?";;
                  esac;;
  	esac
@@ -5514,198 +5514,9 @@
  	exit 1
  fi
 +exit "$STAT"
---- a/manual.xml	2010-09-11 19:36:06.000000000 +1000
-+++ b/manual.xml	2011-12-04 18:16:28.000000000 +1100
-@@ -159,13 +159,22 @@ else.</para>
- 
-  <listitem><para><computeroutput>bzip2</computeroutput> [
-   -cdfkqstvzVL123456789 ] [ filenames ...  ]</para></listitem>
-+ 
-+ <listitem><para><computeroutput>bzip2</computeroutput> [
-+  -h | --help ]</para></listitem>
- 
-  <listitem><para><computeroutput>bunzip2</computeroutput> [
-   -fkvsVL ] [ filenames ...  ]</para></listitem>
- 
-+ <listitem><para><computeroutput>bunzip2</computeroutput> [
-+  -h | --help ]</para></listitem>
-+
-  <listitem><para><computeroutput>bzcat</computeroutput> [ -s ] [
-   filenames ...  ]</para></listitem>
- 
-+ <listitem><para><computeroutput>bzcat</computeroutput> [
-+  -h | --help ]</para></listitem>
-+
-  <listitem><para><computeroutput>bzip2recover</computeroutput>
-   filename</para></listitem>
- 
-@@ -397,6 +406,10 @@ consistency error (eg, bug) which caused
-   will not be suppressed.</para></listitem>
-  </varlistentry>
- 
-+ <varlistentry><term><computeroutput>-h --help</computeroutput></term>
-+ <listitem><para>Print a help message and exit.</para></listitem>
-+ </varlistentry>
-+
-  <varlistentry>
-  <term><computeroutput>-v --verbose</computeroutput></term>
-  <listitem><para>Verbose mode -- show the compression ratio for
-@@ -1162,9 +1175,9 @@ BZ_CONFIG_ERROR
-   if the library has been mis-compiled
- BZ_PARAM_ERROR
-   if strm is NULL 
--  or blockSize < 1 or blockSize > 9
--  or verbosity < 0 or verbosity > 4
--  or workFactor < 0 or workFactor > 250
-+  or blockSize &lt; 1 or blockSize &gt; 9
-+  or verbosity &lt; 0 or verbosity &gt; 4
-+  or workFactor &lt; 0 or workFactor &gt; 250
- BZ_MEM_ERROR 
-   if not enough memory is available
- BZ_OK 
-@@ -1474,8 +1487,8 @@ could fail with
- BZ_CONFIG_ERROR
-   if the library has been mis-compiled
- BZ_PARAM_ERROR
--  if ( small != 0 && small != 1 )
--  or (verbosity <; 0 || verbosity > 4)
-+  if ( small != 0 &amp;&amp; small != 1 )
-+  or (verbosity &lt; 0 || verbosity &gt; 4)
- BZ_MEM_ERROR
-   if insufficient memory is available
- </programlisting>
-@@ -1560,7 +1573,7 @@ and release memory.</para>
- <programlisting>
- BZ_PARAM_ERROR
-   if strm is NULL or strm->s is NULL
--  or strm->avail_out < 1
-+  or strm->avail_out &lt; 1
- BZ_DATA_ERROR
-   if a data integrity error is detected in the compressed stream
- BZ_DATA_ERROR_MAGIC
-@@ -1733,8 +1746,8 @@ BZ_CONFIG_ERROR
- BZ_PARAM_ERROR
-   if f is NULL
-   or small is neither 0 nor 1
--  or ( unused == NULL && nUnused != 0 )
--  or ( unused != NULL && !(0 <= nUnused <= BZ_MAX_UNUSED) )
-+  or ( unused == NULL &amp;&amp; nUnused != 0 )
-+  or ( unused != NULL &amp;&amp; !(0 &lt;= nUnused &lt;= BZ_MAX_UNUSED) )
- BZ_IO_ERROR
-   if ferror(f) is nonzero
- BZ_MEM_ERROR
-@@ -1813,7 +1826,7 @@ immediately before
- 
- <programlisting>
- BZ_PARAM_ERROR
--  if b is NULL or buf is NULL or len < 0
-+  if b is NULL or buf is NULL or len &lt; 0
- BZ_SEQUENCE_ERROR
-   if b was opened with BZ2_bzWriteOpen
- BZ_IO_ERROR
-@@ -1971,7 +1984,7 @@ BZ_CONFIG_ERROR
-   if the library has been mis-compiled
- BZ_PARAM_ERROR
-   if f is NULL
--  or blockSize100k < 1 or blockSize100k > 9
-+  or blockSize100k &lt; 1 or blockSize100k &gt; 9
- BZ_IO_ERROR
-   if ferror(f) is nonzero
- BZ_MEM_ERROR
-@@ -2018,7 +2031,7 @@ compressed and written to the file.</par
- 
- <programlisting>
- BZ_PARAM_ERROR
--  if b is NULL or buf is NULL or len < 0
-+  if b is NULL or buf is NULL or len &lt; 0
- BZ_SEQUENCE_ERROR
-   if b was opened with BZ2_bzReadOpen
- BZ_IO_ERROR
-@@ -2169,7 +2182,7 @@ f = fopen ( "myfile.bz2", "w" );
- if ( !f ) {
-  /* handle error */
- }
--b = BZ2_bzWriteOpen( &bzerror, f, 9 );
-+b = BZ2_bzWriteOpen( &amp;bzerror, f, 9 );
- if (bzerror != BZ_OK) {
-  BZ2_bzWriteClose ( b );
-  /* handle error */
-@@ -2177,14 +2190,14 @@ if (bzerror != BZ_OK) {
- 
- while ( /* condition */ ) {
-  /* get data to write into buf, and set nBuf appropriately */
-- nWritten = BZ2_bzWrite ( &bzerror, b, buf, nBuf );
-+ nWritten = BZ2_bzWrite ( &amp;bzerror, b, buf, nBuf );
-  if (bzerror == BZ_IO_ERROR) { 
--   BZ2_bzWriteClose ( &bzerror, b );
-+   BZ2_bzWriteClose ( &amp;bzerror, b );
-    /* handle error */
-  }
- }
- 
--BZ2_bzWriteClose( &bzerror, b );
-+BZ2_bzWriteClose( &amp;bzerror, b );
- if (bzerror == BZ_IO_ERROR) {
-  /* handle error */
- }
-@@ -2204,24 +2217,24 @@ f = fopen ( "myfile.bz2", "r" );
- if ( !f ) {
-   /* handle error */
- }
--b = BZ2_bzReadOpen ( &bzerror, f, 0, NULL, 0 );
-+b = BZ2_bzReadOpen ( &amp;bzerror, f, 0, NULL, 0 );
- if ( bzerror != BZ_OK ) {
--  BZ2_bzReadClose ( &bzerror, b );
-+  BZ2_bzReadClose ( &amp;bzerror, b );
-   /* handle error */
- }
- 
- bzerror = BZ_OK;
--while ( bzerror == BZ_OK && /* arbitrary other conditions */) {
--  nBuf = BZ2_bzRead ( &bzerror, b, buf, /* size of buf */ );
-+while ( bzerror == BZ_OK &amp;&amp; /* arbitrary other conditions */) {
-+  nBuf = BZ2_bzRead ( &amp;bzerror, b, buf, /* size of buf */ );
-   if ( bzerror == BZ_OK ) {
-     /* do something with buf[0 .. nBuf-1] */
-   }
- }
- if ( bzerror != BZ_STREAM_END ) {
--   BZ2_bzReadClose ( &bzerror, b );
-+   BZ2_bzReadClose ( &amp;bzerror, b );
-    /* handle error */
- } else {
--   BZ2_bzReadClose ( &bzerror, b );
-+   BZ2_bzReadClose ( &amp;bzerror, b );
- }
- </programlisting>
- 
-@@ -2287,9 +2300,9 @@ BZ_CONFIG_ERROR
-   if the library has been mis-compiled
- BZ_PARAM_ERROR
-   if dest is NULL or destLen is NULL
--  or blockSize100k < 1 or blockSize100k > 9
--  or verbosity < 0 or verbosity > 4
--  or workFactor < 0 or workFactor > 250
-+  or blockSize100k &lt; 1 or blockSize100k &gt; 9
-+  or verbosity &lt; 0 or verbosity &gt; 4
-+  or workFactor &lt; 0 or workFactor &gt; 250
- BZ_MEM_ERROR
-   if insufficient memory is available 
- BZ_OUTBUFF_FULL
-@@ -2355,8 +2368,8 @@ BZ_CONFIG_ERROR
-   if the library has been mis-compiled
- BZ_PARAM_ERROR
-   if dest is NULL or destLen is NULL
--  or small != 0 && small != 1
--  or verbosity < 0 or verbosity > 4
-+  or small != 0 &amp;&amp; small != 1
-+  or verbosity &lt; 0 or verbosity &gt; 4
- BZ_MEM_ERROR
-   if insufficient memory is available 
- BZ_OUTBUFF_FULL
---- a/bzmore	2007-01-03 13:00:55.000000000 +1100
-+++ b/bzmore	2011-12-04 18:16:28.000000000 +1100
-@@ -24,10 +24,10 @@ else
+--- a/bzmore
++++ b/bzmore
+@@ -24,10 +24,10 @@
    # 'stty min 1' resets eof to ^a on both SunOS and SysV!
    cb='min 1 -icanon'; ncb='icanon eof ^d'
  fi
@@ -5719,7 +5530,7 @@
  fi
  
  if test $# = 0; then
-@@ -46,7 +46,7 @@ else
+@@ -46,7 +46,7 @@
  		ANS=`dd bs=1 count=1 2>/dev/null` 
  		stty $ncb echo 2>/dev/null
  		echo " "
@@ -5728,9 +5539,9 @@
  			exit
  		fi
  	fi
---- a/bzip2.c	2010-09-11 09:04:53.000000000 +1000
-+++ b/bzip2.c	2011-12-04 18:16:28.000000000 +1100
-@@ -1890,7 +1890,9 @@ IntNative main ( IntNative argc, Char *a
+--- a/bzip2.c
++++ b/bzip2.c
+@@ -1890,7 +1890,9 @@
                 case '8': blockSize100k    = 8; break;
                 case '9': blockSize100k    = 9; break;
                 case 'V':
@@ -5741,7 +5552,7 @@
                 case 'v': verbosity++; break;
                 case 'h': usage ( progName );
                           exit ( 0 );
-@@ -1916,8 +1918,8 @@ IntNative main ( IntNative argc, Char *a
+@@ -1916,8 +1918,8 @@
        if (ISFLAG("--keep"))              keepInputFiles   = True;    else
        if (ISFLAG("--small"))             smallMode        = True;    else
        if (ISFLAG("--quiet"))             noisy            = False;   else
@@ -5752,7 +5563,7 @@
        if (ISFLAG("--exponential"))       workFactor = 1;             else 
        if (ISFLAG("--repetitive-best"))   redundant(aa->name);        else
        if (ISFLAG("--repetitive-fast"))   redundant(aa->name);        else
-@@ -2003,12 +2005,14 @@ IntNative main ( IntNative argc, Char *a
+@@ -2003,12 +2005,14 @@
              testf ( aa->name );
  	 }
        }
@@ -5773,8 +5584,8 @@
           setExit(2);
           exit(exitValue);
        }
---- a/bzexe	2011-12-04 13:55:53.589856334 +1100
-+++ b/bzexe	2011-12-04 18:16:28.000000000 +1100
+--- /dev/null
++++ b/bzexe
 @@ -0,0 +1,182 @@
 +#!/bin/sh
 +# gzexe: compressor for Unix executables.
@@ -5958,9 +5769,9 @@
 +  fi
 +done
 +exit $res
---- a/bzip2.1	2010-09-11 19:35:11.000000000 +1000
-+++ b/bzip2.1	2011-12-04 18:16:28.000000000 +1100
-@@ -14,6 +14,9 @@ bzip2recover \- recovers data from damag
+--- a/bzip2.1
++++ b/bzip2.1
+@@ -13,6 +13,9 @@
  [
  .I "filenames \&..."
  ]
@@ -5970,7 +5781,7 @@
  .ll -8
  .br
  .B bunzip2
-@@ -22,12 +25,18 @@ bzip2recover \- recovers data from damag
+@@ -21,12 +24,18 @@
  .I "filenames \&..."
  ]
  .br
@@ -5989,7 +5800,7 @@
  .B bzip2recover
  .I "filename"
  
-@@ -240,6 +249,9 @@ Verbose mode -- show the compression rat
+@@ -238,6 +247,9 @@
  Further \-v's increase the verbosity level, spewing out lots of
  information which is primarily of interest for diagnostic purposes.
  .TP
@@ -5999,8 +5810,8 @@
  .B \-L --license -V --version
  Display the software version, license terms and conditions.
  .TP
---- a/Makefile	2010-09-11 08:46:02.000000000 +1000
-+++ b/Makefile	2011-12-04 18:16:28.000000000 +1100
+--- a/Makefile
++++ b/Makefile
 @@ -12,6 +12,8 @@
  # in the file LICENSE.
  # ------------------------------------------------------------------
@@ -6010,7 +5821,7 @@
  SHELL=/bin/sh
  
  # To assist in cross-compiling
-@@ -21,7 +23,7 @@ RANLIB=ranlib
+@@ -21,7 +23,7 @@
  LDFLAGS=
  
  BIGFILES=-D_FILE_OFFSET_BITS=64
@@ -6019,7 +5830,7 @@
  
  # Where you want it installed when you do 'make install'
  PREFIX=/usr/local
-@@ -35,9 +37,9 @@ OBJS= blocksort.o  \
+@@ -35,9 +37,9 @@
        decompress.o \
        bzlib.o
  
@@ -6031,7 +5842,7 @@
  	$(CC) $(CFLAGS) $(LDFLAGS) -o bzip2 bzip2.o -L. -lbz2
  
  bzip2recover: bzip2recover.o
-@@ -46,20 +48,42 @@ bzip2recover: bzip2recover.o
+@@ -46,20 +48,42 @@
  libbz2.a: $(OBJS)
  	rm -f libbz2.a
  	$(AR) cq libbz2.a $(OBJS)
@@ -6076,7 +5887,7 @@
  	./bzip2 -ds < sample3.bz2 > sample3.tst
  	cmp sample1.bz2 sample1.rb2 
  	cmp sample2.bz2 sample2.rb2
-@@ -69,15 +93,15 @@ test: bzip2
+@@ -69,15 +93,15 @@
  	cmp sample3.tst sample3.ref
  	@cat words3
  
@@ -6095,7 +5906,7 @@
  	cp -f bzip2recover $(PREFIX)/bin/bzip2recover
  	chmod a+x $(PREFIX)/bin/bzip2
  	chmod a+x $(PREFIX)/bin/bunzip2
-@@ -87,8 +111,10 @@ install: bzip2 bzip2recover
+@@ -87,8 +111,10 @@
  	chmod a+r $(PREFIX)/man/man1/bzip2.1
  	cp -f bzlib.h $(PREFIX)/include
  	chmod a+r $(PREFIX)/include/bzlib.h
@@ -6107,7 +5918,7 @@
  	cp -f bzgrep $(PREFIX)/bin/bzgrep
  	ln -s -f $(PREFIX)/bin/bzgrep $(PREFIX)/bin/bzegrep
  	ln -s -f $(PREFIX)/bin/bzgrep $(PREFIX)/bin/bzfgrep
-@@ -99,7 +125,8 @@ install: bzip2 bzip2recover
+@@ -99,7 +125,8 @@
  	cp -f bzdiff $(PREFIX)/bin/bzdiff
  	ln -s -f $(PREFIX)/bin/bzdiff $(PREFIX)/bin/bzcmp
  	chmod a+x $(PREFIX)/bin/bzdiff
@@ -6117,7 +5928,7 @@
  	chmod a+r $(PREFIX)/man/man1/bzgrep.1
  	chmod a+r $(PREFIX)/man/man1/bzmore.1
  	chmod a+r $(PREFIX)/man/man1/bzdiff.1
-@@ -109,33 +136,13 @@ install: bzip2 bzip2recover
+@@ -109,33 +136,13 @@
  	echo ".so man1/bzdiff.1" > $(PREFIX)/man/man1/bzcmp.1
  
  clean: 
@@ -6153,7 +5964,7 @@
  
  DISTNAME=bzip2-1.0.6
  dist: check manual
-@@ -187,6 +194,8 @@ dist: check manual
+@@ -187,6 +194,8 @@
  	   $(DISTNAME)/bzdiff.1 \
  	   $(DISTNAME)/bzmore \
  	   $(DISTNAME)/bzmore.1 \

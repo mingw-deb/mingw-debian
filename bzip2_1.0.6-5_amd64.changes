@@ -1,0 +1,67 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+Format: 1.8
+Date: Tue, 13 Aug 2013 00:07:30 +0200
+Source: bzip2
+Binary: libbz2-mingw-w64-1.0 libbz2-mingw-w64-dev bzip2-mingw-w64 bzip2-mingw-w64-doc
+Architecture: source all amd64
+Version: 1.0.6-5
+Distribution: unstable
+Urgency: low
+Maintainer: Anibal Monsalve Salazar <anibal@debian.org>
+Changed-By: Santiago Ruano Rincón <santiago@debian.org>
+Description:
+ bzip2-mingw-w64 - high-quality block-sorting file compressor - utilities
+ bzip2-mingw-w64-doc - high-quality block-sorting file compressor - documentation
+ libbz2-mingw-w64-1.0 - high-quality block-sorting file compressor library - runtime
+ libbz2-mingw-w64-dev - high-quality block-sorting file compressor library - development
+Changes:
+ bzip2 (1.0.6-5) unstable; urgency=low
+ .
+   * Adding watch file
+   * Updating rules clean rule.
+   * Updating Standars-Version to 3.9.4. No changes needed.
+   * Don't drink and upload release. Thanks to bubulle, habanero and
+     all the Cheese and Wine orga team.
+Checksums-Sha1:
+ f176ab7fdc415665cb919b3dbddbe8ee3c03fa12 2386 bzip2_1.0.6-5.dsc
+ 3725a0554fa6bb654ef2728fef36bc06aed4e388 708737 bzip2_1.0.6.orig.tar.bz2
+ fe38a8730c57f470efb618a561575fa84e546c97 285453 bzip2_1.0.6-5.debian.tar.bz2
+ d065bf5b2000f1afe36fb1d977ec7ad3bfa70b58 16378 bzip2-mingw-w64-doc_1.0.6-5_all.deb
+ 8c1741d1397dec65ea0084a2fb8ec3374e868ba8 207226 bzip2-mingw-w64_1.0.6-5_amd64.deb
+ 77d8cb4001d3f01b3fb45f1e64c470f452227d59 223880 libbz2-mingw-w64-1.0_1.0.6-5_amd64.deb
+ 626c071b77216db32510e31f85ca5db3bcda43a4 64344 libbz2-mingw-w64-dev_1.0.6-5_amd64.deb
+Checksums-Sha256:
+ 8742cef161460c8ab21a8c2bc81bab89f1f7895dced8f4a7911002a84eedc0e4 2386 bzip2_1.0.6-5.dsc
+ d70a9ccd8bdf47e302d96c69fecd54925f45d9c7b966bb4ef5f56b770960afa7 708737 bzip2_1.0.6.orig.tar.bz2
+ d185592108ebca976195161f4c837e6258ad1c4f44c80f18e4758633ad8c503e 285453 bzip2_1.0.6-5.debian.tar.bz2
+ aa5912ad3edbcabb688277c2914d622605ff6ff6cc01e7e32b727abb7d257be6 16378 bzip2-mingw-w64-doc_1.0.6-5_all.deb
+ 580a8ba745c18c3086d6b6286b5bb4824c80617d7b6c6f5dcb2942a9a0962df9 207226 bzip2-mingw-w64_1.0.6-5_amd64.deb
+ 204c9ba69447b84a6da63527803ad0bf6a424ce2539cd237de28790caf9130f8 223880 libbz2-mingw-w64-1.0_1.0.6-5_amd64.deb
+ 557b200d4d59a2a9b0d8efa738be88fb6ffa98900b015e9d29a56748fb346135 64344 libbz2-mingw-w64-dev_1.0.6-5_amd64.deb
+Files:
+ 6caeceae20fdb1f52ca0b961307bde44 2386 utils important bzip2_1.0.6-5.dsc
+ 2a1df12bd405cc86790291797673753c 708737 utils important bzip2_1.0.6.orig.tar.bz2
+ 74d24a73481d614a3a3765ae653409fa 285453 utils important bzip2_1.0.6-5.debian.tar.bz2
+ 8eb8370c94de767b0b4aa5afef05e8db 16378 doc optional bzip2-mingw-w64-doc_1.0.6-5_all.deb
+ d4ad39b7ea3046200f250ffd292a07a3 207226 utils standard bzip2-mingw-w64_1.0.6-5_amd64.deb
+ cf6b4bddb8a03988bb9bbee671458685 223880 libs important libbz2-mingw-w64-1.0_1.0.6-5_amd64.deb
+ 9af0c629af0bdef3ff332f384fc90a3a 64344 libdevel optional libbz2-mingw-w64-dev_1.0.6-5_amd64.deb
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIcBAEBCAAGBQJYE8N2AAoJEJbkCdXhgz7mvFMQAJB1VMtZ/L0evQBWGhwfsu+E
+PqlLojnDeD19wc4tUI3UNXViHOPJQL/EGhAPs4y2hEtbRFMRXNH7qey7x4NigIj7
+Z6+kkfGBDFbGJYesKy6hDWC/8r0/guhOZ6XPJbpLTql7jGYLBUkWcbqh010GdSMA
+XcGPbwwTWujxJAk1EBlj1RL1aaq2VqPcWLY0jsjVbO9ZD8eWBlv1aH0TEaS/LmbN
+5026JGzy+YBjadjIzyOGohdFa4W0ZS96xHkhFXtKynhy3c5F0eGFIp8n6TOv9qq+
+CdislsVr1F/IVKtwrPDynKzHDNbLRmGk6aGLaL30ZWvtsiNWztRQa67bnxY7AT/o
+7jN+8Dnqxj3pjcAZIYnO10aOIkuiiTP97mttVckubcZXtrMDzYFzNDWYdpRxk97D
+RfZwoK7O/Xt2T8yOVdqwXXQVIXMxuHsrLDnR6r4pl0qJktJOL0EqHqKwTEUNtrYJ
+VFr8OLOXfRjBh5iEJbSfN+ED5MENms0P7gjjwSqPDkD/Efl5Fto7MydQVr0lkdXR
+IRCkoTQJnPpYppQrPRaFWCbWaYAqR0qQ9eo2S0/YYSLtnlPsOpF+l2K4jimo1KAn
+wO8FsruIJOyxZX0Gdt7UIQ5ai/BJRwdP26ZYuh4wG+u/AeAm9acuDsrdGoAOBf8K
+1YhgrK+4qJ7zHj6qBn1e
+=U5sA
+-----END PGP SIGNATURE-----

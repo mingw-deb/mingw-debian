@@ -9,12 +9,12 @@ Abstract: bzip2 compresses files using the Burrows-Wheeler block-sorting
 Section: File Management
 
 Format: HTML
-Index: /usr/share/doc/bzip2/manual.html
-Files: /usr/share/doc/bzip2/manual.html
+Index: /usr/share/doc/bzip2-mingw-w64/manual.html
+Files: /usr/share/doc/bzip2-mingw-w64/manual.html
 
 Format: PostScript
-Files: /usr/share/doc/bzip2/manual.ps.gz
+Files: /usr/share/doc/bzip2-mingw-w64/manual.ps.gz
 
 Format: Info
-Index: /usr/share/doc/bzip2/manual.texi.gz
-Files: /usr/share/doc/bzip2/manual.texi.gz
+Index: /usr/share/doc/bzip2-mingw-w64/manual.texi.gz
+Files: /usr/share/doc/bzip2-mingw-w64/manual.texi.gz
