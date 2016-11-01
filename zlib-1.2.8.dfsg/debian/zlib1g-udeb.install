@@ -1,1 +1,1 @@
-usr/lib/*/*.dll usr/lib
+lib/*/lib*.so.* usr/lib
