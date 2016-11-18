@@ -1,0 +1,19 @@
+Author: Gianfranco Costamagna
+Bug-Origin: http://bugs.debian.org/841643
+Description: Link libfabric 
+Forwarded: no
+Last-Updated: 2016-10-21
+
+Index: openmpi-2.0.1/ompi/mca/mtl/ofi/Makefile.am
+===================================================================
+--- openmpi-2.0.1.orig/ompi/mca/mtl/ofi/Makefile.am
++++ openmpi-2.0.1/ompi/mca/mtl/ofi/Makefile.am
+@@ -43,7 +43,7 @@ mca_mtl_ofi_la_SOURCES = $(mtl_ofi_sourc
+ mca_mtl_ofi_la_LDFLAGS = \
+         $(ompi_mtl_ofi_LDFLAGS) \
+         -module -avoid-version
+-mca_mtl_ofi_la_LIBADD = $(ompi_mtl_ofi_LIBS) \
++mca_mtl_ofi_la_LIBADD = $(ompi_mtl_ofi_LIBS) $(opal_common_libfabric_LIBS) \
+         $(OPAL_TOP_BUILDDIR)/opal/mca/common/libfabric/lib@OPAL_LIB_PREFIX@mca_common_libfabric.la
+ 
+ noinst_LTLIBRARIES = $(component_noinst)

@@ -1,0 +1,88 @@
+--- openmpi-1.4.3.old/ompi/tools/ompi-server/Makefile.am	2009-12-08 20:36:19.000000000 +0000
++++ openmpi-1.4.3/ompi/tools/ompi-server/Makefile.am	2011-04-10 16:14:45.000000000 +0000
+@@ -41,7 +41,7 @@
+ endif # OMPI_INSTALL_BINARIES
+ 
+ ompi_server_SOURCES = ompi-server.c 
+-ompi_server_LDADD = $(top_builddir)/ompi/libmpi.la
++ompi_server_LDADD = $(top_builddir)/ompi/libmpi.la $(top_builddir)/orte/libopen-rte.la $(top_builddir)/opal/libopen-pal.la
+ 
+ distclean-local:
+ 	rm -f $(man_pages)
+--- openmpi-1.4.3.old/ompi/tools/ompi_info/Makefile.am	2009-12-08 20:36:19.000000000 +0000
++++ openmpi-1.4.3/ompi/tools/ompi_info/Makefile.am	2011-04-10 16:13:22.000000000 +0000
+@@ -66,7 +66,7 @@
+         output.cc \
+         param.cc \
+         version.cc 
+-ompi_info_LDADD = $(top_builddir)/ompi/libmpi.la
++ompi_info_LDADD = $(top_builddir)/ompi/libmpi.la $(top_builddir)/orte/libopen-rte.la $(top_builddir)/opal/libopen-pal.la
+ 
+ clean-local:
+ 	test -z "$(OMPI_CXX_TEMPLATE_REPOSITORY)" || $(RM) -rf $(OMPI_CXX_TEMPLATE_REPOSITORY)
+--- openmpi-1.4.3.old/orte/tools/orte-ps/Makefile.am	2009-12-08 20:36:41.000000000 +0000
++++ openmpi-1.4.3/orte/tools/orte-ps/Makefile.am	2011-04-10 15:59:01.000000000 +0000
+@@ -40,7 +40,7 @@
+ endif # OMPI_INSTALL_BINARIES
+ 
+ orte_ps_SOURCES = orte-ps.c
+-orte_ps_LDADD = $(top_builddir)/orte/libopen-rte.la
++orte_ps_LDADD = $(top_builddir)/orte/libopen-rte.la $(top_builddir)/opal/libopen-pal.la
+ 
+ endif # !ORTE_DISABLE_FULL_SUPPORT
+ 
+--- openmpi-1.4.3.old/orte/tools/orte-clean/Makefile.am	2009-12-08 20:36:41.000000000 +0000
++++ openmpi-1.4.3/orte/tools/orte-clean/Makefile.am	2011-04-10 15:57:09.000000000 +0000
+@@ -40,7 +40,7 @@
+ endif # OMPI_INSTALL_BINARIES
+ 
+ orte_clean_SOURCES = orte-clean.c
+-orte_clean_LDADD = $(top_builddir)/orte/libopen-rte.la
++orte_clean_LDADD = $(top_builddir)/orte/libopen-rte.la $(top_builddir)/opal/libopen-pal.la
+ 
+ endif # !ORTE_DISABLE_FULL_SUPPORT
+ 
+--- openmpi-1.4.3.old/orte/tools/orte-iof/Makefile.am	2009-12-08 20:36:41.000000000 +0000
++++ openmpi-1.4.3/orte/tools/orte-iof/Makefile.am	2011-04-10 15:57:54.000000000 +0000
+@@ -40,7 +40,7 @@
+ endif # OMPI_INSTALL_BINARIES
+ 
+ orte_iof_SOURCES = orte-iof.c
+-orte_iof_LDADD = $(top_builddir)/orte/libopen-rte.la
++orte_iof_LDADD = $(top_builddir)/orte/libopen-rte.la $(top_builddir)/opal/libopen-pal.la
+ 
+ endif # !ORTE_DISABLE_FULL_SUPPORT
+ 
+--- openmpi-1.4.3.old/orte/tools/orte-checkpoint/Makefile.am	2009-12-08 20:36:41.000000000 +0000
++++ openmpi-1.4.3/orte/tools/orte-checkpoint/Makefile.am	2011-04-10 15:51:13.000000000 +0000
+@@ -47,7 +47,7 @@
+ endif # OMPI_INSTALL_BINARIES
+ 
+ orte_checkpoint_SOURCES = orte-checkpoint.c
+-orte_checkpoint_LDADD = $(top_builddir)/orte/libopen-rte.la
++orte_checkpoint_LDADD = $(top_builddir)/orte/libopen-rte.la $(top_builddir)/opal/libopen-pal.la
+ 
+ endif # WANT_FT
+ endif # !ORTE_DISABLE_FULL_SUPPORT
+--- openmpi-1.4.3.old/orte/tools/orte-restart/Makefile.am	2009-12-08 20:36:41.000000000 +0000
++++ openmpi-1.4.3/orte/tools/orte-restart/Makefile.am	2011-04-10 15:59:43.000000000 +0000
+@@ -47,7 +47,7 @@
+ endif # OMPI_INSTALL_BINARIES
+ 
+ orte_restart_SOURCES = orte-restart.c
+-orte_restart_LDADD = $(top_builddir)/orte/libopen-rte.la
++orte_restart_LDADD = $(top_builddir)/orte/libopen-rte.la $(top_builddir)/opal/libopen-pal.la
+ 
+ endif # WANT_FT
+ endif # ORTE_DISABLE_FULL_SUPPORT
+--- openmpi-1.4.3.old/orte/tools/orterun/Makefile.am	2009-12-08 20:36:44.000000000 +0000
++++ openmpi-1.4.3/orte/tools/orterun/Makefile.am	2011-04-10 16:00:25.000000000 +0000
+@@ -55,7 +55,7 @@
+         debuggers.h \
+         debuggers.c
+  
+-orterun_LDADD = $(top_builddir)/orte/libopen-rte.la
++orterun_LDADD = $(top_builddir)/orte/libopen-rte.la $(top_builddir)/opal/libopen-pal.la
+ 
+ endif # !ORTE_DISABLE_FULL_SUPPORT
+ 

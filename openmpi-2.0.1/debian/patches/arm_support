@@ -1,0 +1,35 @@
+## Description: Support building for arm 
+## Origin/Author: jani.monoses@canonical.com
+## Bug: bug URL
+#Last-Updated: 2016-08-30
+
+Index: openmpi-2.0.1/config/opal_config_asm.m4
+===================================================================
+--- openmpi-2.0.1.orig/config/opal_config_asm.m4
++++ openmpi-2.0.1/config/opal_config_asm.m4
+@@ -910,6 +910,12 @@ AC_DEFUN([OPAL_CONFIG_ASM],[
+             OPAL_CHECK_CMPXCHG16B
+             ;;
+ 
++        arm*)
++            opal_cv_asm_arch="ARM"
++            OPAL_ASM_SUPPORT_64BIT=1
++            OPAL_GCC_INLINE_ASSIGN='"mov r0, 0" : "=&r"(ret)'
++            ;;
++
+         ia64-*)
+             opal_cv_asm_arch="IA64"
+             OPAL_ASM_SUPPORT_64BIT=1
+Index: openmpi-2.0.1/opal/mca/timer/linux/configure.m4
+===================================================================
+--- openmpi-2.0.1.orig/opal/mca/timer/linux/configure.m4
++++ openmpi-2.0.1/opal/mca/timer/linux/configure.m4
+@@ -46,7 +46,7 @@ AC_DEFUN([MCA_opal_timer_linux_CONFIG],[
+                  [timer_linux_happy="no"])])
+ 
+    case "${host}" in
+-   i?86-*linux*|x86_64*linux*|ia64-*linux*|powerpc-*linux*|powerpc64-*linux*|sparc*-*linux*)
++   i?86-*linux*|x86_64*linux*|ia64-*linux*|powerpc-*linux*|powerpc64-*linux*|sparc*-*linux*|arm*-*linux*)
+         AS_IF([test "$timer_linux_happy" = "yes"],
+               [AS_IF([test -r "/proc/cpuinfo"],
+                      [timer_linux_happy="yes"],

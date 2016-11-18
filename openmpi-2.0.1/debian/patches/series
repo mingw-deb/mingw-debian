@@ -1,0 +1,13 @@
+manpage_macros
+# arm_support
+# arm_detection.diff
+mips-detection.diff
+basic-arm64-support.diff
+hppa.patch
+reproducible-build.patch
+x32.patch
+powerpc.patch
+build_hurd
+#version-script.patch
+wait_fix.patch
+link-libfabric.patch

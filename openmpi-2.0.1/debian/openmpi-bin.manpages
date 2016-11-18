@@ -1,0 +1,16 @@
+debian/tmp/usr/share/man/man1/ompi-clean.1
+debian/tmp/usr/share/man/man1/ompi_info.1
+debian/tmp/usr/share/man/man1/ompi-ps.1
+debian/tmp/usr/share/man/man1/ompi-server.1
+debian/tmp/usr/share/man/man1/ompi-top.1
+debian/tmp/usr/share/man/man1/orte-clean.1
+debian/tmp/usr/share/man/man1/orted.1
+debian/tmp/usr/share/man/man1/orte-ps.1
+debian/tmp/usr/share/man/man1/orte-top.1
+# Note: Those are identical and could by symlinked
+debian/tmp/usr/share/man/man1/orterun.1
+debian/tmp/usr/share/man/man1/mpiexec.openmpi.1
+debian/tmp/usr/share/man/man1/mpirun.openmpi.1
+debian/tmp/usr/share/man/man1/orte-dvm.1
+debian/tmp/usr/share/man/man1/orte-server.1
+debian/tmp/usr/share/man/man1/orte-submit.1

@@ -1,0 +1,28 @@
+Author: Alastair McKinstry <mckinstry@debian.org>
+Origin-Bug: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=752785
+Description: Add variables needed to make  mpi.pc an alias for ompi.pc
+Last-Updated: 2014-10-07
+Forwarded: no
+
+Index: openmpi-1.10.2/ompi/tools/wrappers/ompi.pc.in
+===================================================================
+--- openmpi-1.10.2.orig/ompi/tools/wrappers/ompi.pc.in
++++ openmpi-1.10.2/ompi/tools/wrappers/ompi.pc.in
+@@ -15,7 +15,7 @@ libdir=@libdir@
+ # dependencies), so only list these in Libs.private.
+ #
+ Libs: -L${libdir} @OMPI_PKG_CONFIG_LDFLAGS@ -lmpi
+-Libs.private: @OMPI_WRAPPER_EXTRA_LIBS@
++Libs.private: @OMPI_WRAPPER_EXTRA_LIBS@ -lmpi_f90 -lmpi_f77 -lmpi
+ #
+ # It is safe to hard-wire the -I before the EXTRA_INCLUDES because it
+ # will either contain "openmpi" or be blank.  Hence, it'll either
+@@ -23,3 +23,8 @@ Libs.private: @OMPI_WRAPPER_EXTRA_LIBS@
+ # redundant (ick), but safe.
+ #
+ Cflags: -I${includedir} -I${includedir}/@OMPI_WRAPPER_EXTRA_INCLUDES@ @OMPI_WRAPPER_EXTRA_CPPFLAGS@ @OMPI_WRAPPER_EXTRA_CFLAGS@
++#
++# Add variables to be queried in specific cases. Match variables in mpich.pc    
++cxxflags= -I -I/@OMPI_WRAPPER_EXTRA_INCLUDES@ @OMPI_WRAPPER_EXTRA_CPPFLAGS@ @OMPI_WRAPPER_EXTRA_CXXFLAGS@
++fcflags= -I -I/@OMPI_WRAPPER_EXTRA_INCLUDES@ @OMPI_WRAPPER_EXTRA_CPPFLAGS@ @OMPI_WRAPPER_EXTRA_FCFLAGS@
++fflags= -I -I/@OMPI_WRAPPER_EXTRA_INCLUDES@ @OMPI_WRAPPER_EXTRA_CPPFLAGS@ @OMPI_WRAPPER_EXTRA_FFLAGS@

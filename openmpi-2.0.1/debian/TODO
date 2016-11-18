@@ -1,0 +1,3 @@
+* moved mpi.mod into the -dev package
+* *.so in /usr/lib/openmpi/lib/openmpi/ should be in a versionned directory
+

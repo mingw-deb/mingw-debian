@@ -1,0 +1,39 @@
+## Compiler wrappers (symlinks) and man pages
+usr/bin/mpic++.openmpi
+usr/share/man/man1/mpic++.openmpi.1
+usr/bin/mpicc.openmpi
+usr/share/man/man1/mpicc.openmpi.1
+usr/bin/mpiCC.openmpi
+# NOTE: mpiCC.openmpi.1 is installed as symlink
+usr/bin/mpicxx.openmpi
+usr/share/man/man1/mpicxx.openmpi.1
+usr/bin/mpif77.openmpi
+usr/share/man/man1/mpif77.openmpi.1
+usr/bin/mpif90.openmpi
+usr/share/man/man1/mpif90.openmpi.1
+usr/bin/mpifort.openmpi
+usr/share/man/man1/mpifort.openmpi.1
+usr/bin/opalc++
+# usr/share/man/man1/opalc++.1
+# NOTE: opalc++.1 is not provided upstream in 1.5.4
+usr/bin/opalcc
+usr/share/man/man1/opalcc.1
+# usr/bin/ortec++ FIXME
+# usr/share/man/man1/ortec++.1
+# usr/bin/ortecc FIXME
+# usr/share/man/man1/ortecc.1
+#usr/bin/orteCC FIXME
+# Note: There's no man page for ortecc
+## Wrappers and man pages
+usr/bin/opal_wrapper
+usr/share/man/man1/opal_wrapper.1
+#sr/bin/orte_wrapper_scripta FIXME
+# NOTE: There's no man page for opal_wrapper_script (upstream, lintian warning)
+## Library headers
+usr/lib/openmpi/include/*
+## .so symlinks
+usr/lib/openmpi/lib/*.so
+## pkg-config .pc files
+usr/lib/openmpi/lib/pkgconfig/*.pc
+# mod files for Fortran
+/usr/lib/openmpi/lib/*.mod

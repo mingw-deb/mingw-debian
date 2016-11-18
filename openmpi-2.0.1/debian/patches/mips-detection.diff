@@ -1,0 +1,45 @@
+Description: Support detection of mips, mipsel, mips64, mips64el architectures
+Author: Jurica Stanojkovic <Jurica.Stanojkovic@imgtec.com>
+Last-Updated: 2016-08-30
+Forwarded: no
+
+Index: openmpi-2.0.1/configure
+===================================================================
+--- openmpi-2.0.1.orig/configure
++++ openmpi-2.0.1/configure
+@@ -31956,8 +31956,13 @@ _ACEOF
+             OPAL_GCC_INLINE_ASSIGN='"mov %0, #0" : "=&r"(ret)'
+             ;;
+ 
+-        mips-*|mips64*)
+-            # Should really find some way to make sure that we are on
++        mips-*|mipsel-*)
++            opal_cv_asm_arch="MIPS"
++            OPAL_ASM_SUPPORT_64BIT=0
++            OPAL_GCC_INLINE_ASSIGN='"or %0,$0,$0" : "=&r"(ret)'
++            ;;
++	
++	mips64-*|mips64el-*)
+             # a MIPS III machine (r4000 and later)
+             opal_cv_asm_arch="MIPS"
+             OPAL_ASM_SUPPORT_64BIT=1
+Index: openmpi-2.0.1/config/opal_config_asm.m4
+===================================================================
+--- openmpi-2.0.1.orig/config/opal_config_asm.m4
++++ openmpi-2.0.1/config/opal_config_asm.m4
+@@ -952,8 +952,13 @@ AC_DEFUN([OPAL_CONFIG_ASM],[
+             OPAL_GCC_INLINE_ASSIGN='"mov %0, #0" : "=&r"(ret)'
+             ;;
+ 
+-        mips-*|mips64*)
+-            # Should really find some way to make sure that we are on
++        mips-*|mipsel-*)
++           opal_cv_asm_arch="MIPS"
++	    OPAL_ASM_SUPPORT_64BIT=0
++	    OPAL_GCC_INLINE_ASSIGN='"or %0,[$]0,[$]0" : "=&r"(ret)'
++	    ;;
++	    
++        mips64-*|mips64el-*)    
+             # a MIPS III machine (r4000 and later)
+             opal_cv_asm_arch="MIPS"
+             OPAL_ASM_SUPPORT_64BIT=1

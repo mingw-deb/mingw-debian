@@ -1,0 +1,104 @@
+Description: Fix problems in manpages
+ In some man page headers, a macro (-*-) is used which makes lintian
+  choke and probably should not be there anyway.
+Author: Alastair McKinstry <mckinstry@debian.org>
+Forwarded: no
+Last-Update: 2016-08-04
+
+Index: openmpi-2.0.1/orte/tools/orterun/orterun.1in
+===================================================================
+--- openmpi-2.0.1.orig/orte/tools/orterun/orterun.1in
++++ openmpi-2.0.1/orte/tools/orterun/orterun.1in
+@@ -1,4 +1,3 @@
+-.\" -*- nroff -*-
+ .\" Copyright (c) 2009-2014 Cisco Systems, Inc.  All rights reserved.
+ .\" Copyright (c) 2008-2009 Sun Microsystems, Inc.  All rights reserved.
+ .\" $COPYRIGHT$
+Index: openmpi-2.0.1/orte/tools/orte-dvm/orte-dvm.1in
+===================================================================
+--- openmpi-2.0.1.orig/orte/tools/orte-dvm/orte-dvm.1in
++++ openmpi-2.0.1/orte/tools/orte-dvm/orte-dvm.1in
+@@ -1,7 +1,7 @@
+-.\” -*- nroff -*-
++.\" -*- nroff -*-
+ .\" Copyright (c) 2009-2014 Cisco Systems, Inc.  All rights reserved.
+ .\" Copyright (c) 2008-2009 Sun Microsystems, Inc.  All rights reserved.
+-.\” Copyright (c) 2015      Intel, Inc. All rights reserved
++.\" Copyright (c) 2015      Intel, Inc. All rights reserved
+ .\" $COPYRIGHT$
+ .\"
+ .\" Man page for ORTE's orte-dvm command
+@@ -100,7 +100,7 @@ Prefix directory that will be used to se
+ \fILD_LIBRARY_PATH\fR on the remote node before invoking the ORTE daemon.
+ .
+ .
+-..P
++.P
+ Setting MCA parameters:
+ .
+ .
+Index: openmpi-2.0.1/ompi/mpi/man/man3/MPI_T_enum_get_info.3in
+===================================================================
+--- openmpi-2.0.1.orig/ompi/mpi/man/man3/MPI_T_enum_get_info.3in
++++ openmpi-2.0.1/ompi/mpi/man/man3/MPI_T_enum_get_info.3in
+@@ -32,7 +32,7 @@ Length of the string and/or buffer for n
+ 
+ .SH OUTPUT PARAMETERS
+ .ft R
+-.TP li
++.TP 1i
+ num
+ number of discrete values represented by this enumeration.
+ .TP 1i
+Index: openmpi-2.0.1/ompi/mpi/man/man3/MPI_T_pvar_get_info.3in
+===================================================================
+--- openmpi-2.0.1.orig/ompi/mpi/man/man3/MPI_T_pvar_get_info.3in
++++ openmpi-2.0.1/ompi/mpi/man/man3/MPI_T_pvar_get_info.3in
+@@ -131,7 +131,7 @@ MPI_T_PVAR_CLASS_GENERIC
+ Variable does not fit into any other class. Can by represented by an type supported by the MPI tool
+ information interface (see DATATYPE). Starting value is variable specific.
+ 
+-For more information see MPI-3 \[char 167] 14.3.7.
++For more information see MPI-3 \[char167] 14.3.7.
+ 
+ .SH DATATYPE
+ .ft R
+Index: openmpi-2.0.1/ompi/mpi/man/man3/MPI_Get.3in
+===================================================================
+--- openmpi-2.0.1.orig/ompi/mpi/man/man3/MPI_Get.3in
++++ openmpi-2.0.1/ompi/mpi/man/man3/MPI_Get.3in
+@@ -79,7 +79,7 @@ window object used for communication (ha
+ 
+ .SH OUTPUT PARAMETER
+ .ft R
+-.TP li
++.TP 1i
+ request
+ MPI_Rget: RMA request
+ .TP 1i
+Index: openmpi-2.0.1/orte/tools/orte-submit/orte-submit.1in
+===================================================================
+--- openmpi-2.0.1.orig/orte/tools/orte-submit/orte-submit.1in
++++ openmpi-2.0.1/orte/tools/orte-submit/orte-submit.1in
+@@ -1,7 +1,7 @@
+ .\" -*- nroff -*-
+ .\" Copyright (c) 2009-2014 Cisco Systems, Inc.  All rights reserved.
+ .\" Copyright (c) 2008-2009 Sun Microsystems, Inc.  All rights reserved.
+-.\” Copyright (c) 2015      Intel, Inc. All rights reserved.
++.\" Copyright (c) 2015      Intel, Inc. All rights reserved.
+ .\" $COPYRIGHT$
+ .\"
+ .\" Man page for ORTE's orte-submit command
+Index: openmpi-2.0.1/ompi/mpi/man/man3/MPI_T_enum_get_item.3in
+===================================================================
+--- openmpi-2.0.1.orig/ompi/mpi/man/man3/MPI_T_enum_get_item.3in
++++ openmpi-2.0.1/ompi/mpi/man/man3/MPI_T_enum_get_item.3in
+@@ -36,7 +36,7 @@ Length of the string and/or buffer for n
+ 
+ .SH OUTPUT PARAMETERS
+ .ft R
+-.TP li
++.TP 1i
+ value
+ Variable value.
+ .TP 1i

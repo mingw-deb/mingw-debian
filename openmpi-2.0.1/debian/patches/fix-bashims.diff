@@ -1,0 +1,33 @@
+Index: openmpi1.6-1.6.3/orte/tools/orte-bootproxy/orte-bootproxy.sh
+===================================================================
+--- openmpi1.6-1.6.3.orig/orte/tools/orte-bootproxy/orte-bootproxy.sh	2012-04-03 16:30:31.000000000 +0200
++++ openmpi1.6-1.6.3/orte/tools/orte-bootproxy/orte-bootproxy.sh	2012-11-07 15:44:16.847838743 +0100
+@@ -4,7 +4,7 @@
+ # Copyright (c) 2009      Cisco Systems, Inc.  All rights reserved.
+ #
+ 
+-if (( $# < 1 )) ; then
++if test $# -lt 1; then
+     echo "orte-bootproxy.sh: for OMPI internal use only"
+     exit 1
+ fi
+@@ -69,12 +69,13 @@
+ fi
+ 
+ # push all MCA params to the environment
+-while [ "${var:0:5}" = "OMPI_" ]; do
+-    if [ "${var:5:6}" = "PREFIX" ]; then
+-        export LD_LIBRARY_PATH="${var:12}"/lib:$LD_LIBRARY_PATH
+-        export PATH="${var:12}"/bin:$PATH
+-    elif [ "${var:5:4}" = "WDIR" ]; then
+-        cd "${var:10}"
++while [ "$(echo $var | awk  '{ string=substr($0, 1, 5); print string; }' )" = "OMPI_" ]; do
++    if [ "$(echo $var | awk  '{ string=substr($0, 6, 6); print string; }' )" = "PREFIX" ]; then
++        TMP_PATH=$(echo $var | awk  '{ string=substr($0, 1, 12); print string; }' )
++        export LD_LIBRARY_PATH="$TMP_PATH"/lib:$LD_LIBRARY_PATH
++        export PATH="$TMP_PATH"/bin:$PATH
++    elif [ "$(echo $var | awk  '{ string=substr($0, 5, 4); print string; }' )" = "WDIR" ]; then
++        cd "$(echo $var | awk  '{ string=substr($0, 1, 10); print string; }' )"
+     else
+         export $var
+     fi
