@@ -1,0 +1,1255 @@
+openmpi (2.0.1-8) experimental; urgency=medium
+
+  * Disable java on hurd-i386. Closes: #842746.
+  * Test building with psm support on amd64, intel
+
+ -- Alastair McKinstry <mckinstry@debian.org>  Thu, 03 Nov 2016 09:16:55 +0000
+
+openmpi (2.0.1-7) unstable; urgency=medium
+
+  * Link libfabric. Closes: #841643
+
+ -- Alastair McKinstry <mckinstry@debian.org>  Fri, 21 Oct 2016 19:01:25 +0100
+
+openmpi (2.0.1-6) experimental; urgency=medium
+
+  * Enable BTL unit tests
+  * Build against external libevent (>= 2.1 in experimental)
+
+ -- Alastair McKinstry <mckinstry@debian.org>  Wed, 14 Sep 2016 05:40:27 +0100
+
+openmpi (2.0.1-5) unstable; urgency=medium
+
+  * Fix for wait that breaks mpi4py. Closes: #837536.
+  * Incorrect SONAME links. Patch thanks to Andread Beckmann.
+    Closes: #837525
+  * Build with java bindings on mipsel, but not hppa. Closes: #837446
+
+ -- Alastair McKinstry <mckinstry@debian.org>  Mon, 12 Sep 2016 07:54:45 +0100
+
+openmpi (2.0.1-4) unstable; urgency=medium
+
+  * Fixes for build_hurd. Also, don't run tests on hurd
+  * Remove buggy ${pkgincludedir} references from pkgconfig files.
+    Closes: #837062.
+  * Add Breaks/Replaces for libopenmpi1.6 to -dev. Closes: #837392
+
+ -- Alastair McKinstry <mckinstry@debian.org>  Sun, 11 Sep 2016 11:32:28 +0100
+
+openmpi (2.0.1-3) unstable; urgency=medium
+
+  * libopen-pal.so link broken due to typo.
+  * Re-enable rest of hurd patch (non hostnamelen parts)
+  * commit missed: Don't run tests on slow hppa
+
+ -- Alastair McKinstry <mckinstry@debian.org>  Tue, 06 Sep 2016 10:58:45 +0100
+
+openmpi (2.0.1-2) experimental; urgency=medium
+
+  * Fix for powerpc/--enable-mpi-cxx FTBFS.
+  * Don't run tests on slow hppa
+
+ -- Alastair McKinstry <mckinstry@debian.org>  Mon, 05 Sep 2016 15:33:00 +0100
+
+openmpi (2.0.1-1) experimental; urgency=medium
+
+  * New upstream release 
+    - soversion patch now merged upstream.
+    - build_hurd patch obsoleted/merged upstream.
+    - arm patches now merged upstream
+    - update soversion minor numbers
+  * Ship libmpi_java shared library
+  * regression: oshmem ships on Linux only; make conditional in rules
+  * Make java conditional; not on mipsel (segfaults there, fails on hppa)
+  * Adapt arm64 atomics patch for  new ifdefs.
+
+ -- Alastair McKinstry <mckinstry@debian.org>  Sun, 04 Sep 2016 16:35:04 +0100
+
+openmpi (2.0.0-6) experimental; urgency=medium
+
+  * Fix --with-fabric; regression
+
+ -- Alastair McKinstry <mckinstry@debian.org>  Thu, 01 Sep 2016 05:36:34 +0100
+
+openmpi (2.0.0-5) experimental; urgency=medium
+
+  * More ompi -> opal_ changes ;  need testing
+  * --verbs conditional support was also inverted
+  * conditional syntax: --with-jdk-dir, not --with-jdk
+  * --enable-builtin-atomics : test against mips, powerpc lockups
+
+ -- Alastair McKinstry <mckinstry@debian.org>  Wed, 31 Aug 2016 09:24:53 +0100
+
+openmpi (2.0.0-4) experimental; urgency=medium
+
+  * Test versioning patch
+  * Change OMPI_ -> OPAL_ names in patches for opal/ directory; 
+
+ -- Alastair McKinstry <mckinstry@debian.org>  Tue, 30 Aug 2016 02:46:59 +0100
+
+openmpi (2.0.0-3) experimental; urgency=medium
+
+  * Remove obsolete /empty patches that were unused from debian/patches
+  * Build-Depend on pkg-config
+  * Fix more manpage macros
+  * Ensure --fabric only used on amd64, i386 not the other way round ...
+  * Include libmca_common_libfabric.so.20.* library and link 
+  * Create lib*verbs, lib*fabric symlinks only on archs where lib is included.
+  * Don't ship libmca_*.so files; private interface only.
+
+ -- Alastair McKinstry <mckinstry@debian.org>  Thu, 04 Aug 2016 04:05:23 +0100
+
+openmpi (2.0.0-2) experimental; urgency=medium
+
+  * Build against libfabric only on amd64
+  * B-D on default-jdk to build java,  set --enable-mpi-java
+  * Fix manpage issues. Merge manpage change patches
+  * Change ompitrace soname 0 -> 20. Closes: #832235
+  * Need autotools-dev for ompitrace fix. 
+  * 2.0.0 obsoletes old bug. Closes: #826007
+  * Fix verbs support on KFreeBSD. Closes:  #826202
+  * ompi now uses gcc atomics where available. Closes: #405929.
+  * Move .mod files from libopenmpi1.10, libopenmpi2 to -dev.
+  * Add conflicts/replaces on libopenmpi1.10 to cope.
+
+ -- Alastair McKinstry <mckinstry@debian.org>  Tue, 02 Aug 2016 12:52:24 +0100
+
+openmpi (2.0.0-1) experimental; urgency=medium
+
+  * New upstream release
+   - Patch refresh. 
+   - Alpha no longer supported in 2.0
+   - libopenmpi1.10 -> libopenmpi2
+   - Thread support : now --enable-mpi-thread-support
+   - libnuma is dropped; discovered through hwloc
+   - manual page changes for -doc package
+  * Add Apache license for Java/* code
+
+ -- Alastair McKinstry <mckinstry@debian.org>  Sun, 17 Jul 2016 08:45:06 +0100
+
+openmpi (1.10.3-2) unstable; urgency=medium
+
+  Fix missing shlib version change:
+  * _tkr moved from 6.1.1 -> 6.2.0
+
+ -- Alastair McKinstry <mckinstry@debian.org>  Thu, 16 Jun 2016 12:46:06 +0100
+
+openmpi (1.10.3-1) unstable; urgency=medium
+
+  * New upstream release
+   - patch opal_thread_add64.patch merged upstream
+   - mpi_win.patch merged upstream
+  * Shlib version changes:
+   - libmpi 12.0.2 -> 12.0.3
+   - libmpi_mpifh 12.0.0 -> 12.0.1
+   - libmpi_usempif08 11.1.0 -> 11.1.1
+   - libmpi_usempi_ignore_tkr 6.1.0 -> 6.2.0
+   - libopen-pal 13.0.2 -> 13.0.3
+   - libopen-rte.so 12.0.2 -> 12.0.3
+   - liboshmem.so 8.1.0 -> 8.1.1
+
+ -- Alastair McKinstry <mckinstry@debian.org>  Thu, 16 Jun 2016 07:12:57 +0100
+
+openmpi (1.10.2-15) unstable; urgency=medium
+
+  * Regression: liboshmem.so.8.1.0 not shipped. Closes: #825575
+  * Build against libfabric-dev where possible.
+  * Fix: bad regex check on list meant not building against verbs
+    on some archs.
+
+ -- Alastair McKinstry <mckinstry@debian.org>  Thu, 02 Jun 2016 06:44:30 +0100
+
+openmpi (1.10.2-14) unstable; urgency=medium
+
+  * Standards-Version: 3.9.8. No changes required
+  * Reproducible builds: Sort glob'bed filelists.
+  * Add Breaks/Replaces for libopenmpi1 (lenny upgrade). Closes: #822913.
+  * Undo mips chrpath workaround. Closes: #818909
+  * Ack. fixed bug. Closes: #818935.
+  * Close obsolete bug; cannot occur with openmpi1.10. Closes: 801988.
+
+ -- Alastair McKinstry <mckinstry@debian.org>  Tue, 24 May 2016 13:31:19 +0100
+
+openmpi (1.10.2-13) unstable; urgency=medium
+
+  * Fix chrpath on mips64el, mipsel too. Closes: #818909
+
+ -- Alastair McKinstry <mckinstry@debian.org>  Sat, 09 Apr 2016 12:14:48 +0100
+
+openmpi (1.10.2-12) unstable; urgency=medium
+
+  * Workaround for chrpath problem on mips. Closes: #818909
+
+ -- Alastair McKinstry <mckinstry@debian.org>  Thu, 07 Apr 2016 14:11:30 +0100
+
+openmpi (1.10.2-11) unstable; urgency=medium
+
+  * Typo in install file. Thanks to Patrice DUROUX. Closes: #817020.
+
+ -- Alastair McKinstry <mckinstry@debian.org>  Tue, 14 Mar 2016 08:03:38 +0000
+
+openmpi (1.10.2-10) experimental; urgency=medium
+
+  * test fix for big-endian systems problem on mpi4py
+
+ -- Alastair McKinstry <mckinstry@debian.org>  Fri, 11 Mar 2016 14:02:42 +0000
+
+openmpi (1.10.2-9) unstable; urgency=medium
+
+  * Drop Suggests: for openmpi-checkpoint, which no longer exists.
+    Closes: #816648.
+  * libopenmpi1.10: Depend on libhwloc-plugins. Closes: #790540.
+  * opal_thread_add64.patch: Fix for OPAL_THREAD_ADD64 not
+    defined on 32-bit systems. Closes: #816303.
+  * Fix broken symlinks in -dev package. Closes: #817020.
+  * Fix arch- and bin-only builds (debian/rule). Closes: #816985.
+  * Drop unreproducible ia64 bug report. Closes: #720419.
+
+ -- Alastair McKinstry <mckinstry@debian.org>  Wed, 09 Mar 2016 11:00:41 +0000
+
+openmpi (1.10.2-8) unstable; urgency=medium
+
+  * Don't ship opal.pc link that conflicts with libopal-dev. Closes: #814515
+  * openmpi-doc breaks/replaces openmpi-checkpoint (<< 1.10.2).
+    Closes: #814518.
+
+ -- Alastair McKinstry <mckinstry@debian.org>  Wed, 17 Feb 2016 11:45:09 +0000
+
+openmpi (1.10.2-7) unstable; urgency=medium
+
+  * x32 support from Adam Borowski. Closes: #814332.
+
+ -- Alastair McKinstry <mckinstry@debian.org>  Wed, 10 Feb 2016 13:40:56 +0000
+
+openmpi (1.10.2-6) unstable; urgency=medium
+
+  * libopenmpi-dev recommends openmpi-doc. Closes: #813929.
+  * Fix formatting errors in man pages.  Silences lintian :-)
+  * Define PATH_MAX in ompi_config.h and other fixes for Hurd.
+  * Change packages to Arch: any so s390x can build. Closes: #813734.
+  * Test suite enabled, so Closes: #719896.
+  * Close old bugs as we now support hppa, s390: Closes: #376833, #389306.
+  * Build-Conflict on libmpich-dev.
+
+ -- Alastair McKinstry <mckinstry@debian.org>  Sat, 06 Feb 2016 02:09:58 +0000
+
+openmpi (1.10.2-5) unstable; urgency=medium
+
+  * Do not use --with-verbs on s390x.
+  * Enable test suite. Do initial run as experimental to see what breaks :-(
+
+ -- Alastair McKinstry <mckinstry@debian.org>  Fri, 05 Feb 2016 11:48:41 +0000
+
+openmpi (1.10.2-4) unstable; urgency=medium
+
+  * Change to Arch: any, as s390x, builds. Closes: #813694.
+  * Standards-Version: 3.9.7
+
+ -- Alastair McKinstry <mckinstry@debian.org>  Thu, 04 Feb 2016 12:59:21 +0000
+
+openmpi (1.10.2-3) unstable; urgency=medium
+
+  * Add missing links to .pc files in /usr/lib/pkgconfig
+  * Disable --with-verbs on kFreeBSD, Hurd.
+  * Update openmpi-docs man pages
+  * Add links for mpifort. Closes: #813060, #813057.
+  * Fix alternatives in postinst. Closes: #734096
+  * Delete torque deps in rules; Closes: #769578
+  * Close old bug - mpicc-wrapper data no longer contains /usr/lib.
+    Closes: #812991.
+
+ -- Alastair McKinstry <mckinstry@debian.org>  Mon, 01 Feb 2016 18:41:01 +0000
+
+openmpi (1.10.2-2) unstable; urgency=medium
+
+  * libopenmpi1.10 conflicts with libopenmpi1.6. Closes: #813042.
+  * Fixes for hppa, hurd patches.
+  * checkpoint/restart disabled - lack of upstream maintenance support
+    since 1.7+.
+  * Drop references to tools no longer shipped in 1.10.2
+  * oshmem only supported on Linux, so only try to install on Linux, not
+    Hurd or KFreeBSD
+
+ -- Alastair McKinstry <mckinstry@debian.org>  Fri, 29 Jan 2016 04:29:18 +0000
+
+openmpi (1.10.2-1) experimental; urgency=medium
+
+  * New upstream release. 
+    Closes: #753001, #796982, #796985, #659134,  #657625,  #584702,
+    Closes: #579505.
+    LP: #1365152, #1390198 
+  * Patch refresh:
+    - ompi_autogen_sh.patch. Disabled as unnecessary
+    - fix-bashims.diff: upstream code removed
+    - fix-testsuite-compile : fixed upstream
+    - mips-support-upstream-1.7.3.diff: fixed upstream
+    - mips-support-fix.diff : ditto
+    - ppc64el-support.patch : ditto
+  * Change package names 1.6 -> 1.10
+  * Close Ophaning bug. Set myself as Maintainer, team as Uploaders.
+      Closes: #810079.
+  * Include HPPA support from Helge Deller. Closes: #776730.
+  * Replace __DATE__ with $(DEBIAN_VERSION) in debug output to make
+    build bit-reproducible.
+  * libopenmp1.6 recommends openmpi-common; needed for programs to run.
+     LP: #398095.
+  * Ack. that torque support is dropped. Closes: #767411. Presume that
+    openmpi will be informed if a new Torque is introduced to stretch,++.
+  * Set --with-ldtl=/usr/ not external; not detected otherwise ?
+  * Drop -dbg package as automatic -dbsym packages now generated.
+
+ -- Alastair McKinstry <mckinstry@debian.org>  Tue, 26 Jan 2016 11:23:11 +0000
+
+openmpi (1.6.5-11) unstable; urgency=medium
+
+  * Build against gcc,gfortran5 for transition. 
+
+ -- Alastair McKinstry <mckinstry@debian.org>  Mon, 10 Aug 2015 07:55:56 +0100
+
+openmpi (1.6.5-10) unstable; urgency=medium
+
+  * Acknowledge taking maintainership. Closes: #766859.
+  * Ack. patch from Willi Mann that fixes FTBFS. Closes: #782653.
+  * Move to debhelper compatabililty level 9.
+  * Use 'xz' compression
+  * Depend on libibverbs >= 1.1.7 for libibverbs ABI change (From Ubuntu)
+
+ -- Alastair McKinstry <mckinstry@debian.org>  Mon, 22 Jun 2015 18:56:29 +0100
+
+openmpi (1.6.5-9.2) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * libopenmpi1.6: Fix two incorrect soname links.  (Closes: #736675)
+  * openmpi-common: Set Multi-Arch: foreign.  (Closes: #769378)
+
+ -- Andreas Beckmann <anbe@debian.org>  Tue, 25 Nov 2014 12:42:38 +0100
+
+openmpi (1.6.5-9.1) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Disable torque support (see #767411).
+
+ -- Julien Cristau <jcristau@debian.org>  Fri, 14 Nov 2014 17:57:11 +0100
+
+openmpi (1.6.5-9) unstable; urgency=medium
+
+  * Add myself as uploader.
+  * Standards-Version: 3.9.6; no changes required.
+  * Rebuild against lastest gfortran. Closes: #647908, #675115.
+  * Patch for mpi.pc support. Closes: #752785.
+  * Patch from Michael Cree to fix bad atomic ops on Alpha that
+    causes mpi4py to segfault. Closes: #754524.
+
+ -- Alastair McKinstry <mckinstry@debian.org>  Tue, 28 Oct 2014 11:07:44 +0000
+
+openmpi (1.6.5-8) unstable; urgency=low
+
+  [ Dimitri John Ledkov ]
+  * Set ppc64el gnu-type to use ppc atomics code-path.
+  * Attempt ppc64el build.
+
+  [ Sylvestre Ledru ]
+  * Sync changes from Ubuntu (it would be nice to have contribution
+    directly in Debian btw)
+  * Fix a link issue on libopen-pal.so (Closes: #733086)
+  
+ -- Sylvestre Ledru <sylvestre@debian.org>  Thu, 26 Dec 2013 14:29:07 +0100
+
+openmpi (1.6.5-7) unstable; urgency=low
+
+  [ Logan Rosen ]
+  * Bring over Ubuntu changes from openmpi1.6:
+    - Call dh_shlibdeps with -lfoo to not break fakeroot.
+    - Add basic AArch64 support (Leif Lindholm).
+    - Use and install AArch64 header files, not ARM header files.
+
+  [ Adam Conrad ]
+  * Remove unnecessary fakeroot from dh_shlibdeps call.
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Wed, 18 Dec 2013 12:10:47 -0500
+
+openmpi (1.6.5-6) unstable; urgency=low
+
+  * Add the support of mips64 & mips64el. (Closes: #727141)
+    Thanks to YunQiang Su
+  * Also support of mips & mipsel. Thanks to Jurica Stanojkovic
+    (Closes: #732027)
+  * Fix an upgrade issue (Closes: #730622)
+  * Standards-Version updated to 3.9.5
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Wed, 04 Dec 2013 18:14:59 +0100
+
+openmpi (1.6.5-5) unstable; urgency=low
+
+  * Fix the incorrect symlink in libopenmpi1.6 (Closes: #722888)
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Sat, 14 Sep 2013 18:54:05 +0200
+
+openmpi (1.6.5-4) unstable; urgency=low
+
+  * Fix again the HURD build. Thanks to Pino Toscano (Closes: #720395)
+  * orte_snapc manpage has moved from openmpi-checkpoint to openmpi-doc
+    (Closes: #717978)
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Wed, 28 Aug 2013 08:54:09 +0200
+
+openmpi (1.6.5-3) unstable; urgency=low
+
+  * Increase the priority of the libopenmpi-dev package to make sure OpenMPI
+    is used before mpich. Otherwise, it causes issues like:
+    «PKGBUILDDIR»/./src/mpi.c:143: undefined reference to `ompi_mpi_comm_world'
+    «PKGBUILDDIR»/./src/mpi.c:143: undefined reference to `ompi_mpi_double'
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Tue, 20 Aug 2013 13:39:25 +0200
+
+openmpi (1.6.5-2) unstable; urgency=low
+
+  * Update of the HURD port (Closes: #719797)
+  * Fix path mistakes on libmpi_f90 (Closes: #720124)
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Sat, 17 Aug 2013 19:35:24 +0200
+
+openmpi (1.6.5-1) unstable; urgency=low
+
+  * Upload to unstable (will need a transition)
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Thu, 15 Aug 2013 08:55:11 +0200
+
+openmpi (1.6.5-1~exp2) experimental; urgency=low
+
+  * quilt as dependency is not necessary
+  * Limit the usage of libibverbs-dev on Linux kernels
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Thu, 11 Jul 2013 09:36:23 +0200
+
+openmpi (1.6.5-1~exp1) experimental; urgency=low
+
+  * New upstream release
+  * Build-Conflicts libopenmpi1.3 (avoid wrong dependencies)
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Mon, 01 Jul 2013 09:43:57 +0200
+
+openmpi (1.6.4+-1~exp1) experimental; urgency=low
+
+  * Upload the 1.6 release over the 1.4
+    Note that this will require a transition
+  * Standards-Version updated to 3.9.4
+  * Add libfakeroot path to the LD_LIBRARY_PATH
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Tue, 04 Jun 2013 17:16:16 +0200
+
+openmpi1.6 (1.6.4-2) unstable; urgency=low
+
+  * Inconsistency in debian/libopenmpi1.6.install.
+    Thanks Hiroyuki Yamamoto (Closes: #704936)
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Thu, 11 Apr 2013 16:02:35 +0200
+
+openmpi1.6 (1.6.4-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Fri, 22 Feb 2013 09:27:09 +0100
+
+openmpi1.6 (1.6.3-3) unstable; urgency=low
+
+  * Rename manpages to avoid conflicts with mpich2-doc (Closes: #692937)
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Fri, 16 Nov 2012 17:42:56 +0100
+
+openmpi1.6 (1.6.3-2) unstable; urgency=low
+
+  * Bring back manpages for MPI functions (LP: #1027289)
+  * Remove mca_rml_ftrm.so on ia64 & sparc
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Fri, 09 Nov 2012 14:09:11 +0100
+
+openmpi1.6 (1.6.3-1) unstable; urgency=low
+
+  * New upstream release
+  * Fix bashims (Closes: #690929)
+  * Remove mca_pml_crcpw.so on ia64 & sparc
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Wed, 07 Nov 2012 11:50:54 +0100
+
+openmpi1.6 (1.6.2-2) unstable; urgency=low
+
+  * Remove mca_grpcomm_hier.so on all archs
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Sat, 29 Sep 2012 14:03:42 +0200
+
+openmpi1.6 (1.6.2-1) unstable; urgency=low
+
+  * New upstream release
+  * Add dpkg-dev (>= 1.16.1~) dependency (hardening)
+  * Enable hardening flags (but not taken in account everywhere)
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Sat, 29 Sep 2012 09:40:58 +0200
+
+openmpi1.6 (1.6.1-1) unstable; urgency=low
+
+  * New upstream release
+  * Some libs have been removed from upstream: mca_rmcast_tcp.so,
+    mca_rmcast_udp.so & mca_io_romio.so
+  * Remove fix_orte_default_hostfile_path.diff (applied upstream)
+  * Switch to automake as build dependency
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Thu, 23 Aug 2012 15:49:02 +0200
+
+openmpi1.6 (1.6-4) unstable; urgency=low
+
+  * Update library list for sparc & ia64
+  * --enable-mpi-threads -> --enable-opal-multi-threads
+  * --enable-ft-thread is needed to have a similar level of checkpointing as 
+    before
+    Thanks to Matthieu Volat for the two last changes
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Sun, 01 Jul 2012 14:38:42 +0200
+
+openmpi1.6 (1.6-3) unstable; urgency=low
+
+  * Try another change in the detection of armel (v5 instead of v6)
+  * Fix a problem in the default hostfile with orte. Thanks to Matthieu Volat
+    for the patch
+  * Update lib library for sparc, armhf and armel 
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Wed, 27 Jun 2012 22:34:28 +0200
+
+openmpi1.6 (1.6-2) unstable; urgency=low
+
+  * Update the detection of armel & armhf (See arm_detection.diff)
+  * Add the dependency on hwloc-dev from libopenmpi1.6-dev (Closes: #677744)
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Mon, 25 Jun 2012 13:47:07 +0200
+
+openmpi1.6 (1.6-1) unstable; urgency=low
+
+  * Sync from Ubuntu (which has been uploaded with a new name).
+  * Rename openmpi 1.5 => 1.6
+  * Standards-Version updated to version 3.9.3
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Wed, 06 Jun 2012 17:45:07 +0200
+
+openmpi1.5 (1.5.4-0ubuntu1) precise; urgency=low
+
+  [ Robie Basak ]
+  * Fork new openmpi1.5 package for co-existence with openmpi 1.4
+    (LP: #889644).
+  * Move required plugins from openmpi-checkpoint to libopenmpi1.5-2:
+    - d/control: openmpi-checkpoint now depends on libopenmpi1-5-2
+    - d/libopenmpi1.5-2.install*: switch to wildcard plugin install, drop
+      specific install files for armel and armhf.
+    - d/openmpi-checkpoint.install: Don't install any plugins.
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Fri, 18 May 2012 17:06:10 +0200
+
+openmpi (1.5.4-2~exp2) experimental; urgency=low
+
+  [ Manuel Prinz ]
+  * Fixed dangling symlinks. Thanks to Roderich Schupp for the patch!
+    Closes: #658594.
+  
+  [ James Pages ]
+  * The checks for FAKEROOT introduced to fix this bug upstream are
+     preceeded by a new check that calls stat re-producing the original bug.
+     Re-ordering the checks to ensure that FAKEROOT is detected first
+     appears to resolve this issue.
+     Closes: #658600.
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Sun, 19 Feb 2012 15:42:41 +0100
+
+openmpi (1.5.4-2~exp1) experimental; urgency=low
+
+  [ Manuel Prinz ]
+  * Moved all CR components from libopenmpi2 to openmpi-checkpoint. Fixes the
+    build issue on ia64.
+
+  [ Jani Monoses ]
+  * Build for armhf as well.
+  * Add armel/armhf specific libopenmpi2.install files.
+  * debian/patches/configure_arm_fix.patch: Fix arm FTBFS.
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Tue, 24 Jan 2012 16:34:52 +0100
+
+openmpi (1.5.4-1) experimental; urgency=low
+
+  * New upstream release. Closes: #619998.
+    - ABI changes, bumped SONAME.
+  * Changes in packaging:
+    - Using "3.0 (quilt)" source format.
+    - Deleted README.source (obsolete).
+    - Updated watch file.
+    - Bumped Standards-Version to 3.9.2. No changes needed.
+    - Changed hard-coded list of non-Linux architectures in Build-Depends to
+      "linux-any". Closes: #634628.
+    - openmpi-bin now "Suggests" openmpi-checkpoint instead of recommending it.
+    - Deleted shlibs.local (obsolete).
+    - Updated debian/copyright.
+    - Updated patches.
+    - Substituted "OpenMPI" with "Open MPI" (official writing).
+    - Fixed a small bug when calling dh_installdocs. Thanks to Jean-Louis Dupond
+      for the patch! Closes: #634899.
+    - Dropped .la files (no rdepends with .la files). Closes: #628070.
+    - Build against libltdl and libhwloc provided by Debian.
+  * Acknowledge NMU. Thanks to Riku Voipio!
+  * Builds support for GridEngine. Closes: #626164.
+  * Enabled support for MPI threads. Closes: #602132.
+
+ -- Manuel Prinz <manuel@debian.org>  Wed, 21 Dec 2011 00:38:25 +0100
+
+openmpi (1.4.3-2.1) unstable; urgency=low
+
+  * Non-maintainer upload
+  * Add openmpi link fix, closes: #621978
+    - Thanks to Daniel Schepler <dschepler@gmail.com>
+  * Add arm support from ubuntu, closes: #617779
+    - Thanks to Jani Monoses <jani@ubuntu.com>
+
+ -- Riku Voipio <riku.voipio@iki.fi>  Wed, 20 Apr 2011 19:53:03 +0300
+
+openmpi (1.4.3-2) unstable; urgency=low
+
+  * Fixed symlinks for shared libraries. Thanks to Matthias Klose
+    for the patch! Closes: #608717, #609830.
+  * Fixed symlink loop in openmpi-checkpoint. Closes: #611454.
+
+ -- Manuel Prinz <manuel@debian.org>  Fri, 11 Mar 2011 14:45:20 +0100
+
+openmpi (1.4.3-1) unstable; urgency=low
+
+  * New upstream release.
+  * Removed the following patches, all applied upstream:
+    - build_kfreebsd
+    - manpage-errors-checkpoint
+    - manpage-errors-macro
+    - manpage-errors-whatis
+    - manpage-spelling-errors
+    - var-copy
+  * Added a patch that fixes man page issues.
+  * Added sparc64 to Architecture list. Thanks to Aurelien Jarno for
+    the patch! Closes: #596134.
+
+ -- Manuel Prinz <manuel@debian.org>  Wed, 15 Dec 2010 18:50:16 +0100
+
+openmpi (1.4.2-4) unstable; urgency=low
+
+  * Added patch to remove use of AS_VAR_GET. Closes: #592892.
+  * debian/control: Added powerpcspe to architecture list. Thanks to
+    Sebastian Andrzej Siewior for the patch! Closes: #593481.
+  * Build with support for Torque (except on HURD). Closes: #592887.
+  * Updated Standards-Version to 3.9.1. No changes needed.
+
+ -- Manuel Prinz <manuel@debian.org>  Wed, 01 Sep 2010 17:53:44 +0200
+
+openmpi (1.4.2-3) unstable; urgency=low
+
+  * Fixed build issue on kFreeBSD. Closes: #589467.
+  * Added and updated patch meta-information.
+
+ -- Manuel Prinz <manuel@debian.org>  Tue, 20 Jul 2010 17:31:52 +0200
+
+openmpi (1.4.2-2) unstable; urgency=low
+
+  * Fixed broken broken library symlinks. Closes: #589319.
+
+ -- Manuel Prinz <manuel@debian.org>  Fri, 16 Jul 2010 20:49:24 +0200
+
+openmpi (1.4.2-1) unstable; urgency=low
+
+  * New upstream release. Closes: #585800.
+  * Updated patches.
+  * Updated Standards-Version. No changes needed.
+  * Install previously uninstalled files. Closes: #589043.
+  * Fixed several errors in man pages.
+
+ -- Manuel Prinz <manuel@debian.org>  Thu, 15 Jul 2010 17:19:23 +0200
+
+openmpi (1.4.1-3) unstable; urgency=low
+
+  * Added slave alternatives symlinks for MPI FORTRAN libraries.
+    Thanks to Adam C. Powell, IV for the patch! Closes: #563705.
+  * Recommend openmpi-checkpoint only on available architectures.
+  * Increased update-alternatives priority of libopenmpi-dev.
+
+ -- Manuel Prinz <manuel@debian.org>  Thu, 25 Mar 2010 16:32:21 +0100
+
+openmpi (1.4.1-2) unstable; urgency=low
+
+  * Fixed build issues on HURD. Thanks to Pino Toscano for the patch!
+    Closes: #552397.
+  * Recreate autotools stuff during build. Added autoconf, automake,
+    libtool and libltdl-dev to Build-Depends.
+  * openmpi-checkpoint now depends on blcr-util. Closes: #572229.
+  * Fixed symlink issues with ompi-{checkpoint,restart}. Closes: #572021.
+  * Retroactively adding LP entries to close bugs in Ubuntu's Launchpad.
+
+ -- Manuel Prinz <manuel@debian.org>  Thu, 18 Mar 2010 17:57:30 +0100
+
+openmpi (1.4.1-1) unstable; urgency=low
+
+  [ Sylvestre Ledru ]
+  * New upstream release. Libtool patch removed, included upstream.
+  * Watch file updated.
+
+  [ Manuel Prinz ]
+  * Bumped Standards-Version to 3.8.4. No changes needed.
+  * Updated section on alternatives in README.Debian.
+  * Removed conflict with libopal-dev in libopenmpi-dev. Closes: #559161.
+  * Removed conflict with ancient pgapack in libopenmpi-dev.
+  * Fixed several spelling-error-in-manpage lintian warnings.
+  * Deleted man pages provided by Debian, all included upstream.
+  * Changed .install files to match soname bumps. The soname bumps were
+    introduced by upstream to follow the libtool versioning guidelines.
+    The ABI did not change and recompilations of rdepends are not needed.
+  * Compile with support for heterogeneous environments and memory affinity.
+    LP: #419074.
+  * Provide symlinks for orte-{checkpoint,restart} for smoother transition.
+    The tools were merged with ompi-{checkpoint,restart}.
+  * Added ${misc:Depends} everywhere so lintian is happy.
+
+ -- Manuel Prinz <manuel@debian.org>  Tue, 16 Feb 2010 17:59:12 +0100
+
+openmpi (1.3.3-4) unstable; urgency=medium
+
+  * Fixed security issue in copy of libtool, see CVE-2009-3736.
+    Closes: #559836.
+
+ -- Manuel Prinz <manuel@debian.org>  Tue, 08 Dec 2009 00:58:02 +0100
+
+openmpi (1.3.3-3.1) unstable; urgency=low
+
+  * Non-maintainer upload with the maintainer's permission.
+  * Improve alternatives upgrade.
+
+ -- Lucas Nussbaum <lucas@lucas-nussbaum.net>  Thu, 19 Nov 2009 16:44:20 -0600
+
+openmpi (1.3.3-3) unstable; urgency=low
+
+  * Removed mpiexec alternative, as discussed in #552429. It is now a slave
+    of the mpirun master alternative. Also raised the priority to 40, along
+    with MPICH2. Closes: #493876.
+
+ -- Manuel Prinz <manuel@debian.org>  Wed, 11 Nov 2009 21:16:59 +0100
+
+openmpi (1.3.3-2) unstable; urgency=low
+
+  * Removing ancient mpirun alternatives in preinst. Closes: #534740, #544372.
+  * Build with BLCR support on supported architectures. The openmpi-checkpoint
+    package includes the binaries for checkpointing and documentation. Many
+    thanks to Alan Woodland for the implementation! Closes: #545919.
+  * Added a README.source file.
+  * Empty dependency_libs in .la files.
+
+ -- Manuel Prinz <manuel@debian.org>  Tue, 13 Oct 2009 20:50:51 +0200
+
+openmpi (1.3.3-1) unstable; urgency=low
+
+  * New upstream version
+  * Change of my email address since I am now DD    
+  * Standards-Version updated to 3.8.3
+  * XS-Dm-Upload-Allowed tag removed
+  * Patch disable-memory-allocator (see bug #531522) removed. Applied upstream
+
+ -- Sylvestre Ledru <sylvestre@debian.org>  Sat, 29 Aug 2009 18:39:48 +0200
+
+openmpi (1.3.2-4) unstable; urgency=low
+
+  [ Cyril Brulebois ]
+  * Fix installability of libopenmpi-dev on non-Linux architectures, where
+    libibverbs-dev isn't built (due to its being Linux-specific) by removing
+    the latter from the dependencies of the former for kfreebsd-* and
+    hurd-i386 (for reference, that was already done for Build-Depends).
+    (Closes: #535225)
+
+ -- Sylvestre Ledru <sylvestre.ledru@inria.fr>  Tue, 30 Jun 2009 23:52:42 +0200
+
+openmpi (1.3.2-3) unstable; urgency=low
+
+  * Re-uploading, as last upload was not successful.
+  * Acknowledgement of NMU. Thanks to Steve M. Robbins for the patches and
+    NMUs! Closes: #531522.
+  * Removing ancient mpicc, mpiCC and mpiexec master alternatives in preinst.
+    Closes: #531184, #532008, #532910.
+  * debian/control: Bumped Standards-Version. No changes needed.
+  * Fixed typo in README.Debian of openmpi-bin.
+
+ -- Manuel Prinz <manuel@debian.org>  Wed, 24 Jun 2009 00:33:23 +0200
+
+openmpi (1.3.2-2.2) unstable; urgency=low
+
+  * Non-Maintainer Upload (NMU)
+  * debian/patches/disable-memory-allocator: Replace with improved patch
+    from upstream.
+
+ -- Steve M. Robbins <smr@debian.org>  Sun, 21 Jun 2009 13:08:05 -0500
+
+openmpi (1.3.2-2.1) unstable; urgency=low
+
+  * Non-Maintainer Upload (NMU)
+  * debian/patches/disable-memory-allocator: New.  Patch
+    opal/mca/memory/ptmalloc2/hooks.c to add check for environment
+    variable OMPI_MCA_disable_memory_allocator.  If set, avoid setting up
+    malloc hooks and avoid stat() calls from the malloc init hook.
+    Closes: #531522.
+
+ -- Steve M. Robbins <smr@debian.org>  Wed, 17 Jun 2009 22:03:31 -0500
+
+openmpi (1.3.2-2) unstable; urgency=low
+
+  * Upload to unstable. No changes compared to 1.3.2-1.
+
+ -- Manuel Prinz <manuel@debian.org>  Thu, 28 May 2009 12:28:37 +0200
+
+openmpi (1.3.2-1) experimental; urgency=low
+
+  * New upstream release. (Closes: #520597, #515116)
+    - Manpage and VampirTrace patches removed, included upstream.
+  * Fixed build issues on Alpha. Huge thanks to Arthur Loiret for providing
+    access to his machines for testing! (Closes: #510845, #517543)
+  * Fixed build issues on Sparc. (Closes: #519725)
+  * Fixed manpage-has-errors-from-man lintian warnings.
+  * Faked SONAME change by renaming library package. (Closes: #512616)
+  * Made libopenmpi-dev depend on libibverbs-dev. (Closes: #522153, LP: #342344)
+  * Support for "nocheck" build option in debian/rules.
+  * Updated Standards-Version in debian/control.
+  * Changed section of libopenmpi-dbg to "debug".
+  * Updated debian/copyright.
+
+  * Dirk Eddelbuettel removed himself from Uploaders. The team thanks Dirk
+    for his long-term contribution and effort to get Open MPI back to life.
+    I personally thank Dirk for encouraging me to become a Debian Developer
+    and his support and mentoring on that way and beyond.
+
+ -- Manuel Prinz <manuel@debian.org>  Thu, 23 Apr 2009 14:01:21 +0200
+
+openmpi (1.3-2) unstable; urgency=low
+
+  * Updated debian/watch to point to 1.3 series download location
+  * Added a patch to fix build issues with VampirTrace
+  * Added a patch to fix lintian warnings: manpage-has-errors-from-man
+  * Added a patch to enable Open MPI to build on MIPS. Many thanks to
+    Thiemo Seufer, he will be missed!
+
+ -- Manuel Prinz <manuel@debian.org>  Wed, 28 Jan 2009 23:38:02 +0100
+
+openmpi (1.3-1) unstable; urgency=low
+
+  [ Dirk Eddelbuettel ]
+  * New upstream version.
+  * debian/rules: Pass empty LDFLAGS to configure call to prevent seg.fault. 
+    on load due to overly hungry link command on Ubuntu
+
+  [ Manuel Prinz ]
+  * Header files are now available under /usr/include/openmpi via symlink
+    (Closes: #493875)
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Tue, 20 Jan 2009 20:10:20 -0600
+
+openmpi (1.2.8-3) unstable; urgency=low
+
+  * Building static libraries (again) (Closes: #502232)
+  * Removed *.so files from libopenmpi-dev package (Closes: #504161)
+
+ -- Manuel Prinz <manuel@debian.org>  Sun, 02 Nov 2008 15:53:19 +0100
+
+openmpi (1.2.8-2) unstable; urgency=low
+
+  * Reverted back to revision r137 corresponding to Debian release 1.2.7-1
+  								(Closes: #504161)
+  
+ -- Dirk Eddelbuettel <edd@debian.org>  Sat, 01 Nov 2008 17:37:07 -0500
+
+openmpi (1.2.8-1) unstable; urgency=low
+
+  * New upstream version.
+  * libopenmpi-dev ships static libraries (Closes: #502232)
+  * Remaining lintian warnings removed
+	
+ -- Sylvestre Ledru <sylvestre.ledru@inria.fr>  Tue, 28 Oct 2008 23:49:37 +0200
+  
+openmpi (1.2.7-1) unstable; urgency=low
+
+  * New upstream version.
+
+  [ Sylvestre Ledru ]
+  * debian/control: Added myself to Uploaders field
+	
+  [ Manuel Prinz ]
+  * debian/control: Changed my email address in Uploaders field
+
+ -- Manuel Prinz <manuel@debian.org>  Wed, 24 Sep 2008 21:22:35 +0200
+
+openmpi (1.2.7~rc2-2) unstable; urgency=low
+
+  * Updated README.Debian of libopenmpi-dev. It contained references to closed
+    bugs. Also added a recommendation on correct linking.
+  * debian/control: Removed XS-Autobuild field
+  * debian/copyright: Added missing copyrights and licenses for ROMIO and
+    GNU libltdl
+
+ -- Manuel Prinz <debian@pinguinkiste.de>  Mon, 25 Aug 2008 22:41:16 +0200
+
+openmpi (1.2.7~rc2-1) unstable; urgency=low
+
+  [ Dirk Eddelbuettel ]
+  * New upstream pre-release version 
+  * Thanks to Manuel for the work on this release, and on 1.2.6-3 which 
+    we never uploaded, and to the Open MPI team for the integrating the patch
+    from 1.2.6-3 into what will be 1.2.7
+
+  [ Manuel Prinz ]
+  * debian/control: Changed Standards-Version to 3.8.0
+  * Deleted all patches, removed Build-Depends of dpatch
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Wed, 02 Jul 2008 19:08:07 -0500
+
+openmpi (1.2.6-3) unstable; urgency=low
+
+  [ Manuel Prinz ]
+  * debian/patches/01openfabrics.dpatch: Applied patch by Jeff Squyres that
+    deals with the warnings printed when OpenFabrics hardware is not present.
+    Thanks to Jeff for the patch!
+  * debian/patches/10fix_config_infiniband.dpatch: Removed, it's obsoleted
+    by the above mentioned OpenFabrics patch.
+  * Updated README.Debian with information about the OpenFabrics patch.
+  * debian/patches/02manpages-lintian-fix.dpatch: Applied patch another patch
+    by Jeff Squyres that fixes Lintian manpage-has-errors-from-man issues.
+    Thanks again to Jeff for the patch!
+
+ -- Manuel Prinz <debian@pinguinkiste.de>  Sat, 31 May 2008 23:49:13 +0200
+
+openmpi (1.2.6-2) unstable; urgency=low
+
+  [ Sylvestre Ledru ]
+  * Can be built under ppc64. Thanks to Andreas Jochens (Closes: #478427)
+
+  [ Dirk Eddelbuettel ]
+  * Built and uploaded. Thanks to Sylvestre for applying the patch.
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Mon, 05 May 2008 07:16:49 -0500
+
+openmpi (1.2.6-1) unstable; urgency=low
+
+  [ Dirk Eddelbuettel ]
+  * New upstream version
+  * debian/patches/00list: Disabled man page patches 60* which 
+    has been included upstream in version 1.2.6
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Tue, 08 Apr 2008 20:19:24 -0500
+
+openmpi (1.2.5-3) unstable; urgency=low
+
+  [ Dirk Eddelbuettel ]
+  * debian/control: Version the Conflicts: of libopenmpi-dev with pgapack to
+    'pgapack (<= 1.0.0.1-4.2)' as newer pgapack do not exhibit a conflict.
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Mon, 10 Mar 2008 16:55:37 -0500
+
+openmpi (1.2.5-2) unstable; urgency=low
+
+  [ Dirk Eddelbuettel ]
+  * Debian build and upload
+  * Thanks to Manuel for all the work, and to Ondrej for persistent debugging.
+
+  [ Manuel Prinz ]
+  * Added missing ${shlibs:Depends} to Depends: line of libopenmpi-dev
+  * debian/shlibs.local: Added entry for libibverbs until the package provides
+    the necessary information. (Closes: #464705)
+  * debian/control: Added versioned dependency to libibverbs in Build-Depends
+  * debian/libopenmpi-dev.postinst: Corrected dead symlinks. Thanks to Ondrej
+    Certik for reporting the issue! (Closes: #464795)
+  * debian/patches/60_fix_manpage_name_section.dpatch: Fixing name line in the
+    MPI_Comm_f2c.3 manpage. Thanks to Jeff Squyres!
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Thu, 14 Feb 2008 20:54:06 -0600
+
+openmpi (1.2.5-1) unstable; urgency=low
+
+  [ Dirk Eddelbuettel ]
+  * New upstream version
+  * debian/patches/00list: Disabled man page patches 20*, 30* and 31* which 
+    have been included upstream
+  * debian/patches/60_fix_manpage_name_section.dpatch: Applied small correction
+  * Debian build and upload
+
+  [ Manuel Prinz ]
+  * debian/*.lintian-override: Deleted, all issues are fixed
+    - debian/libopenmpi{1,-dev}.links, debian/libopenmpi1.install:
+      Moved *.so.0 links from /usr/lib/openmpi/lib to /usr/lib. Created
+      *.so.0.0.0 symlinks in /usr/lib, pointing to /usr/lib/openmpi/lib.
+      This fixes postinst-has-useless-call-to-ldconfig, postrm-has-useless-
+      call-to-ldconfig and package-name-doesnt-match-sonames warnings.
+    - debian/rules, debian/control: Added chrpath to Build-Depends and
+      deleting all rpath info with chrpath in install-arch target. This
+      fixes all binary-or-shlib-defines-rpath warnings.
+  * debian/rules: Adjusted target dependencies to be more sane. Renamed
+    "test" target to "check".
+  * Applied a patch by Adam Powell IV that adds /usr/lib/libmpi++.so via
+    update-alternatives for compatibility with LAM/MPI and MPICH. Thanks to
+    Adam for the patch! (Closes: #459642)
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Wed, 09 Jan 2008 16:30:33 -0600
+
+openmpi (1.2.4-5) unstable; urgency=low
+
+  [ Manuel Prinz ]
+  * Several changes in the libopenmpi-dev package to correct the library
+    soname links (Closes: #456721)
+
+  [ Dirk Eddelbuettel ]
+  * Debian build and upload
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Tue, 18 Dec 2007 20:00:53 -0600
+
+openmpi (1.2.4-4) unstable; urgency=low
+
+  [ Manuel Prinz ]
+  * debian/rules: Several minor changes
+    - Added cross-compilation support
+    - Replaced (un)patch targets with dpatch's makefile snippet
+  * debian/control: Changed Standards-Version to match latest policy
+  * debian/control: Several cosmetic changes to control fields
+    - XS-Vcs-*: Renamed fields to Vcs-*
+    - XS-DM-Upload-Allowed: Added, allowing uploads for Debian Maintainers
+    - Homepage: Newly added
+    - Build-Depends: Removed libsysfs-dev (Closes: #449084)
+    - Build-Depends: Removed automake
+    - Uploaders: Added myself
+  * Moved include files and libraries to /usr/lib/openmpi and use the "mpi"
+    alternative. Thanks to Nicholas Breen for assistance! (Closes: #452047)
+
+  [ Dirk Eddelbuettel ]
+  * Debian build and upload
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Wed, 12 Dec 2007 09:40:29 -0600
+
+openmpi (1.2.4-3) unstable; urgency=low
+
+  [ Manuel Prinz ]
+  * debian/control: Added openmpi-common to libopenmpi-dev's Depends
+    (Closes: #445230)
+
+  [ Dirk Eddelbuettel ]
+  * Debian build and upload
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Sat, 06 Oct 2007 07:54:47 -0500
+
+openmpi (1.2.4-2) unstable; urgency=low
+
+  [ Manuel Prinz ]
+  * debian/control: Added sparc to list of supported architectures
+
+  [ Dirk Eddelbuettel ]
+  * Debian build and upload
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Tue, 02 Oct 2007 22:04:04 -0500
+
+openmpi (1.2.4-1) unstable; urgency=low
+
+  [ Manuel Prinz ]
+  * debian/control: Modified package relationships to prevent problems when
+    upgrading from 1.2.3-4 (Closes: #444432)
+
+  [ Dirk Eddelbuettel ]
+  * Debian build and upload
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Fri, 28 Sep 2007 16:25:13 -0500
+
+openmpi (1.2.4-0) unstable; urgency=low
+
+  * New upstream release
+
+  [ Sylvestre Ledru ]
+  * debian/patches: Removed 50fix_kfreebsd_build patch (Fixed upstream)
+
+  [ Manuel Prinz ]
+  * Patch added: Please shut up libibverbs (Closes: #439730)
+  * Moved compiler wrappers from package openmpi-bin to libopenmpi-dev.
+
+  [ Dirk Eddelbuettel ]
+  * Debian build and upload
+  
+ -- Dirk Eddelbuettel <edd@debian.org>  Wed, 26 Sep 2007 22:07:15 -0500
+
+openmpi (1.2.3-4) unstable; urgency=low
+
+  [ Manuel Prinz ]
+  * Fixed: openmpi-bin: FTBFS on kFreeBSD and maybe Hurd. Thanks to
+    Uwe Hermann for providing the patches! (Closes: #437839)
+  * debian/rules: Disabled threading support (Closes: #435581)
+  * debian/openmpi-bin.README.Debian: Documented disabling of threading
+  * debian/patches: Removed 10opal_noexecstack and 99autoconf patches
+    because they are no longer needed. Thanks to Brian Barrett for
+    clarification.
+
+  [ Dirk Eddelbuettel ]
+  * debian/control: Add 'kfreebsd-i386 kfreebsd-amd64 hurd-i386' to list 
+    of build architecture (via Uwe's patch referenced above)
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Mon, 20 Aug 2007 20:10:46 -0500
+
+openmpi (1.2.3-3) unstable; urgency=low
+
+  [ Manuel Prinz ]
+  * Fixed: openmpi-bin: libibverbs only available for Linux. Thanks to 
+    Uwe Hermann for providing the patch! (Closes: #435573)
+  * Changed section of openmpi-doc to doc to satisfy overrides
+
+  [ Dirk Eddelbuettel ]
+  * debian/control: Trying something moderately radical here -- we are 
+    switching the binary packages from 'Architecture: any' to the set
+    of five architectures that can actually build the package, given the
+    lack of upstream support for atomistic operations on the other 
+    architectures (c.f. Debian BTS for openmpi)
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Sun, 12 Aug 2007 19:43:29 -0500
+
+openmpi (1.2.3-2) unstable; urgency=low
+
+  [ Dirk Eddelbuettel ]
+  * debian/control: Added some per-package text to the common titles
+    of the Descriptions
+
+  [ Manuel Prinz ]
+  * Fixed: FTBFS on GNU/kFreeBSD, Thanks to Petr Salinger for providing 
+    the patch! (Closes: #433142).
+  * debian/control: Changed priority to "extra" to comply with the Debian
+    Policy, section 2.5.
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Mon, 30 Jul 2007 21:12:11 -0500
+
+openmpi (1.2.3-1) unstable; urgency=low
+
+  [ Dirk Eddelbuettel ]
+  * debian/rules: Ensure AUTHORS NEWS README are installed everywhere
+  * debian/rules: Add examples/ directory to openmpi-doc
+  * debian/control: More Conflicts/Replaces/Provides for renamed packages
+  
+ -- Dirk Eddelbuettel <edd@debian.org>  Sun, 24 Jun 2007 21:18:31 -0500
+
+openmpi (1.2.3-0) unstable; urgency=low
+
+  * First release by the new maintainer group 'pkg-openmpi' 
+
+  * Takeover of the package is coordinated with the previous maintainer.
+    Our thanks to Florian for his initial packaging.
+  * We also would like to thank everybody who has prepared a previous NMU,
+  
+  [ Dirk Eddelbuettel ]
+  * debian/control: Add myself as Uploaders
+  * debian/patches/31_fix_manpages_lintian.dpatch: Another small man page fix
+  * debian/{ompi_info.1,opal_wrapper.1,orted.1}: Contributed three man pages
+  * Renaming some sub-package:
+    - openmpi-libs0 package renamed to libopenmpi1
+    - openmpi-dev package renamed to libopenmpi-dev
+    - openmpi-dbg package rename to libopenmpi-dbg
+    - new openmpi-mpidoc package renamed to openmpi-doc 
+  * debian/control: Add Build-Depends: on 'gcc (>= 4.1.2)' to build for the 
+    'long double' transition -- and as we happen to have renamed the library
+    package name, is requivalent to the 'ldbl' suffix	(Closes: #430321)
+  
+  [ Upstream ]
+  * Fixed: mpif77 and mpif90 incorrect default include file search path
+    (Closes: #405472)
+
+  [ Sylvestre Ledru ]
+  * New upstream release 1.2.3
+  * New upstream release 1.2.2 (Closes: #427356)
+  * Patch removed: 20implicit_pointer_conversion.dpatch
+  * Apply all of Tilman's patches below (Closes: #415338)
+  * Add the correct XS-Autobuild, XS-Vcs-Svn and XS-Vcs-Browser fields in 
+    debian/control.
+  * Fix errors in manpages (Lintian complaining)
+
+  [ Manuel Prinz ]
+  * Patch removed: 30_alpha_inline_assembly.dpatch (Fixed upstream)
+  * Updated patch of autogenerated autoconf files by Steve Langasek.
+  * Fixed: Please make openmpi thread-compartible by adding
+    --enable-mpi-threads and --enable-progress-threads (Closes: #419867)
+  * Fixed: Use Debian alternatives (Closes: #396761)
+  * Added watch file.
+
+  [ Tilman Koschnick ]
+  * New upstream release 1.2.0
+  * Acknowledge previous NMUs (Closes: #386491, #392633, #404003, #404026).
+  * Fix: mpicc.openmpi fails to run when named mpicc.openmpi (Closes: #388216).
+  * Include manual pages (Closes: #413607).
+  * Add openmpi-mpidoc package for man pages describing the MPI standard.
+  * Update copyrights.
+
+  [ Andreas Barth ]
+  * Spelling mistake in the description of the package (Closes: #390238)
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Sat, 23 Jun 2007 18:55:31 -0500
+
+openmpi (1.1-2.5) unstable; urgency=high
+
+  * Non-maintainer upload.
+  * High urgency upload for RC bugfix.
+  * Add missing build-dependency on libsysfs-dev, which is used in the build
+    but was previously pulled in via libibverbs-dev.
+
+ -- Steve Langasek <vorlon@debian.org>  Sun, 29 Apr 2007 22:03:58 -0700
+
+openmpi (1.1-2.4) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * 0-day alpha porter upload.
+  * Fix wrong inline assembler check on alpha: 'zero' is not recognized
+    as a mnemonic for $31 with binutils.  This broken check resulted
+    in various atomic operations remaining undefined, leading to a build
+    failure on alpha.  Likewise, fix the inline assembly provided in
+    opal/include/opal/sys/alpha/atomic.h so that it's valid under GNU
+    binutils.  Closes: #384792.
+
+ -- Steve Langasek <vorlon@debian.org>  Sun, 29 Apr 2007 02:27:51 -0700
+
+openmpi (1.1-2.3) unstable; urgency=high
+
+  * Non-maintainer upload.
+  * Add conflicts between openmpi-dev and libopal-dev, pgapack.
+    Closes: #404003, #404026
+
+ -- Andreas Barth <aba@not.so.argh.org>  Fri, 22 Dec 2006 13:57:13 +0000
+
+openmpi (1.1-2.2) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Remove --host=* from debian/rules to make autoconf not enable
+    cross-building mode.  Thanks to Steve Langasek for pointing this out.
+    Closes: #392633.
+   
+ -- Mark Hymers <mark@hymers.org.uk>  Sun, 15 Oct 2006 00:46:11 +0100
+
+openmpi (1.1-2.1) unstable; urgency=high
+
+  * NMU
+  * Make sparc build UltraSPARC-only, since upstream seems to have
+    dropped support for 32-bit machines.  closes: #386491.
+
+ -- Clint Adams <schizo@debian.org>  Tue, 26 Sep 2006 00:31:36 -0400
+
+openmpi (1.1-2) unstable; urgency=low
+
+  * Apply patch by Tilman Koschnick <til@subnetz.org> to add a new package
+    with debugging symbols (Closes: #383997).
+
+ -- Florian Ragwitz <rafl@debian.org>  Wed, 23 Aug 2006 12:43:16 +0200
+
+openmpi (1.1-1) unstable; urgency=low
+
+  * New upstream release.
+  * Applied patch by dann frazier <dannf@debian.org> to fix an implicit
+    pointer conversion on 64bit platforms (Closes: #377725).
+  * Fixed mix-up in package descriptions (Closes: #379594).
+  * Use the alternatives system for the mpi* executables in openmpi-bin
+    (Closes: #377297).
+
+ -- Florian Ragwitz <rafl@debian.org>  Mon,  7 Aug 2006 16:57:42 +0200
+
+openmpi (1.0.2-1) unstable; urgency=low
+
+  * Initial release (Closes: #340426).
+
+ -- Florian Ragwitz <rafl@debian.org>  Fri,  6 Jan 2006 15:13:31 +0100
+

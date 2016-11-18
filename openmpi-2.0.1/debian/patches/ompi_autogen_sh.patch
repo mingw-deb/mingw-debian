@@ -1,0 +1,12 @@
+--- a/autogen.sh
++++ b/autogen.sh
+@@ -664,6 +664,9 @@
+         touch -r aclocal.m4 config/libtool.m4
+     fi
+ 
++    # Ensure libtool.m4 is very old so that make does not rebuild aclocal.m4
++    touch -t 197001010000.00 config/libtool.m4
++
+     run_and_check $ompi_autoconf
+ 
+     run_and_check $ompi_automake --foreign -a --copy --include-deps

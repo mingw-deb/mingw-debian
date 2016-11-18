@@ -1,0 +1,28 @@
+## Man pages (link provided by upstream, needs recreation because of renaming):
+usr/share/man/man1/mpic++.openmpi.1     usr/share/man/man1/mpiCC.openmpi.1
+# Missing links
+usr/share/man/man1/opal_wrapper.1	usr/share/man/man1/opalCC.1
+usr/share/man/man1/opal_wrapper.1	usr/share/man/man1/opalc++.1
+usr/share/man/man1/opal_wrapper.1	usr/share/man/man1/orteCC.1
+usr/share/man/man1/opal_wrapper.1	usr/share/man/man1/ortec++.1
+usr/share/man/man1/opal_wrapper.1	usr/share/man/man1/ortecc.1
+## SONAME symlinks
+usr/lib/libmca_common_sm.so.20		usr/lib/libmca_common_sm.so
+usr/lib/libmpi_cxx.so.20			usr/lib/libmpi_cxx.so
+usr/lib/libmpi_mpifh.so.20		usr/lib/libmpi_mpifh.so
+usr/lib/libompitrace.so.20		usr/lib/libompitrace.so
+usr/lib/libopen-pal.so.20		usr/lib/libopen-pal.so
+usr/lib/libopen-rte.so.20		usr/lib/libopen-rte.so
+#usr/lib/liboshmem.so.20			usr/lib/liboshmem.so
+usr/lib/libmpi_usempif08.so.20		usr/lib/libmpi_usempif08.so
+usr/lib/libmpi_usempi_ignore_tkr.so.20	usr/lib/libmpi_usempi_ignore_tkr.so
+## Convenience link for header files, see bug #493875
+usr/lib/openmpi/include/		usr/include/openmpi
+# pkg-config
+usr/lib/openmpi/lib/pkgconfig/ompi-fort.pc	usr/lib/pkgconfig/ompi-fort.pc
+usr/lib/openmpi/lib/pkgconfig/orte.pc		usr/lib/pkgconfig/orte.pc
+usr/lib/openmpi/lib/pkgconfig/ompi.pc		usr/lib/pkgconfig/ompi.pc
+usr/lib/openmpi/lib/pkgconfig/ompi-c.pc		usr/lib/pkgconfig/ompi-c.pc
+# opal.pc bug #814515: opal.pc conflicts with libopal-dev
+#usr/lib/openmpi/lib/pkgconfig/opal.pc		usr/lib/pkgconfig/opal.pc
+usr/lib/openmpi/lib/pkgconfig/ompi-cxx.pc	usr/lib/pkgconfig/ompi-cxx.pc

@@ -1,0 +1,176 @@
+#!/usr/bin/make -f
+
+export DH_VERBOSE=1
+
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/buildflags.mk
+
+DEBIAN_VERSION=$(shell dpkg-parsechangelog | sed -ne 's/^Version: \(.*\-.*\)/\1/p' | sed -e 's/\+.*//; s/^[0-9]://')
+
+DO_TEST:=true
+
+### Arch-specific stuff
+# No ibverbs support available on kFreeBSD, Hurd
+NO_VERBS_ARCH:= hurd-i386 kfreebsd-amd64 kfreebsd-i386 s390x
+FABRIC_ARCH:= amd64 i386 
+PSM_ARCH:= amd64 i386
+NO_JAVA_ARCH:= hppa hurd-i386
+NO_TEST_ARCH:= hppa hurd-i386
+
+BTL_TESTS:= --enable-opal-btl-usnic-unit-tests
+
+ifeq (sparc,$(DEB_HOST_GNU_CPU))
+	CFLAGS += -mcpu=v9
+endif
+
+# Note the space, to stop 'amd64' matching 'kfreebsd-amd64'
+ifneq (,$(findstring  " $(DEB_HOST_ARCH)",$(NO_VERBS_ARCH)))
+	VERBS := --with-verbs
+endif
+ifneq (,$(findstring $(DEB_HOST_ARCH),$(FABRIC_ARCH)))
+	FABRIC := --with-libfabric
+endif
+ifneq (,$(findstring $(DEB_HOST_ARCH),$(PSM_ARCH)))
+	PSM:= --with-psm
+endif
+ifeq ($(filter $(NO_JAVA_ARCH),$(DEB_HOST_ARCH)),)
+	JAVA := --with-jdk-dir=/usr/lib/jvm/default-java --enable-mpi-java
+endif
+ifneq (,$(findstring $(DEB_HOST_ARCH),$(NO_TEST_ARCH)))
+	DO_TEST := false
+	BTL_TESTS := 
+endif
+
+# Flags for the static build: see bug #502232
+#STATIC_CONFIG_PARAMS = --enable-static
+STATIC_CONFIG_PARAMS =  
+
+
+%:
+	dh $@ --parallel #--with autotools_dev
+
+override_dh_auto_clean:
+	dh_clean
+	find . -name .libs -exec rm -rf {} \; || true
+	find . -name .dirstamp -delete
+	find . -type l -delete
+	find . -name '*.o' -delete
+
+override_dh_auto_configure:
+	./autogen.pl --force
+	dh_auto_configure -- \
+		$(VERBS) $(FABRIC) $(PSM) \
+		$(JAVA) \
+		$(STATIC_CONFIG_PARAMS) \
+		$(BTL_TESTS) \
+		--with-libevent=/usr/lib \
+		--enable-mpi-thread-multiple \
+		--disable-silent-rules \
+		--enable-mpi-cxx \
+		--with-hwloc=/usr/ \
+		--with-libltdl=/usr/ \
+		--with-devel-headers \
+		--with-slurm \
+		--with-sge \
+		--without-tm \
+		--enable-heterogeneous \
+		--disable-vt \
+		--sysconfdir=/etc/openmpi 		\
+		--libdir=\$${prefix}/lib/openmpi/lib	\
+		--includedir=\$${prefix}/lib/openmpi/include 
+
+override_dh_install:
+	# Strip rpath info from all executables and libraries.
+	find debian/tmp/ -type f -perm -+x -a ! -name '*.la' -a ! -name '*.mod' -exec chrpath -d '{}' \;
+# Rename the compiler and startup wrappers.
+	for f in mpic++ mpicc mpiCC mpicxx mpiexec mpif77 mpif90 mpirun mpifort ; do \
+		if test -f debian/tmp/usr/bin/$${f}; then \
+			mv debian/tmp/usr/bin/$${f} debian/tmp/usr/bin/$${f}.openmpi ; \
+		fi; \
+	done
+# Rename the compiler wrapper man pages.
+	for f in mpic++ mpicc mpicxx mpiexec mpif77 mpif90 mpirun mpifort ; do \
+		if test -f debian/tmp/usr/share/man/man1/$${f}.1; then \
+			mv debian/tmp/usr/share/man/man1/$${f}.1 debian/tmp/usr/share/man/man1/$${f}.openmpi.1 ; \
+		fi; \
+		if test -f debian/tmp/usr/share/man/man1/$${f}.3; then \
+			mv debian/tmp/usr/share/man/man3/$${f}.3 debian/tmp/usr/share/man/man1/$${f}.openmpi.3 ; \
+		fi; \
+	done
+	cd debian/tmp/usr/share/man/man3; \
+	for f in *.3; do \
+		mv $$f $$(echo $$f|sed -e "s|\.3|.openmpi.3|g"); \
+	done; \
+# Rename orte-bootproxy.sh to orte-bootproxy
+	if test -f debian/tmp/usr/bin/orte-bootproxy.sh; then \
+		mv debian/tmp/usr/bin/orte-bootproxy.sh debian/tmp/usr/bin/orte-bootproxy; \
+	fi
+# Remove dangling symlink(s)
+	rm -f debian/tmp/usr/share/man/man1/mpiCC.1
+	rm -f debian/tmp/usr/share/man/man1/orteCC.1
+# Remove COPYRIGHT file of ptmalloc2. It's reproduced in debian/copyright.
+	rm -f -r debian/tmp/usr/share/openmpi/doc/
+# Remove buggy ${pkgincludedir} refs from pkg-config files. #837062
+	find . -name '*.pc' | while read f ; do \
+		cat $${f} | sed -e 's%-I$${pkgincludedir}[a-zA-Z0-9/]* %%g' > x ; \
+		 mv x $${f}; done
+# Continue as usual
+	dh_install
+# oshmem, shmem only built on Linux so do by hand or it may fail ...
+	if test -f debian/tmp/usr/bin/oshrun ; then \
+		mkdir -p debian/libopenmpi2/usr/lib/openmpi/lib ; \
+		cp -a debian/tmp/usr/bin/oshrun  debian/openmpi-bin//usr/bin/ ; \
+		cp -a debian/tmp/usr/bin/oshmem_info  debian/openmpi-bin//usr/bin/ ; \
+		cp -a debian/tmp/usr/bin/oshcc	 debian/libopenmpi-dev/usr/bin   ; \
+		cp -a debian/tmp/usr/bin/oshfort   debian/libopenmpi-dev/usr/bin   ; \
+		cp -a debian/tmp/usr/lib/openmpi/lib/liboshmem.so.20.0.1 debian/libopenmpi2/usr/lib/openmpi/lib ; \
+		cp -a debian/tmp/usr/share/man/man1/oshcc.1 debian/libopenmpi-dev/usr/share/man/man1 ; \
+		cp -a debian/tmp/usr/share/man/man1/oshfort.1 debian/libopenmpi-dev/usr/share/man/man1 ; \
+		cp -a debian/tmp/usr/share/man/man1/oshrun.1 debian/openmpi-bin/usr/share/man/man1 ; \
+		cp -a debian/tmp/usr/share/man/man1/oshmem_info.1 debian/openmpi-bin/usr/share/man/man1 ; \
+	fi
+	if test -f debian/tmp/usr/lib/openmpi/lib/libmpi_java.so.20.0.1 ; then \
+		mkdir -p debian/libopenmpi2/usr/lib/openmpi/lib ; \
+		cp -a debian/tmp/usr/lib/openmpi/lib/libmpi_java.so.20.0.1 \
+			debian/libopenmpi2/usr/lib/openmpi/lib/libmpi_java.so.20.0.1 ; \
+		dh_link -p libopenmpi2 usr/lib/libmpi_java.so.20.0.1  usr/lib/libmpi_java.so.20 ; \
+		dh_link -p libopenmpi2 usr/lib/openmpi/lib/libmpi_java.so.20.0.0 usr/lib/libmpi_java.so.20.0.1 ; \
+		dh_link -p libopenpi-dev usr/lib/libmpi_java.so.20	usr/lib/libmca_common_verbs.so ; \
+	fi
+	if test -f debian/tmp/usr/lib/openmpi/lib/libmca_common_verbs.so.20.0.0 ; then \
+		mkdir -p debian/libopenmpi2/usr/lib/openmpi/lib ; \
+		cp -a debian/tmp/usr/lib/openmpi/lib/libmca_common_verbs.so.20.0.0 \
+			debian/libopenmpi2/usr/lib/openmpi/lib/libmca_common_verbs.so.20.0.0 ; \
+		dh_link -p libopenmpi2   usr/lib/libmca_common_verbs.so.20.0.0  usr/lib/libmca_common_verbs.so.20 ; \
+		dh_link -p libopenmpi2 usr/lib/openmpi/lib/libmca_common_verbs.so.20.0.0 usr/lib/libmca_common_verbs.so.20.0.0 ; \
+	fi
+	if test -f debian/tmp/usr/lib/openmpi/lib/libmca_common_libfabric.so.20.0.0 ; then \
+		mkdir -p debian/libopenmpi2/usr/lib/openmpi/lib ; \
+		cp -a debian/tmp/usr/lib/openmpi/lib/libmca_common_libfabric.so.20.0.0 \
+			debian/libopenmpi2/usr/lib/openmpi/lib/libmca_common_libfabric.so.20.0.0 ; \
+		dh_link -p libopenmpi2   usr/lib/libmca_common_libfabric.so.20.0.0  usr/lib/libmca_common_libfabric.so.20 ; \
+		dh_link -p libopenmpi2 usr/lib/openmpi/lib/libmca_common_libfabric.so.20.0.0 usr/lib/libmca_common_libfabric.so.20.0.0 ; \
+	fi
+	if test -f debian/tmp/usr/bin/shmemrun ; then \
+		cp -a debian/tmp/usr/bin/shmemrun debian/openmpi-bin/usr/bin/shmemrun ;\
+		cp -a debian/tmp/usr/share/man/man1/shmemrun.1 debian/openmpi-bin/usr/share/man/man1 ; \
+		cp -a debian/tmp/usr/bin/shmemcc debian/libopenmpi-dev/usr/bin/shmemcc ; \
+		cp -a debian/tmp/usr/bin/shmemfort debian/libopenmpi-dev/usr/bin/shmemfort ; \
+		cp -a debian/tmp/usr/share/man/man1/shmemcc.1 debian/libopenmpi-dev/usr/share/man/man1 ; \
+		cp -a debian/tmp/usr/share/man/man1/shmemfort.1 debian/libopenmpi-dev/usr/share/man/man1 ; \
+	fi
+
+override_dh_install-arch:
+
+override_dh_fixperms-arch:
+	chmod 0644 debian/libopenmpi*/usr/lib/openmpi/lib/*.mod
+	dh_fixperms
+
+override_dh_auto_test:
+	$(DO_TEST)==true && dh_auto_test || echo "Tests disabled on ${NO_TEST_ARCH} systems for the moment"	
+
+override_dh_installdocs:
+	dh_installdocs --all AUTHORS NEWS README
+
+override_dh_shlibdeps:
+	dh_shlibdeps -l$(CURDIR)/debian/tmp/usr/lib/openmpi/lib -- --ignore-missing-info

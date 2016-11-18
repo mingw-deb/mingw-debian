@@ -1,0 +1,228 @@
+Description: Fix build problems on hurd-i386
+ This patch allows Open MPI to build on Debian GNU/HURD.
+ .
+ Also, the memory:linux MCA component is disabled, since its use of POSIX API
+ in malloc hooks called very early at startup causes troubles.
+Author: Pino Toscano <pino@debian.org>
+Forwarded: partially
+Last-Update: 2016-07-14
+
+Index: openmpi-2.0.1/opal/util/stacktrace.c
+===================================================================
+--- openmpi-2.0.1.orig/opal/util/stacktrace.c
++++ openmpi-2.0.1/opal/util/stacktrace.c
+@@ -436,8 +436,12 @@ int opal_util_register_stackhandlers (vo
+     }
+ 
+     memset(&act, 0, sizeof(act));
++#ifdef SA_SIGINFO
+     act.sa_sigaction = show_stackframe;
+     act.sa_flags = SA_SIGINFO;
++#else
++    act.sa_handler = show_stackframe_handler;
++#endif
+ #ifdef SA_ONESHOT
+     act.sa_flags |= SA_ONESHOT;
+ #else
+Index: openmpi-2.0.1/orte/mca/odls/base/odls_base_default_fns.c
+===================================================================
+--- openmpi-2.0.1.orig/orte/mca/odls/base/odls_base_default_fns.c
++++ openmpi-2.0.1/orte/mca/odls/base/odls_base_default_fns.c
+@@ -627,7 +627,12 @@ void orte_odls_base_default_launch_local
+     orte_proc_t *child=NULL;
+     int rc=ORTE_SUCCESS;
+     orte_std_cntr_t proc_rank;
++
++#if !defined(MAXPATHLEN) && defined(__GLIBC__)
++    char *basedir=NULL;
++#else
+     char basedir[MAXPATHLEN];
++#endif  
+     char **argvsav=NULL;
+     int inm, j, idx;
+     int total_num_local_procs = 0;
+@@ -641,7 +646,11 @@ void orte_odls_base_default_launch_local
+      * bouncing around as we execute various apps, but we will always return
+      * to this place as our default directory
+      */
++#if !defined(MAXPATHLEN) && defined(__GLIBC__)
++    basedir = get_current_dir_name();
++#else
+     getcwd(basedir, sizeof(basedir));
++#endif
+ 
+     /* find the jobdat for this job */
+     if (NULL == (jobdat = orte_get_job_data_object(job))) {
+@@ -1635,8 +1644,13 @@ int orte_odls_base_default_restart_proc(
+     int rc;
+     orte_app_context_t *app;
+     orte_job_t *jobdat;
++#if !defined(MAXPATHLEN) && defined(__GLIBC__)
++    char *basedir=NULL;
++    char *dir=NULL;
++#else
+     char basedir[MAXPATHLEN];
+-
++#endif
++    
+     OPAL_OUTPUT_VERBOSE((5, orte_odls_base_framework.framework_output,
+                          "%s odls:restart_proc for proc %s",
+                          ORTE_NAME_PRINT(ORTE_PROC_MY_NAME),
+@@ -1646,7 +1660,11 @@ int orte_odls_base_default_restart_proc(
+      * bouncing around as we execute this app, but we will always return
+      * to this place as our default directory
+      */
++#if !defined(MAXPATHLEN) && defined(__GLIBC__)
++    basedir = get_current_dir_name();
++#else
+     getcwd(basedir, sizeof(basedir));
++#endif
+ 
+     /* find this child's jobdat */
+     if (NULL == (jobdat = orte_get_job_data_object(child->name.jobid))) {
+Index: openmpi-2.0.1/opal/mca/memory/linux/configure.m4
+===================================================================
+--- openmpi-2.0.1.orig/opal/mca/memory/linux/configure.m4
++++ openmpi-2.0.1/opal/mca/memory/linux/configure.m4
+@@ -61,6 +61,10 @@ AC_DEFUN([MCA_opal_memory_linux_CONFIG],
+            memory_linux_ptmalloc2_happy=no
+           memory_linux_ummu_happy=no])
+ 
++    AS_IF([echo "$host_os" | grep '^gnu' >/dev/null 2>/dev/null],
++          [memory_linux_ptmalloc2_happy=no
++           memory_linux_ummu_happy=no])
++
+     ######################################################################
+     # if memory hook available
+     ######################################################################
+Index: openmpi-2.0.1/ompi/include/ompi_config.h
+===================================================================
+--- openmpi-2.0.1.orig/ompi/include/ompi_config.h
++++ openmpi-2.0.1/ompi/include/ompi_config.h
+@@ -28,6 +28,10 @@
+ 
+ #include "opal_config.h"
+ 
++#ifndef PATH_MAX /* Hurd */
++#define PATH_MAX 65535
++#endif
++
+ #define OMPI_IDENT_STRING OPAL_IDENT_STRING
+ 
+ /***********************************************************************
+Index: openmpi-2.0.1/opal/mca/base/mca_base_var.c
+===================================================================
+--- openmpi-2.0.1.orig/opal/mca/base/mca_base_var.c
++++ openmpi-2.0.1/opal/mca/base/mca_base_var.c
+@@ -50,6 +50,14 @@
+ #include "opal/util/opal_environ.h"
+ #include "opal/runtime/opal.h"
+ 
++#ifndef MAXPATHLEN /* Hurd */
++#define MAXPATHLEN 65535
++#endif
++
++#ifndef PATH_MAX  /* Hurd */
++#define PATH_MAX 65535
++#endif
++
+ /*
+  * local variables
+  */
+Index: openmpi-2.0.1/test/util/opal_path_nfs.c
+===================================================================
+--- openmpi-2.0.1.orig/test/util/opal_path_nfs.c
++++ openmpi-2.0.1/test/util/opal_path_nfs.c
+@@ -31,8 +31,10 @@
+ #include <dirent.h>
+ 
+ #include <sys/param.h>
++#ifdef HAVE_SYS_MOUNT_H
+ #include <sys/mount.h>
+-#ifdef HAVE_SYS_STATFS_H
++#endif
++#if defined(__linux__) /* not present on Hurd */
+ #include <sys/statfs.h>
+ #endif
+ #ifdef HAVE_SYS_VFS_H
+Index: openmpi-2.0.1/opal/mca/memory/patcher/memory_patcher_component.c
+===================================================================
+--- openmpi-2.0.1.orig/opal/mca/memory/patcher/memory_patcher_component.c
++++ openmpi-2.0.1/opal/mca/memory/patcher/memory_patcher_component.c
+@@ -146,6 +146,7 @@ static void *intercept_mmap(void *start,
+ 
+ #endif
+ 
++#if defined (SYS_munmap)
+ static int (*original_munmap) (void *, size_t);
+ 
+ static int intercept_munmap(void *start, size_t length)
+@@ -165,6 +166,7 @@ static int intercept_munmap(void *start,
+     OPAL_PATCHER_END;
+     return result;
+ }
++#endif
+ 
+ #if defined (SYS_mremap)
+ 
+@@ -439,10 +441,12 @@ static int patcher_open (void)
+     }
+ #endif
+ 
++#if defined(SYS_munmap)
+     rc = opal_patcher->patch_symbol ("munmap", (uintptr_t)intercept_munmap, (uintptr_t *) &original_munmap);
+     if (OPAL_SUCCESS != rc) {
+         return rc;
+     }
++#endif
+ 
+ #if defined (SYS_mremap)
+     rc = opal_patcher->patch_symbol ("mremap",(uintptr_t)intercept_mremap, (uintptr_t *) &original_mremap);
+Index: openmpi-2.0.1/orte/include/orte_config.h
+===================================================================
+--- openmpi-2.0.1.orig/orte/include/orte_config.h
++++ openmpi-2.0.1/orte/include/orte_config.h
+@@ -26,6 +26,13 @@
+ 
+ #include "opal_config.h"
+ 
++#ifndef PATH_MAX /* Hurd */
++#define PATH_MAX 65535
++#endif
++#ifndef MAXPATHLEN
++#define MAXPATHLEN 65535
++#endif
++
+ #define ORTE_IDENT_STRING OPAL_IDENT_STRING
+ 
+ #  if OPAL_C_HAVE_VISIBILITY
+Index: openmpi-2.0.1/ompi/mca/fbtl/posix/fbtl_posix_preadv.c
+===================================================================
+--- openmpi-2.0.1.orig/ompi/mca/fbtl/posix/fbtl_posix_preadv.c
++++ openmpi-2.0.1/ompi/mca/fbtl/posix/fbtl_posix_preadv.c
+@@ -28,6 +28,10 @@
+ #include "ompi/constants.h"
+ #include "ompi/mca/fbtl/fbtl.h"
+ 
++#ifndef IOV_MAX
++#define IOV_MAX 1024
++#endif
++
+ ssize_t mca_fbtl_posix_preadv (mca_io_ompio_file_t *fh )
+ {
+     /*int *fp = NULL;*/
+Index: openmpi-2.0.1/ompi/mca/fbtl/posix/fbtl_posix_pwritev.c
+===================================================================
+--- openmpi-2.0.1.orig/ompi/mca/fbtl/posix/fbtl_posix_pwritev.c
++++ openmpi-2.0.1/ompi/mca/fbtl/posix/fbtl_posix_pwritev.c
+@@ -30,6 +30,10 @@
+ #include "ompi/constants.h"
+ #include "ompi/mca/fbtl/fbtl.h"
+ 
++#ifndef IOV_MAX
++#define IOV_MAX 1024
++#endif
++
+ ssize_t  mca_fbtl_posix_pwritev(mca_io_ompio_file_t *fh )
+ {
+     /*int *fp = NULL;*/

@@ -1,0 +1,12 @@
+--- ./ompi/debuggers/Makefile.am.orig	2013-08-17 14:22:15.400508429 +0200
++++ ./ompi/debuggers/Makefile.am	2013-08-17 14:22:23.472550111 +0200
+@@ -21,9 +21,6 @@
+ pkglib_LTLIBRARIES = libompi_dbg_msgq.la
+ 
+ check_PROGRAMS = predefined_gap_test
+-if OPAL_HAVE_DLOPEN
+-check_PROGRAMS += dlopen_test
+-endif
+ 
+ TESTS = $(check_PROGRAMS)
+ 

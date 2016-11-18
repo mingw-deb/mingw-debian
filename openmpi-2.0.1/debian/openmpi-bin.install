@@ -1,0 +1,16 @@
+## Configuration files
+etc/openmpi/*
+## Executables
+usr/bin/ompi-clean
+usr/bin/ompi_info
+usr/bin/ompi-ps
+usr/bin/ompi-server
+usr/bin/orte-clean
+usr/bin/orted
+usr/bin/orte-ps
+usr/bin/orterun
+usr/bin/ompi-top
+usr/bin/orte-dvm
+usr/bin/orte-server
+usr/bin/orte-top
+usr/bin/orte-submit

@@ -1,0 +1,48 @@
+Description: Fix for wait that breaks mpi4py
+Author: Gilles Gouaillardet <gilles@rist.or.jp>
+Bug-Origin: https://github.com/open-mpi/ompi/issues/2071
+Forwarded: not-needed
+Last-Updated: 2016-09-12
+
+From f807f1e7e6e54209be06997ab1d1dd2f919f99a7 Mon Sep 17 00:00:00 2001
+From: Gilles Gouaillardet <gilles@rist.or.jp>
+Date: Wed, 7 Sep 2016 08:49:20 +0900
+Subject: [PATCH] threads: fix WAIT_SYNC_INIT with a zero count
+
+WAIT_SYNC_INIT(sync,0); WAIT_SYNC_RELEASE(sync);
+hanged because sync->signaled was initialised to true, and
+there is no reason to invoke WAIT_SYNC_SIGNALED(sync) before
+WAIT_SYNC_RELEASE(sync)
+this commit initializes sync->signaled to true unless the count is zero.
+
+Thanks George for the review and guidance.
+
+(cherry picked from commit open-mpi/ompi@44a66e208c5771e0897bcf27430a3afa171ba4c2)
+
+Index: openmpi-2.0.1/opal/threads/wait_sync.h
+===================================================================
+--- openmpi-2.0.1.orig/opal/threads/wait_sync.h
++++ openmpi-2.0.1/opal/threads/wait_sync.h
+@@ -6,6 +6,8 @@
+  * Copyright (c) 2016      Los Alamos National Security, LLC. All rights
+  *                         reserved.
+  * Copyright (c) 2016      Mellanox Technologies. All rights reserved.
++ * Copyright (c) 2016      Research Organization for Information Science
++ *                         and Technology (RIST). All rights reserved.
+  * $COPYRIGHT$
+  *
+  * Additional copyrights may follow
+@@ -84,11 +86,11 @@ static inline int sync_wait_st (ompi_wai
+ 
+ #define WAIT_SYNC_INIT(sync,c)                                  \
+     do {                                                        \
+-        (sync)->count = c;                                      \
++        (sync)->count = (c);                                    \
+         (sync)->next = NULL;                                    \
+         (sync)->prev = NULL;                                    \
+         (sync)->status = 0;                                     \
+-        (sync)->signaling = true;                               \
++        (sync)->signaling = (0 != (c));                         \
+         if (opal_using_threads()) {                             \
+             pthread_cond_init (&(sync)->condition, NULL);       \
+             pthread_mutex_init (&(sync)->lock, NULL);           \

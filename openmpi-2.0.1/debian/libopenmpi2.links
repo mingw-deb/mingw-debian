@@ -1,0 +1,22 @@
+# Compatibility links to /usr/bin
+usr/lib/openmpi/lib/libmca_common_sm.so.20.0.0   usr/lib/libmca_common_sm.so.20.0.0
+usr/lib/openmpi/lib/libmpi_cxx.so.20.0.0         usr/lib/libmpi_cxx.so.20.0.0
+usr/lib/openmpi/lib/libmpi_mpifh.so.20.0.0	usr/lib/libmpi_mpifh.so.20.0.0
+usr/lib/openmpi/lib/libmpi.so.20.0.1            usr/lib/libmpi.so.20.0.1
+usr/lib/openmpi/lib/libmpi_usempif08.so.20.0.0 	usr/lib/libmpi_usempif08.so.20.0.0
+usr/lib/openmpi/lib/libmpi_usempi_ignore_tkr.so.20.0.0	usr/lib/libmpi_usempi_ignore_tkr.so.20.0.0
+usr/lib/openmpi/lib/libompitrace.so.20.0.0	usr/lib/libompitrace.so.20.0.0
+usr/lib/openmpi/lib/libopen-pal.so.20.1.0        usr/lib/libopen-pal.so.20.1.0
+usr/lib/openmpi/lib/libopen-rte.so.20.0.0        usr/lib/libopen-rte.so.20.0.0
+# usr/lib/openmpi/lib/liboshmem.so.20.0.1		 usr/lib/liboshmem.so.20.0.1
+# SONAME symlinks
+usr/lib/libmca_common_sm.so.20.0.0              usr/lib/libmca_common_sm.so.20
+usr/lib/libmpi_cxx.so.20.0.0                    usr/lib/libmpi_cxx.so.20
+usr/lib/libmpi_mpifh.so.20.0.0			usr/lib/libmpi_mpifh.so.20
+usr/lib/libmpi.so.20.0.1                        usr/lib/libmpi.so.20
+usr/lib/libmpi_usempif08.so.20.0.0		usr/lib/libmpi_usempif08.so.20
+usr/lib/libmpi_usempi_ignore_tkr.so.20.0.0   	usr/lib/libmpi_usempi_ignore_tkr.so.20
+usr/lib/libompitrace.so.20.0.0                   usr/lib/libompitrace.so.0
+usr/lib/libopen-pal.so.20.1.0                   usr/lib/libopen-pal.so.20
+usr/lib/libopen-rte.so.20.0.0                   usr/lib/libopen-rte.so.20
+#usr/lib/liboshmem.so.20.0.1		        usr/lib/liboshmem.so.20

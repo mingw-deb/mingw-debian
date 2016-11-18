@@ -1,0 +1,19 @@
+Author: Alastair McKinstry <mckinstry@debian.org>
+Description: Remove __DATE__ timestamps to make build bit-reproducible.
+ Also: Sort file lists that are globbed. See https://bugs.debian.org/824263
+Forwarded: no
+Last-Updated: 2016-05-23
+
+Index: openmpi-2.0.1/ompi/debuggers/ompi_msgq_dll.c
+===================================================================
+--- openmpi-2.0.1.orig/ompi/debuggers/ompi_msgq_dll.c
++++ openmpi-2.0.1/ompi/debuggers/ompi_msgq_dll.c
+@@ -189,7 +189,7 @@ int mqs_version_compatibility (void)
+ char *mqs_version_string (void)
+ {
+     return "Open MPI message queue support for parallel"
+-           " debuggers compiled on " __DATE__;
++      " debuggers, Debian version ";
+ } /* mqs_version_string */
+ 
+ /* So the debugger can tell what interface width the library was compiled with */
