@@ -14,3 +14,4 @@ man-add-whatis-info.diff
 no_hostname.patch
 bootstrap_options.conf
 version_string.patch
+mingw-packaging2

@@ -1,7 +1,7 @@
-This is libtool.info, produced by makeinfo version 5.2 from
+This is libtool.info, produced by makeinfo version 6.3 from
 libtool.texi.
 
-This manual is for GNU Libtool (version 2.4.6, 16 January 2015).
+This manual is for GNU Libtool (version 2.4.6, 15 December 2016).
 
    Copyright (C) 1996-2015 Free Software Foundation, Inc.
 
@@ -2450,6 +2450,7 @@ and accepts the following options:
 
           include libltdl/ltdl.mk
 
+
 '--quiet'
 '-q'
      Work silently.  'libtoolize --quiet' is used by GNU Automake to add
@@ -2565,7 +2566,7 @@ File: libtool.info,  Node: Static-only libraries,  Prev: Distributing,  Up: Inte
 When you are developing a package, it is often worthwhile to configure
 your package with the '--disable-shared' flag, or to override the
 defaults for 'LT_INIT' by using the 'disable-shared' option (*note The
-'LT_INIT' macro: LT_INIT.).  This prevents libtool from building shared
+'LT_INIT' macro: LT_INIT.). This prevents libtool from building shared
 libraries, which has several advantages:
 
    * compilation is twice as fast, which can speed up your development
@@ -3241,8 +3242,8 @@ must declare the objects you want your application to dlopen by using
 the '-dlopen' or '-dlpreopen' flags when you link your program (*note
 Link mode::).
 
- -- Data Type: lt_dlsymlist typedef struct { const char *NAME; void *ADDRESS;
-          } lt_dlsymlist
+ -- Data Type: lt_dlsymlist typedef struct { const char *NAME;
+          void *ADDRESS; } lt_dlsymlist
      The NAME attribute is a null-terminated character string of the
      symbol name, such as '"fprintf"'.  The ADDRESS attribute is a
      generic pointer to the appropriate object, such as '&fprintf'.
@@ -3302,7 +3303,8 @@ in 'lt_preloaded_symbols'.
      in turn will call back into a function thus passed for each
      preloaded module that it opens.
 
- -- Function: int lt_dlpreload_open (const char *ORIGINATOR, lt_dlpreload_callback_func *FUNC)
+ -- Function: int lt_dlpreload_open (const char *ORIGINATOR,
+          lt_dlpreload_callback_func *FUNC)
      Load all of the preloaded modules for ORIGINATOR.  For every module
      opened in this way, call FUNC.
 
@@ -3927,8 +3929,8 @@ Some of the internal information about each loaded module that is
 maintained by libltdl is available to the user, in the form of this
 structure:
 
- -- Type: struct lt_dlinfo { char *FILENAME; char *NAME; int REF_COUNT; int IS_RESIDENT;
-          int IS_SYMGLOBAL; int IS_SYMLOCAL;}
+ -- Type: struct lt_dlinfo { char *FILENAME; char *NAME; int REF_COUNT;
+          int IS_RESIDENT; int IS_SYMGLOBAL; int IS_SYMLOCAL;}
      'lt_dlinfo' is used to store information about a module.  The
      FILENAME attribute is a null-terminated character string of the
      real module file name.  If the module is a libtool module then NAME
@@ -4128,9 +4130,9 @@ The following types are defined in 'ltdl.h':
  -- Type: lt_user_data
      'lt_user_data' is used for specifying loader instance data.
 
- -- Type: struct lt_user_dlloader {const char *SYM_PREFIX; lt_module_open *MODULE_OPEN;
-          lt_module_close *MODULE_CLOSE; lt_find_sym *FIND_SYM; lt_dlloader_exit *DLLOADER_EXIT;
-          }
+ -- Type: struct lt_user_dlloader {const char *SYM_PREFIX;
+          lt_module_open *MODULE_OPEN; lt_module_close *MODULE_CLOSE;
+          lt_find_sym *FIND_SYM; lt_dlloader_exit *DLLOADER_EXIT; }
      If you want to define a new way to open dynamic modules, and have
      the 'lt_dlopen' API use it, you need to instantiate one of these
      structures and pass it to 'lt_dlloader_add'.  You can pass whatever
@@ -4208,8 +4210,8 @@ during the initialisation phase.
 libltdl provides the following functions for writing your own module
 loaders:
 
- -- Function: int lt_dlloader_add (lt_dlloader *PLACE, lt_user_dlloader *DLLOADER,
-          const char *LOADER_NAME)
+ -- Function: int lt_dlloader_add (lt_dlloader *PLACE,
+          lt_user_dlloader *DLLOADER, const char *LOADER_NAME)
      Add a new module loader to the list of all loaders, either as the
      last loader (if PLACE is 'NULL'), else immediately before the
      loader passed as PLACE.  LOADER_NAME will be returned by
@@ -5729,25 +5731,23 @@ rarely causes the build to fail (*note File Name Conversion Failure::).
 
 build platform     host platform      Notes
 ---------------------------------------------------------------------------
-MinGW (MSYS)       MinGW (Windows)    *note Native MinGW File Name
-                                      Conversion::
+MinGW (MSYS)       MinGW (Windows)    *note Native MinGW File Name Conversion::
                                       
-Cygwin             MinGW (Windows)    *note Cygwin/Windows File Name
-                                      Conversion::
+Cygwin             MinGW (Windows)    *note Cygwin/Windows File Name Conversion::
                                       
-Unix + Wine        MinGW (Windows)    Requires Wine.  *Note Unix/Windows
-                                      File Name Conversion::.
+Unix + Wine        MinGW (Windows)    Requires Wine.
+                                      *Note Unix/Windows File Name Conversion::.
                                       
-MinGW (MSYS)       Cygwin             Requires 'LT_CYGPATH'.  *Note
-                                      LT_CYGPATH::.  Provided for
+MinGW (MSYS)       Cygwin             Requires 'LT_CYGPATH'.
+                                      *Note LT_CYGPATH::.  Provided for
                                       testing purposes only.
                                       
 Unix + Wine        Cygwin             Requires both Wine and
                                       'LT_CYGPATH', but does not yet
                                       work with Cygwin 1.7.7 and
-                                      Wine-1.2.  *Note Unix/Windows File
-                                      Name Conversion::, and *note
-                                      LT_CYGPATH::.
+                                      Wine-1.2.
+                                      *Note Unix/Windows File Name Conversion::,
+                                      and *note LT_CYGPATH::.
 
 * Menu:
 

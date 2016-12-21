@@ -1,0 +1,3563 @@
+Description: <short summary of the patch>
+ TODO: Put a short summary on the line above and replace this paragraph
+ with a longer explanation of this change. Complete the meta-information
+ with other relevant fields (see below for details). To make it easier, the
+ information below has been extracted from the changelog. Adjust it or drop
+ it.
+ .
+ libtool (2.4.6-2) unstable; urgency=medium
+ .
+   * Don't show the debain version in --version, just in --help
+     (Closes: #832874)
+Author: Kurt Roeckx <kurt@roeckx.be>
+Bug-Debian: https://bugs.debian.org/832874
+
+---
+The information above should follow the Patch Tagging Guidelines, please
+checkout http://dep.debian.net/deps/dep3/ to learn about the format. Here
+are templates for supplementary fields that you might want to add:
+
+Origin: <vendor|upstream|other>, <url of original patch>
+Bug: <url in upstream bugtracker>
+Bug-Debian: https://bugs.debian.org/<bugnumber>
+Bug-Ubuntu: https://launchpad.net/bugs/<bugnumber>
+Forwarded: <no|not-needed|url proving that it has been forwarded>
+Reviewed-By: <name and email of someone who approved the patch>
+Last-Update: 2016-12-21
+
+--- libtool-2.4.6.orig/.version
++++ libtool-2.4.6/.version
+@@ -1 +1 @@
+-2.4.6
++UNKNOWN
+\ No newline at end of file
+--- libtool-2.4.6.orig/GNUmakefile
++++ libtool-2.4.6/GNUmakefile
+@@ -5,7 +5,7 @@
+ # It is necessary if you want to build targets usually of interest
+ # only to the maintainer.
+ 
+-# Copyright (C) 2001, 2003, 2006-2015 Free Software Foundation, Inc.
++# Copyright (C) 2001, 2003, 2006-2014 Free Software Foundation, Inc.
+ 
+ # This program is free software: you can redistribute it and/or modify
+ # it under the terms of the GNU General Public License as published by
+--- libtool-2.4.6.orig/INSTALL
++++ libtool-2.4.6/INSTALL
+@@ -1,8 +1,8 @@
+ Installation Instructions
+ *************************
+ 
+-   Copyright (C) 1994-1996, 1999-2002, 2004-2015 Free Software
+-Foundation, Inc.
++Copyright (C) 1994-1996, 1999-2002, 2004-2013 Free Software Foundation,
++Inc.
+ 
+    Copying and distribution of this file, with or without modification,
+ are permitted in any medium without royalty provided the copyright
+@@ -12,96 +12,97 @@ without warranty of any kind.
+ Basic Installation
+ ==================
+ 
+-   Briefly, the shell command './configure && make && make install'
++   Briefly, the shell command `./configure && make && make install'
+ should configure, build, and install this package.  The following
+-more-detailed instructions are generic; see the 'README' file for
++more-detailed instructions are generic; see the `README' file for
+ instructions specific to this package.  Some packages provide this
+-'INSTALL' file but do not implement all of the features documented
++`INSTALL' file but do not implement all of the features documented
+ below.  The lack of an optional feature in a given package is not
+ necessarily a bug.  More recommendations for GNU packages can be found
+ in *note Makefile Conventions: (standards)Makefile Conventions.
+ 
+-   The 'configure' shell script attempts to guess correct values for
++   The `configure' shell script attempts to guess correct values for
+ various system-dependent variables used during compilation.  It uses
+-those values to create a 'Makefile' in each directory of the package.
+-It may also create one or more '.h' files containing system-dependent
+-definitions.  Finally, it creates a shell script 'config.status' that
++those values to create a `Makefile' in each directory of the package.
++It may also create one or more `.h' files containing system-dependent
++definitions.  Finally, it creates a shell script `config.status' that
+ you can run in the future to recreate the current configuration, and a
+-file 'config.log' containing compiler output (useful mainly for
+-debugging 'configure').
++file `config.log' containing compiler output (useful mainly for
++debugging `configure').
+ 
+-   It can also use an optional file (typically called 'config.cache' and
+-enabled with '--cache-file=config.cache' or simply '-C') that saves the
+-results of its tests to speed up reconfiguring.  Caching is disabled by
+-default to prevent problems with accidental use of stale cache files.
++   It can also use an optional file (typically called `config.cache'
++and enabled with `--cache-file=config.cache' or simply `-C') that saves
++the results of its tests to speed up reconfiguring.  Caching is
++disabled by default to prevent problems with accidental use of stale
++cache files.
+ 
+    If you need to do unusual things to compile the package, please try
+-to figure out how 'configure' could check whether to do them, and mail
+-diffs or instructions to the address given in the 'README' so they can
++to figure out how `configure' could check whether to do them, and mail
++diffs or instructions to the address given in the `README' so they can
+ be considered for the next release.  If you are using the cache, and at
+-some point 'config.cache' contains results you don't want to keep, you
++some point `config.cache' contains results you don't want to keep, you
+ may remove or edit it.
+ 
+-   The file 'configure.ac' (or 'configure.in') is used to create
+-'configure' by a program called 'autoconf'.  You need 'configure.ac' if
+-you want to change it or regenerate 'configure' using a newer version of
+-'autoconf'.
++   The file `configure.ac' (or `configure.in') is used to create
++`configure' by a program called `autoconf'.  You need `configure.ac' if
++you want to change it or regenerate `configure' using a newer version
++of `autoconf'.
+ 
+    The simplest way to compile this package is:
+ 
+-  1. 'cd' to the directory containing the package's source code and type
+-     './configure' to configure the package for your system.
++  1. `cd' to the directory containing the package's source code and type
++     `./configure' to configure the package for your system.
+ 
+-     Running 'configure' might take a while.  While running, it prints
++     Running `configure' might take a while.  While running, it prints
+      some messages telling which features it is checking for.
+ 
+-  2. Type 'make' to compile the package.
++  2. Type `make' to compile the package.
+ 
+-  3. Optionally, type 'make check' to run any self-tests that come with
++  3. Optionally, type `make check' to run any self-tests that come with
+      the package, generally using the just-built uninstalled binaries.
+ 
+-  4. Type 'make install' to install the programs and any data files and
++  4. Type `make install' to install the programs and any data files and
+      documentation.  When installing into a prefix owned by root, it is
+      recommended that the package be configured and built as a regular
+-     user, and only the 'make install' phase executed with root
++     user, and only the `make install' phase executed with root
+      privileges.
+ 
+-  5. Optionally, type 'make installcheck' to repeat any self-tests, but
++  5. Optionally, type `make installcheck' to repeat any self-tests, but
+      this time using the binaries in their final installed location.
+      This target does not install anything.  Running this target as a
+-     regular user, particularly if the prior 'make install' required
++     regular user, particularly if the prior `make install' required
+      root privileges, verifies that the installation completed
+      correctly.
+ 
+   6. You can remove the program binaries and object files from the
+-     source code directory by typing 'make clean'.  To also remove the
+-     files that 'configure' created (so you can compile the package for
+-     a different kind of computer), type 'make distclean'.  There is
+-     also a 'make maintainer-clean' target, but that is intended mainly
++     source code directory by typing `make clean'.  To also remove the
++     files that `configure' created (so you can compile the package for
++     a different kind of computer), type `make distclean'.  There is
++     also a `make maintainer-clean' target, but that is intended mainly
+      for the package's developers.  If you use it, you may have to get
+      all sorts of other programs in order to regenerate files that came
+      with the distribution.
+ 
+-  7. Often, you can also type 'make uninstall' to remove the installed
++  7. Often, you can also type `make uninstall' to remove the installed
+      files again.  In practice, not all packages have tested that
+      uninstallation works correctly, even though it is required by the
+      GNU Coding Standards.
+ 
+-  8. Some packages, particularly those that use Automake, provide 'make
++  8. Some packages, particularly those that use Automake, provide `make
+      distcheck', which can by used by developers to test that all other
+-     targets like 'make install' and 'make uninstall' work correctly.
++     targets like `make install' and `make uninstall' work correctly.
+      This target is generally not run by end users.
+ 
+ Compilers and Options
+ =====================
+ 
+    Some systems require unusual options for compilation or linking that
+-the 'configure' script does not know about.  Run './configure --help'
++the `configure' script does not know about.  Run `./configure --help'
+ for details on some of the pertinent environment variables.
+ 
+-   You can give 'configure' initial values for configuration parameters
+-by setting variables in the command line or in the environment.  Here is
+-an example:
++   You can give `configure' initial values for configuration parameters
++by setting variables in the command line or in the environment.  Here
++is an example:
+ 
+      ./configure CC=c99 CFLAGS=-g LIBS=-lposix
+ 
+@@ -112,21 +113,21 @@ Compiling For Multiple Architectures
+ 
+    You can compile the package for more than one kind of computer at the
+ same time, by placing the object files for each architecture in their
+-own directory.  To do this, you can use GNU 'make'.  'cd' to the
++own directory.  To do this, you can use GNU `make'.  `cd' to the
+ directory where you want the object files and executables to go and run
+-the 'configure' script.  'configure' automatically checks for the source
+-code in the directory that 'configure' is in and in '..'.  This is known
+-as a "VPATH" build.
++the `configure' script.  `configure' automatically checks for the
++source code in the directory that `configure' is in and in `..'.  This
++is known as a "VPATH" build.
+ 
+-   With a non-GNU 'make', it is safer to compile the package for one
++   With a non-GNU `make', it is safer to compile the package for one
+ architecture at a time in the source code directory.  After you have
+-installed the package for one architecture, use 'make distclean' before
++installed the package for one architecture, use `make distclean' before
+ reconfiguring for another architecture.
+ 
+    On MacOS X 10.5 and later systems, you can create libraries and
+ executables that work on multiple system types--known as "fat" or
+-"universal" binaries--by specifying multiple '-arch' options to the
+-compiler but only a single '-arch' option to the preprocessor.  Like
++"universal" binaries--by specifying multiple `-arch' options to the
++compiler but only a single `-arch' option to the preprocessor.  Like
+ this:
+ 
+      ./configure CC="gcc -arch i386 -arch x86_64 -arch ppc -arch ppc64" \
+@@ -135,104 +136,105 @@ this:
+ 
+    This is not guaranteed to produce working output in all cases, you
+ may have to build one architecture at a time and combine the results
+-using the 'lipo' tool if you have problems.
++using the `lipo' tool if you have problems.
+ 
+ Installation Names
+ ==================
+ 
+-   By default, 'make install' installs the package's commands under
+-'/usr/local/bin', include files under '/usr/local/include', etc.  You
+-can specify an installation prefix other than '/usr/local' by giving
+-'configure' the option '--prefix=PREFIX', where PREFIX must be an
++   By default, `make install' installs the package's commands under
++`/usr/local/bin', include files under `/usr/local/include', etc.  You
++can specify an installation prefix other than `/usr/local' by giving
++`configure' the option `--prefix=PREFIX', where PREFIX must be an
+ absolute file name.
+ 
+    You can specify separate installation prefixes for
+ architecture-specific files and architecture-independent files.  If you
+-pass the option '--exec-prefix=PREFIX' to 'configure', the package uses
++pass the option `--exec-prefix=PREFIX' to `configure', the package uses
+ PREFIX as the prefix for installing programs and libraries.
+ Documentation and other data files still use the regular prefix.
+ 
+    In addition, if you use an unusual directory layout you can give
+-options like '--bindir=DIR' to specify different values for particular
+-kinds of files.  Run 'configure --help' for a list of the directories
+-you can set and what kinds of files go in them.  In general, the default
+-for these options is expressed in terms of '${prefix}', so that
+-specifying just '--prefix' will affect all of the other directory
++options like `--bindir=DIR' to specify different values for particular
++kinds of files.  Run `configure --help' for a list of the directories
++you can set and what kinds of files go in them.  In general, the
++default for these options is expressed in terms of `${prefix}', so that
++specifying just `--prefix' will affect all of the other directory
+ specifications that were not explicitly provided.
+ 
+    The most portable way to affect installation locations is to pass the
+-correct locations to 'configure'; however, many packages provide one or
++correct locations to `configure'; however, many packages provide one or
+ both of the following shortcuts of passing variable assignments to the
+-'make install' command line to change installation locations without
++`make install' command line to change installation locations without
+ having to reconfigure or recompile.
+ 
+    The first method involves providing an override variable for each
+-affected directory.  For example, 'make install
++affected directory.  For example, `make install
+ prefix=/alternate/directory' will choose an alternate location for all
+ directory configuration variables that were expressed in terms of
+-'${prefix}'.  Any directories that were specified during 'configure',
+-but not in terms of '${prefix}', must each be overridden at install time
+-for the entire installation to be relocated.  The approach of makefile
+-variable overrides for each directory variable is required by the GNU
+-Coding Standards, and ideally causes no recompilation.  However, some
+-platforms have known limitations with the semantics of shared libraries
+-that end up requiring recompilation when using this method, particularly
+-noticeable in packages that use GNU Libtool.
+-
+-   The second method involves providing the 'DESTDIR' variable.  For
+-example, 'make install DESTDIR=/alternate/directory' will prepend
+-'/alternate/directory' before all installation names.  The approach of
+-'DESTDIR' overrides is not required by the GNU Coding Standards, and
++`${prefix}'.  Any directories that were specified during `configure',
++but not in terms of `${prefix}', must each be overridden at install
++time for the entire installation to be relocated.  The approach of
++makefile variable overrides for each directory variable is required by
++the GNU Coding Standards, and ideally causes no recompilation.
++However, some platforms have known limitations with the semantics of
++shared libraries that end up requiring recompilation when using this
++method, particularly noticeable in packages that use GNU Libtool.
++
++   The second method involves providing the `DESTDIR' variable.  For
++example, `make install DESTDIR=/alternate/directory' will prepend
++`/alternate/directory' before all installation names.  The approach of
++`DESTDIR' overrides is not required by the GNU Coding Standards, and
+ does not work on platforms that have drive letters.  On the other hand,
+ it does better at avoiding recompilation issues, and works well even
+-when some directory options were not specified in terms of '${prefix}'
+-at 'configure' time.
++when some directory options were not specified in terms of `${prefix}'
++at `configure' time.
+ 
+ Optional Features
+ =================
+ 
+    If the package supports it, you can cause programs to be installed
+-with an extra prefix or suffix on their names by giving 'configure' the
+-option '--program-prefix=PREFIX' or '--program-suffix=SUFFIX'.
++with an extra prefix or suffix on their names by giving `configure' the
++option `--program-prefix=PREFIX' or `--program-suffix=SUFFIX'.
+ 
+-   Some packages pay attention to '--enable-FEATURE' options to
+-'configure', where FEATURE indicates an optional part of the package.
+-They may also pay attention to '--with-PACKAGE' options, where PACKAGE
+-is something like 'gnu-as' or 'x' (for the X Window System).  The
+-'README' should mention any '--enable-' and '--with-' options that the
++   Some packages pay attention to `--enable-FEATURE' options to
++`configure', where FEATURE indicates an optional part of the package.
++They may also pay attention to `--with-PACKAGE' options, where PACKAGE
++is something like `gnu-as' or `x' (for the X Window System).  The
++`README' should mention any `--enable-' and `--with-' options that the
+ package recognizes.
+ 
+-   For packages that use the X Window System, 'configure' can usually
++   For packages that use the X Window System, `configure' can usually
+ find the X include and library files automatically, but if it doesn't,
+-you can use the 'configure' options '--x-includes=DIR' and
+-'--x-libraries=DIR' to specify their locations.
++you can use the `configure' options `--x-includes=DIR' and
++`--x-libraries=DIR' to specify their locations.
+ 
+    Some packages offer the ability to configure how verbose the
+-execution of 'make' will be.  For these packages, running './configure
++execution of `make' will be.  For these packages, running `./configure
+ --enable-silent-rules' sets the default to minimal output, which can be
+-overridden with 'make V=1'; while running './configure
++overridden with `make V=1'; while running `./configure
+ --disable-silent-rules' sets the default to verbose, which can be
+-overridden with 'make V=0'.
++overridden with `make V=0'.
+ 
+ Particular systems
+ ==================
+ 
+-   On HP-UX, the default C compiler is not ANSI C compatible.  If GNU CC
+-is not installed, it is recommended to use the following options in
++   On HP-UX, the default C compiler is not ANSI C compatible.  If GNU
++CC is not installed, it is recommended to use the following options in
+ order to use an ANSI C compiler:
+ 
+      ./configure CC="cc -Ae -D_XOPEN_SOURCE=500"
+ 
+ and if that doesn't work, install pre-built binaries of GCC for HP-UX.
+ 
+-   HP-UX 'make' updates targets which have the same time stamps as their
+-prerequisites, which makes it generally unusable when shipped generated
+-files such as 'configure' are involved.  Use GNU 'make' instead.
++   HP-UX `make' updates targets which have the same time stamps as
++their prerequisites, which makes it generally unusable when shipped
++generated files such as `configure' are involved.  Use GNU `make'
++instead.
+ 
+    On OSF/1 a.k.a. Tru64, some versions of the default C compiler cannot
+-parse its '<wchar.h>' header file.  The option '-nodtk' can be used as a
+-workaround.  If GNU CC is not installed, it is therefore recommended to
+-try
++parse its `<wchar.h>' header file.  The option `-nodtk' can be used as
++a workaround.  If GNU CC is not installed, it is therefore recommended
++to try
+ 
+      ./configure CC="cc"
+ 
+@@ -240,26 +242,26 @@ and if that doesn't work, try
+ 
+      ./configure CC="cc -nodtk"
+ 
+-   On Solaris, don't put '/usr/ucb' early in your 'PATH'.  This
++   On Solaris, don't put `/usr/ucb' early in your `PATH'.  This
+ directory contains several dysfunctional programs; working variants of
+-these programs are available in '/usr/bin'.  So, if you need '/usr/ucb'
+-in your 'PATH', put it _after_ '/usr/bin'.
++these programs are available in `/usr/bin'.  So, if you need `/usr/ucb'
++in your `PATH', put it _after_ `/usr/bin'.
+ 
+-   On Haiku, software installed for all users goes in '/boot/common',
+-not '/usr/local'.  It is recommended to use the following options:
++   On Haiku, software installed for all users goes in `/boot/common',
++not `/usr/local'.  It is recommended to use the following options:
+ 
+      ./configure --prefix=/boot/common
+ 
+ Specifying the System Type
+ ==========================
+ 
+-   There may be some features 'configure' cannot figure out
++   There may be some features `configure' cannot figure out
+ automatically, but needs to determine by the type of machine the package
+ will run on.  Usually, assuming the package is built to be run on the
+-_same_ architectures, 'configure' can figure that out, but if it prints
++_same_ architectures, `configure' can figure that out, but if it prints
+ a message saying it cannot guess the machine type, give it the
+-'--build=TYPE' option.  TYPE can either be a short name for the system
+-type, such as 'sun4', or a canonical name which has the form:
++`--build=TYPE' option.  TYPE can either be a short name for the system
++type, such as `sun4', or a canonical name which has the form:
+ 
+      CPU-COMPANY-SYSTEM
+ 
+@@ -268,101 +270,101 @@ where SYSTEM can have one of these forms
+      OS
+      KERNEL-OS
+ 
+-   See the file 'config.sub' for the possible values of each field.  If
+-'config.sub' isn't included in this package, then this package doesn't
++   See the file `config.sub' for the possible values of each field.  If
++`config.sub' isn't included in this package, then this package doesn't
+ need to know the machine type.
+ 
+    If you are _building_ compiler tools for cross-compiling, you should
+-use the option '--target=TYPE' to select the type of system they will
++use the option `--target=TYPE' to select the type of system they will
+ produce code for.
+ 
+    If you want to _use_ a cross compiler, that generates code for a
+ platform different from the build platform, you should specify the
+ "host" platform (i.e., that on which the generated programs will
+-eventually be run) with '--host=TYPE'.
++eventually be run) with `--host=TYPE'.
+ 
+ Sharing Defaults
+ ================
+ 
+-   If you want to set default values for 'configure' scripts to share,
+-you can create a site shell script called 'config.site' that gives
+-default values for variables like 'CC', 'cache_file', and 'prefix'.
+-'configure' looks for 'PREFIX/share/config.site' if it exists, then
+-'PREFIX/etc/config.site' if it exists.  Or, you can set the
+-'CONFIG_SITE' environment variable to the location of the site script.
+-A warning: not all 'configure' scripts look for a site script.
++   If you want to set default values for `configure' scripts to share,
++you can create a site shell script called `config.site' that gives
++default values for variables like `CC', `cache_file', and `prefix'.
++`configure' looks for `PREFIX/share/config.site' if it exists, then
++`PREFIX/etc/config.site' if it exists.  Or, you can set the
++`CONFIG_SITE' environment variable to the location of the site script.
++A warning: not all `configure' scripts look for a site script.
+ 
+ Defining Variables
+ ==================
+ 
+    Variables not defined in a site shell script can be set in the
+-environment passed to 'configure'.  However, some packages may run
++environment passed to `configure'.  However, some packages may run
+ configure again during the build, and the customized values of these
+ variables may be lost.  In order to avoid this problem, you should set
+-them in the 'configure' command line, using 'VAR=value'.  For example:
++them in the `configure' command line, using `VAR=value'.  For example:
+ 
+      ./configure CC=/usr/local2/bin/gcc
+ 
+-causes the specified 'gcc' to be used as the C compiler (unless it is
++causes the specified `gcc' to be used as the C compiler (unless it is
+ overridden in the site shell script).
+ 
+-Unfortunately, this technique does not work for 'CONFIG_SHELL' due to an
+-Autoconf limitation.  Until the limitation is lifted, you can use this
+-workaround:
++Unfortunately, this technique does not work for `CONFIG_SHELL' due to
++an Autoconf limitation.  Until the limitation is lifted, you can use
++this workaround:
+ 
+      CONFIG_SHELL=/bin/bash ./configure CONFIG_SHELL=/bin/bash
+ 
+-'configure' Invocation
++`configure' Invocation
+ ======================
+ 
+-   'configure' recognizes the following options to control how it
++   `configure' recognizes the following options to control how it
+ operates.
+ 
+-'--help'
+-'-h'
+-     Print a summary of all of the options to 'configure', and exit.
++`--help'
++`-h'
++     Print a summary of all of the options to `configure', and exit.
+ 
+-'--help=short'
+-'--help=recursive'
++`--help=short'
++`--help=recursive'
+      Print a summary of the options unique to this package's
+-     'configure', and exit.  The 'short' variant lists options used only
+-     in the top level, while the 'recursive' variant lists options also
+-     present in any nested packages.
+-
+-'--version'
+-'-V'
+-     Print the version of Autoconf used to generate the 'configure'
++     `configure', and exit.  The `short' variant lists options used
++     only in the top level, while the `recursive' variant lists options
++     also present in any nested packages.
++
++`--version'
++`-V'
++     Print the version of Autoconf used to generate the `configure'
+      script, and exit.
+ 
+-'--cache-file=FILE'
++`--cache-file=FILE'
+      Enable the cache: use and save the results of the tests in FILE,
+-     traditionally 'config.cache'.  FILE defaults to '/dev/null' to
++     traditionally `config.cache'.  FILE defaults to `/dev/null' to
+      disable caching.
+ 
+-'--config-cache'
+-'-C'
+-     Alias for '--cache-file=config.cache'.
+-
+-'--quiet'
+-'--silent'
+-'-q'
++`--config-cache'
++`-C'
++     Alias for `--cache-file=config.cache'.
++
++`--quiet'
++`--silent'
++`-q'
+      Do not print messages saying which checks are being made.  To
+-     suppress all normal output, redirect it to '/dev/null' (any error
++     suppress all normal output, redirect it to `/dev/null' (any error
+      messages will still be shown).
+ 
+-'--srcdir=DIR'
++`--srcdir=DIR'
+      Look for the package's source code in directory DIR.  Usually
+-     'configure' can determine that directory automatically.
++     `configure' can determine that directory automatically.
+ 
+-'--prefix=DIR'
+-     Use DIR as the installation prefix.  *note Installation Names:: for
+-     more details, including other options available for fine-tuning the
+-     installation locations.
++`--prefix=DIR'
++     Use DIR as the installation prefix.  *note Installation Names::
++     for more details, including other options available for fine-tuning
++     the installation locations.
+ 
+-'--no-create'
+-'-n'
++`--no-create'
++`-n'
+      Run the configure checks, but stop before creating any output
+      files.
+ 
+-'configure' also accepts some other, not widely useful, options.  Run
+-'configure --help' for more details.
++`configure' also accepts some other, not widely useful, options.  Run
++`configure --help' for more details.
+--- libtool-2.4.6.orig/build-aux/announce-gen
++++ libtool-2.4.6/build-aux/announce-gen
+@@ -3,13 +3,13 @@ eval '(exit $?0)' && eval 'exec perl -wS
+     if 0;
+ # Generate a release announcement message.
+ 
+-my $VERSION = '2013-07-09 06:39'; # UTC
++my $VERSION = '2012-06-08 06:53'; # UTC
+ # The definition above must lie within the first 8 lines in order
+ # for the Emacs time-stamp write hook (at end) to update it.
+ # If you change this file with Emacs, please let the write hook
+ # do its job.  Otherwise, update this string manually.
+ 
+-# Copyright (C) 2002-2015 Free Software Foundation, Inc.
++# Copyright (C) 2002-2014 Free Software Foundation, Inc.
+ 
+ # This program is free software: you can redistribute it and/or modify
+ # it under the terms of the GNU General Public License as published by
+@@ -29,18 +29,15 @@ my $VERSION = '2013-07-09 06:39'; # UTC
+ use strict;
+ 
+ use Getopt::Long;
++use Digest::MD5;
++eval { require Digest::SHA; }
++  or eval 'use Digest::SHA1';
+ use POSIX qw(strftime);
+ 
+ (my $ME = $0) =~ s|.*/||;
+ 
+ my %valid_release_types = map {$_ => 1} qw (alpha beta stable);
+ my @archive_suffixes = ('tar.gz', 'tar.bz2', 'tar.lzma', 'tar.xz');
+-my %digest_classes =
+-  (
+-   'md5' => (eval { require Digest::MD5; } and 'Digest::MD5'),
+-   'sha1' => ((eval { require Digest::SHA; } and 'Digest::SHA')
+-              or (eval { require Digest::SHA1; } and 'Digest::SHA1'))
+-  );
+ my $srcdir = '.';
+ 
+ sub usage ($)
+@@ -160,13 +157,15 @@ sub print_checksums (@)
+ 
+   foreach my $meth (qw (md5 sha1))
+     {
+-      my $class = $digest_classes{$meth} or next;
+       foreach my $f (@file)
+         {
+           open IN, '<', $f
+             or die "$ME: $f: cannot open for reading: $!\n";
+           binmode IN;
+-          my $dig = $class->new->addfile(*IN)->hexdigest;
++          my $dig =
++            ($meth eq 'md5'
++             ? Digest::MD5->new->addfile(*IN)->hexdigest
++             : Digest::SHA1->new->addfile(*IN)->hexdigest);
+           close IN;
+           print "$dig  $f\n";
+         }
+@@ -417,15 +416,14 @@ sub get_tool_versions ($$)
+   @url_dir_list
+     or (warn "URL directory name(s) not specified\n"), $fail = 1;
+ 
+-  my @tool_list = split ',', $bootstrap_tools
+-    if $bootstrap_tools;
++  my @tool_list = split ',', $bootstrap_tools;
+ 
+   grep (/^gnulib$/, @tool_list) ^ defined $gnulib_version
+     and (warn "when specifying gnulib as a tool, you must also specify\n"
+         . "--gnulib-version=V, where V is the result of running git describe\n"
+         . "in the gnulib source directory.\n"), $fail = 1;
+ 
+-  !$release_type || exists $valid_release_types{$release_type}
++  exists $valid_release_types{$release_type}
+     or (warn "'$release_type': invalid release type\n"), $fail = 1;
+ 
+   @ARGV
+@@ -465,14 +463,7 @@ ${headers}Subject: $my_distdir released
+ 
+ <\#secure method=pgpmime mode=sign>
+ 
+-Libtoolers!
+-
+-The Libtool Team is pleased to announce the release of $package_name $curr_version.
+-
+-GNU Libtool hides the complexity of using shared libraries behind a
+-consistent, portable interface. GNU Libtool ships with GNU libltdl, which
+-hides the complexity of loading dynamic runtime libraries (modules)
+-behind a consistent, portable interface.
++FIXME: put comments here
+ 
+ EOF
+ 
+@@ -542,11 +533,6 @@ EOF
+   $release_type eq 'stable'
+     or print_changelog_deltas ($package_name, $prev_version);
+ 
+-  print <<EOF;
+-
+-Enjoy!
+-EOF
+-
+   exit 0;
+ }
+ 
+--- libtool-2.4.6.orig/build-aux/compile
++++ libtool-2.4.6/build-aux/compile
+@@ -3,7 +3,7 @@
+ 
+ scriptversion=2012-10-14.11; # UTC
+ 
+-# Copyright (C) 1999-2015 Free Software Foundation, Inc.
++# Copyright (C) 1999-2014 Free Software Foundation, Inc.
+ # Written by Tom Tromey <tromey@cygnus.com>.
+ #
+ # This program is free software; you can redistribute it and/or modify
+--- libtool-2.4.6.orig/build-aux/depcomp
++++ libtool-2.4.6/build-aux/depcomp
+@@ -3,7 +3,7 @@
+ 
+ scriptversion=2013-05-30.07; # UTC
+ 
+-# Copyright (C) 1999-2015 Free Software Foundation, Inc.
++# Copyright (C) 1999-2014 Free Software Foundation, Inc.
+ 
+ # This program is free software; you can redistribute it and/or modify
+ # it under the terms of the GNU General Public License as published by
+@@ -251,6 +251,41 @@ hp)
+   exit 1
+   ;;
+ 
++sgi)
++  if test "$libtool" = yes; then
++    "$@" "-Wp,-MDupdate,$tmpdepfile"
++  else
++    "$@" -MDupdate "$tmpdepfile"
++  fi
++  stat=$?
++  if test $stat -ne 0; then
++    rm -f "$tmpdepfile"
++    exit $stat
++  fi
++  rm -f "$depfile"
++
++  if test -f "$tmpdepfile"; then  # yes, the sourcefile depend on other files
++    echo "$object : \\" > "$depfile"
++    # Clip off the initial element (the dependent).  Don't try to be
++    # clever and replace this with sed code, as IRIX sed won't handle
++    # lines with more than a fixed number of characters (4096 in
++    # IRIX 6.2 sed, 8192 in IRIX 6.5).  We also remove comment lines;
++    # the IRIX cc adds comments like '#:fec' to the end of the
++    # dependency line.
++    tr ' ' "$nl" < "$tmpdepfile" \
++      | sed -e 's/^.*\.o://' -e 's/#.*$//' -e '/^$/ d' \
++      | tr "$nl" ' ' >> "$depfile"
++    echo >> "$depfile"
++    # The second pass generates a dummy entry for each header file.
++    tr ' ' "$nl" < "$tmpdepfile" \
++      | sed -e 's/^.*\.o://' -e 's/#.*$//' -e '/^$/ d' -e 's/$/:/' \
++      >> "$depfile"
++  else
++    make_dummy_depfile
++  fi
++  rm -f "$tmpdepfile"
++  ;;
++
+ xlc)
+   # This case exists only to let depend.m4 do its work.  It works by
+   # looking at the text of this script.  This case will never be run,
+--- libtool-2.4.6.orig/build-aux/do-release-commit-and-tag
++++ libtool-2.4.6/build-aux/do-release-commit-and-tag
+@@ -5,12 +5,9 @@
+ # will serve to identify the release, so apply a signed tag to it as well.
+ VERSION=2012-08-01.09 # UTC
+ 
+-# Make sure we've evaluated scripts we depend on.
+-test -z "$progpath" && . `echo "$0" |${SED-sed} 's|[^/]*$||'`/funclib.sh
+-
+ # Note: this is a bash script (could be zsh or dash)
+ 
+-# Copyright (C) 2009-2015 Free Software Foundation, Inc.
++# Copyright (C) 2009-2014 Free Software Foundation, Inc.
+ 
+ # This program is free software: you can redistribute it and/or modify
+ # it under the terms of the GNU General Public License as published by
+@@ -128,8 +125,10 @@ prev_ver=$(cat .prev-version) \
+   || die 'failed to determine previous version number from .prev-version'
+ 
+ # Verify that $ver is sensible (> .prev-version).
+-func_lt_ver "$prev_ver" "$ver" \
+-  || die "invalid version: $ver (<= $prev_ver)"
++case $(printf "$prev_ver\n$ver\n"|sort -V -u|tr '\n' ':') in
++  "$prev_ver:$ver:") ;;
++  *) die "invalid version: $ver (<= $prev_ver)";;
++esac
+ 
+ case $type in
+   alpha|beta|stable) ;;
+--- libtool-2.4.6.orig/build-aux/gendocs.sh
++++ libtool-2.4.6/build-aux/gendocs.sh
+@@ -2,9 +2,10 @@
+ # gendocs.sh -- generate a GNU manual in many formats.  This script is
+ #   mentioned in maintain.texi.  See the help message below for usage details.
+ 
+-scriptversion=2015-01-02.22
++scriptversion=2013-10-10.09
+ 
+-# Copyright 2003-2015 Free Software Foundation, Inc.
++# Copyright 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013
++# Free Software Foundation, Inc.
+ #
+ # This program is free software: you can redistribute it and/or modify
+ # it under the terms of the GNU General Public License as published by
+@@ -20,13 +21,14 @@ scriptversion=2015-01-02.22
+ # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ #
+ # Original author: Mohit Agarwal.
+-# Send bug reports and any other correspondence to bug-gnulib@gnu.org.
++# Send bug reports and any other correspondence to bug-texinfo@gnu.org.
+ #
+ # The latest version of this script, and the companion template, is
+-# available from the Gnulib repository:
++# available from Texinfo CVS:
++# http://savannah.gnu.org/cgi-bin/viewcvs/texinfo/texinfo/util/gendocs.sh
++# http://savannah.gnu.org/cgi-bin/viewcvs/texinfo/texinfo/util/gendocs_template
+ #
+-# http://git.savannah.gnu.org/cgit/gnulib.git/tree/build-aux/gendocs.sh
+-# http://git.savannah.gnu.org/cgit/gnulib.git/tree/doc/gendocs_template
++# An up-to-date copy is also maintained in Gnulib (gnu.org/software/gnulib).
+ 
+ # TODO:
+ # - image importation was only implemented for HTML generated by
+@@ -37,8 +39,8 @@ scriptversion=2015-01-02.22
+ prog=`basename "$0"`
+ srcdir=`pwd`
+ 
+-scripturl="http://git.savannah.gnu.org/cgit/gnulib.git/plain/build-aux/gendocs.sh"
+-templateurl="http://git.savannah.gnu.org/cgit/gnulib.git/plain/doc/gendocs_template"
++scripturl="http://savannah.gnu.org/cgi-bin/viewcvs/~checkout~/texinfo/texinfo/util/gendocs.sh"
++templateurl="http://savannah.gnu.org/cgi-bin/viewcvs/~checkout~/texinfo/texinfo/util/gendocs_template"
+ 
+ : ${SETLANG="env LANG= LC_MESSAGES= LC_ALL= LANGUAGE="}
+ : ${MAKEINFO="makeinfo"}
+@@ -76,9 +78,6 @@ Options:
+   --html ARG   pass ARG to makeinfo or texi2html for HTML targets.
+   --info ARG   pass ARG to makeinfo for Info, instead of --no-split.
+   --no-ascii   skip generating the plain text output.
+-  --no-html    skip generating the html output.
+-  --no-info    skip generating the info output.
+-  --no-tex     skip generating the dvi and pdf output.
+   --source ARG include ARG in tar archive of sources.
+   --split HOW  make split HTML by node, section, chapter; default node.
+ 
+@@ -132,7 +131,7 @@ locale, since that's the language of mos
+ happen to have a non-English manual and non-English web site, see the
+ SETLANG setting in the source.
+ 
+-Email bug reports or enhancement requests to bug-gnulib@gnu.org.
++Email bug reports or enhancement requests to bug-texinfo@gnu.org.
+ "
+ 
+ MANUAL_TITLE=
+@@ -140,13 +139,10 @@ PACKAGE=
+ EMAIL=webmasters@gnu.org  # please override with --email
+ commonarg= # passed to all makeinfo/texi2html invcations.
+ dirargs=   # passed to all tools (-I dir).
+-dirs=      # -I directories.
++dirs=      # -I's directories.
+ htmlarg=
+ infoarg=--no-split
+ generate_ascii=true
+-generate_html=true
+-generate_info=true
+-generate_tex=true
+ outdir=manual
+ source_extra=
+ split=node
+@@ -163,9 +159,6 @@ while test $# -gt 0; do
+     --html)      shift; htmlarg=$1;;
+     --info)      shift; infoarg=$1;;
+     --no-ascii)  generate_ascii=false;;
+-    --no-html)   generate_ascii=false;;
+-    --no-info)   generate_info=false;;
+-    --no-tex)    generate_tex=false;;
+     --source)    shift; source_extra=$1;;
+     --split)     shift; split=$1;;
+     --texi2html) use_texi2html=1;;
+@@ -228,9 +221,8 @@ calcsize()
+ 
+ # copy_images OUTDIR HTML-FILE...
+ # -------------------------------
+-# Copy all the images needed by the HTML-FILEs into OUTDIR.
+-# Look for them in . and the -I directories; this is simpler than what
+-# makeinfo supports with -I, but hopefully it will suffice.
++# Copy all the images needed by the HTML-FILEs into OUTDIR.  Look
++# for them in the -I directories.
+ copy_images()
+ {
+   local odir
+@@ -240,7 +232,7 @@ copy_images()
+ BEGIN {
+   \$me = '$prog';
+   \$odir = '$odir';
+-  @dirs = qw(. $dirs);
++  @dirs = qw($dirs);
+ }
+ " -e '
+ /<img src="(.*?)"/g && ++$need{$1};
+@@ -278,39 +270,32 @@ echo "Making output for $srcfile"
+ echo " in `pwd`"
+ mkdir -p "$outdir/"
+ 
+-# 
+-if $generate_info; then
+-  cmd="$SETLANG $MAKEINFO -o $PACKAGE.info $commonarg $infoarg \"$srcfile\""
+-  echo "Generating info... ($cmd)"
+-  rm -f $PACKAGE.info* # get rid of any strays
+-  eval "$cmd"
+-  tar czf "$outdir/$PACKAGE.info.tar.gz" $PACKAGE.info*
+-  ls -l "$outdir/$PACKAGE.info.tar.gz"
+-  info_tgz_size=`calcsize "$outdir/$PACKAGE.info.tar.gz"`
+-  # do not mv the info files, there's no point in having them available
+-  # separately on the web.
+-fi  # end info
+-
+-# 
+-if $generate_tex; then
+-  cmd="$SETLANG $TEXI2DVI $dirargs \"$srcfile\""
+-  printf "\nGenerating dvi... ($cmd)\n"
+-  eval "$cmd"
+-  # compress/finish dvi:
+-  gzip -f -9 $PACKAGE.dvi
+-  dvi_gz_size=`calcsize $PACKAGE.dvi.gz`
+-  mv $PACKAGE.dvi.gz "$outdir/"
+-  ls -l "$outdir/$PACKAGE.dvi.gz"
++cmd="$SETLANG $MAKEINFO -o $PACKAGE.info $commonarg $infoarg \"$srcfile\""
++echo "Generating info... ($cmd)"
++rm -f $PACKAGE.info* # get rid of any strays
++eval "$cmd"
++tar czf "$outdir/$PACKAGE.info.tar.gz" $PACKAGE.info*
++ls -l "$outdir/$PACKAGE.info.tar.gz"
++info_tgz_size=`calcsize "$outdir/$PACKAGE.info.tar.gz"`
++# do not mv the info files, there's no point in having them available
++# separately on the web.
++
++cmd="$SETLANG $TEXI2DVI $dirargs \"$srcfile\""
++printf "\nGenerating dvi... ($cmd)\n"
++eval "$cmd"
++# compress/finish dvi:
++gzip -f -9 $PACKAGE.dvi
++dvi_gz_size=`calcsize $PACKAGE.dvi.gz`
++mv $PACKAGE.dvi.gz "$outdir/"
++ls -l "$outdir/$PACKAGE.dvi.gz"
++
++cmd="$SETLANG $TEXI2DVI --pdf $dirargs \"$srcfile\""
++printf "\nGenerating pdf... ($cmd)\n"
++eval "$cmd"
++pdf_size=`calcsize $PACKAGE.pdf`
++mv $PACKAGE.pdf "$outdir/"
++ls -l "$outdir/$PACKAGE.pdf"
+ 
+-  cmd="$SETLANG $TEXI2DVI --pdf $dirargs \"$srcfile\""
+-  printf "\nGenerating pdf... ($cmd)\n"
+-  eval "$cmd"
+-  pdf_size=`calcsize $PACKAGE.pdf`
+-  mv $PACKAGE.pdf "$outdir/"
+-  ls -l "$outdir/$PACKAGE.pdf"
+-fi # end tex (dvi + pdf)
+-
+-# 
+ if $generate_ascii; then
+   opt="-o $PACKAGE.txt --no-split --no-headers $commonarg"
+   cmd="$SETLANG $MAKEINFO $opt \"$srcfile\""
+@@ -323,9 +308,6 @@ if $generate_ascii; then
+   ls -l "$outdir/$PACKAGE.txt" "$outdir/$PACKAGE.txt.gz"
+ fi
+ 
+-# 
+-
+-if $generate_html; then
+ # Split HTML at level $1.  Used for texi2html.
+ html_split()
+ {
+@@ -400,9 +382,7 @@ else # use texi2html:
+   html_split chapter
+   html_split section
+ fi
+-fi # end html
+ 
+-# 
+ printf "\nMaking .tar.gz for sources...\n"
+ d=`dirname $srcfile`
+ (
+@@ -413,8 +393,6 @@ d=`dirname $srcfile`
+ )
+ texi_tgz_size=`calcsize "$outdir/$PACKAGE.texi.tar.gz"`
+ 
+-# 
+-# Do everything again through docbook.
+ if test -n "$docbook"; then
+   opt="-o - --docbook $commonarg"
+   cmd="$SETLANG $MAKEINFO $opt \"$srcfile\" >${srcdir}/$PACKAGE-db.xml"
+@@ -453,8 +431,7 @@ if test -n "$docbook"; then
+   mv $PACKAGE-db.pdf "$outdir/"
+ fi
+ 
+-# 
+-printf "\nMaking index.html for $PACKAGE...\n"
++printf "\nMaking index file...\n"
+ if test -z "$use_texi2html"; then
+   CONDS="/%%IF  *HTML_SECTION%%/,/%%ENDIF  *HTML_SECTION%%/d;\
+          /%%IF  *HTML_CHAPTER%%/,/%%ENDIF  *HTML_CHAPTER%%/d"
+--- libtool-2.4.6.orig/build-aux/gnu-web-doc-update
++++ libtool-2.4.6/build-aux/gnu-web-doc-update
+@@ -4,7 +4,7 @@
+ 
+ VERSION=2012-12-16.14; # UTC
+ 
+-# Copyright (C) 2009-2015 Free Software Foundation, Inc.
++# Copyright (C) 2009-2014 Free Software Foundation, Inc.
+ 
+ # This program is free software: you can redistribute it and/or modify
+ # it under the terms of the GNU General Public License as published by
+--- libtool-2.4.6.orig/build-aux/gnupload
++++ libtool-2.4.6/build-aux/gnupload
+@@ -3,7 +3,7 @@
+ 
+ scriptversion=2013-03-19.17; # UTC
+ 
+-# Copyright (C) 2004-2015 Free Software Foundation, Inc.
++# Copyright (C) 2004-2014 Free Software Foundation, Inc.
+ #
+ # This program is free software; you can redistribute it and/or modify
+ # it under the terms of the GNU General Public License as published by
+--- libtool-2.4.6.orig/build-aux/install-sh
++++ libtool-2.4.6/build-aux/install-sh
+@@ -1,7 +1,7 @@
+ #!/bin/sh
+ # install - install a program, script, or datafile
+ 
+-scriptversion=2013-12-25.23; # UTC
++scriptversion=2014-09-12.12; # UTC
+ 
+ # This originates from X11R5 (mit/util/scripts/install.sh), which was
+ # later released in X11R6 (xc/config/util/install.sh) with the
+@@ -324,34 +324,41 @@ do
+             # is incompatible with FreeBSD 'install' when (umask & 300) != 0.
+             ;;
+           *)
++            # $RANDOM is not portable (e.g. dash);  use it when possible to
++            # lower collision chance
+             tmpdir=${TMPDIR-/tmp}/ins$RANDOM-$$
+-            trap 'ret=$?; rmdir "$tmpdir/d" "$tmpdir" 2>/dev/null; exit $ret' 0
++            trap 'ret=$?; rmdir "$tmpdir/a/b" "$tmpdir/a" "$tmpdir" 2>/dev/null; exit $ret' 0
+ 
++            # As "mkdir -p" follows symlinks and we work in /tmp possibly;  so
++            # create the $tmpdir first (and fail if unsuccessful) to make sure
++            # that nobody tries to guess the $tmpdir name.
+             if (umask $mkdir_umask &&
+-                exec $mkdirprog $mkdir_mode -p -- "$tmpdir/d") >/dev/null 2>&1
++                $mkdirprog $mkdir_mode "$tmpdir" &&
++                exec $mkdirprog $mkdir_mode -p -- "$tmpdir/a/b") >/dev/null 2>&1
+             then
+               if test -z "$dir_arg" || {
+                    # Check for POSIX incompatibilities with -m.
+                    # HP-UX 11.23 and IRIX 6.5 mkdir -m -p sets group- or
+                    # other-writable bit of parent directory when it shouldn't.
+                    # FreeBSD 6.1 mkdir -m -p sets mode of existing directory.
+-                   ls_ld_tmpdir=`ls -ld "$tmpdir"`
++                   test_tmpdir="$tmpdir/a"
++                   ls_ld_tmpdir=`ls -ld "$test_tmpdir"`
+                    case $ls_ld_tmpdir in
+                      d????-?r-*) different_mode=700;;
+                      d????-?--*) different_mode=755;;
+                      *) false;;
+                    esac &&
+-                   $mkdirprog -m$different_mode -p -- "$tmpdir" && {
+-                     ls_ld_tmpdir_1=`ls -ld "$tmpdir"`
++                   $mkdirprog -m$different_mode -p -- "$test_tmpdir" && {
++                     ls_ld_tmpdir_1=`ls -ld "$test_tmpdir"`
+                      test "$ls_ld_tmpdir" = "$ls_ld_tmpdir_1"
+                    }
+                  }
+               then posix_mkdir=:
+               fi
+-              rmdir "$tmpdir/d" "$tmpdir"
++              rmdir "$tmpdir/a/b" "$tmpdir/a" "$tmpdir"
+             else
+               # Remove any dirs left behind by ancient mkdir implementations.
+-              rmdir ./$mkdir_mode ./-p ./-- 2>/dev/null
++              rmdir ./$mkdir_mode ./-p ./-- "$tmpdir" 2>/dev/null
+             fi
+             trap '' 0;;
+         esac;;
+--- libtool-2.4.6.orig/build-aux/ltmain.sh
++++ libtool-2.4.6/build-aux/ltmain.sh
+@@ -31,7 +31,7 @@
+ 
+ PROGRAM=libtool
+ PACKAGE=libtool
+-VERSION=2.4.6
++VERSION="2.4.6 Debian-2.4.6-2"
+ package_revision=2.4.6
+ 
+ 
+@@ -2068,12 +2068,12 @@ include the following information:
+        compiler:       $LTCC
+        compiler flags: $LTCFLAGS
+        linker:         $LD (gnu? $with_gnu_ld)
+-       version:        $progname (GNU libtool) 2.4.6
++       version:        $progname $scriptversion Debian-2.4.6-2
+        automake:       `($AUTOMAKE --version) 2>/dev/null |$SED 1q`
+        autoconf:       `($AUTOCONF --version) 2>/dev/null |$SED 1q`
+ 
+ Report bugs to <bug-libtool@gnu.org>.
+-GNU libtool home page: <http://www.gnu.org/software/libtool/>.
++GNU libtool home page: <http://www.gnu.org/s/libtool/>.
+ General help using GNU software: <http://www.gnu.org/gethelp/>."
+     exit 0
+ }
+@@ -7272,10 +7272,13 @@ func_mode_link ()
+       # -tp=*                Portland pgcc target processor selection
+       # --sysroot=*          for sysroot support
+       # -O*, -g*, -flto*, -fwhopr*, -fuse-linker-plugin GCC link-time optimization
++      # -specs=*             GCC specs files
+       # -stdlib=*            select c++ std lib with clang
++      # -fsanitize=*         Clang/GCC memory and address sanitizer
+       -64|-mips[0-9]|-r[0-9][0-9]*|-xarch=*|-xtarget=*|+DA*|+DD*|-q*|-m*| \
+       -t[45]*|-txscale*|-p|-pg|--coverage|-fprofile-*|-F*|@*|-tp=*|--sysroot=*| \
+-      -O*|-g*|-flto*|-fwhopr*|-fuse-linker-plugin|-fstack-protector*|-stdlib=*)
++      -O*|-g*|-flto*|-fwhopr*|-fuse-linker-plugin|-fstack-protector*|-stdlib=*| \
++      -specs=*|-fsanitize=*)
+         func_quote_for_eval "$arg"
+ 	arg=$func_quote_for_eval_result
+         func_append compile_command " $arg"
+@@ -7568,7 +7571,10 @@ func_mode_link ()
+ 	case $pass in
+ 	dlopen) libs=$dlfiles ;;
+ 	dlpreopen) libs=$dlprefiles ;;
+-	link) libs="$deplibs %DEPLIBS% $dependency_libs" ;;
++	link)
++	  libs="$deplibs %DEPLIBS%"
++	  test "X$link_all_deplibs" != Xno && libs="$libs $dependency_libs"
++	  ;;
+ 	esac
+       fi
+       if test lib,dlpreopen = "$linkmode,$pass"; then
+@@ -7887,19 +7893,19 @@ func_mode_link ()
+ 	    # It is a libtool convenience library, so add in its objects.
+ 	    func_append convenience " $ladir/$objdir/$old_library"
+ 	    func_append old_convenience " $ladir/$objdir/$old_library"
++	    tmp_libs=
++	    for deplib in $dependency_libs; do
++	      deplibs="$deplib $deplibs"
++	      if $opt_preserve_dup_deps; then
++		case "$tmp_libs " in
++		*" $deplib "*) func_append specialdeplibs " $deplib" ;;
++		esac
++	      fi
++	      func_append tmp_libs " $deplib"
++	    done
+ 	  elif test prog != "$linkmode" && test lib != "$linkmode"; then
+ 	    func_fatal_error "'$lib' is not a convenience library"
+ 	  fi
+-	  tmp_libs=
+-	  for deplib in $dependency_libs; do
+-	    deplibs="$deplib $deplibs"
+-	    if $opt_preserve_dup_deps; then
+-	      case "$tmp_libs " in
+-	      *" $deplib "*) func_append specialdeplibs " $deplib" ;;
+-	      esac
+-	    fi
+-	    func_append tmp_libs " $deplib"
+-	  done
+ 	  continue
+ 	fi # $pass = conv
+ 
+@@ -8823,6 +8829,9 @@ func_mode_link ()
+ 	    revision=$number_minor
+ 	    lt_irix_increment=no
+ 	    ;;
++	  *)
++	    func_fatal_configuration "$modename: unknown library version type '$version_type'"
++	    ;;
+ 	  esac
+ 	  ;;
+ 	no)
+--- libtool-2.4.6.orig/build-aux/mdate-sh
++++ libtool-2.4.6/build-aux/mdate-sh
+@@ -1,9 +1,9 @@
+ #!/bin/sh
+ # Get modification time of a file or directory and pretty-print it.
+ 
+-scriptversion=2010-08-21.06; # UTC
++scriptversion=2015-04-09.19; # UTC
+ 
+-# Copyright (C) 1995-2015 Free Software Foundation, Inc.
++# Copyright (C) 1995-2014 Free Software Foundation, Inc.
+ # written by Ulrich Drepper <drepper@gnu.ai.mit.edu>, June 1995
+ #
+ # This program is free software; you can redistribute it and/or modify
+@@ -74,6 +74,10 @@ export LC_ALL
+ LC_TIME=C
+ export LC_TIME
+ 
++# Use UTC to get reproducible result
++TZ=UTC
++export TZ
++
+ # GNU ls changes its time format in response to the TIME_STYLE
+ # variable.  Since we cannot assume 'unset' works, revert this
+ # variable to its documented default.
+--- libtool-2.4.6.orig/build-aux/texinfo.tex
++++ libtool-2.4.6/build-aux/texinfo.tex
+@@ -3,11 +3,11 @@
+ % Load plain if necessary, i.e., if running under initex.
+ \expandafter\ifx\csname fmtname\endcsname\relax\input plain\fi
+ %
+-\def\texinfoversion{2014-12-03.16}
++\def\texinfoversion{2013-02-01.11}
+ %
+ % Copyright 1985, 1986, 1988, 1990, 1991, 1992, 1993, 1994, 1995,
+ % 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006,
+-% 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014 Free Software Foundation, Inc.
++% 2007, 2008, 2009, 2010, 2011, 2012, 2013 Free Software Foundation, Inc.
+ %
+ % This texinfo.tex file is free software: you can redistribute it and/or
+ % modify it under the terms of the GNU General Public License as
+@@ -96,9 +96,7 @@
+ \let\ptexraggedright=\raggedright
+ \let\ptexrbrace=\}
+ \let\ptexslash=\/
+-\let\ptexsp=\sp
+ \let\ptexstar=\*
+-\let\ptexsup=\sup
+ \let\ptext=\t
+ \let\ptextop=\top
+ {\catcode`\'=\active \global\let\ptexquoteright'}% active in plain's math mode
+@@ -283,9 +281,9 @@
+   \toks6=\expandafter{\prevsectiondefs}%
+   \toks8=\expandafter{\lastcolordefs}%
+   \mark{%
+-                   \the\toks0 \the\toks2  % 0: top marks (\last...)
+-      \noexpand\or \the\toks4 \the\toks6  % 1: bottom marks (default, \prev...)
+-    \noexpand\else \the\toks8             % 2: color marks
++                   \the\toks0 \the\toks2
++      \noexpand\or \the\toks4 \the\toks6
++    \noexpand\else \the\toks8
+   }%
+ }
+ % \topmark doesn't work for the very first chapter (after the title
+@@ -324,13 +322,10 @@
+   %
+   % Do this outside of the \shipout so @code etc. will be expanded in
+   % the headline as they should be, not taken literally (outputting ''code).
+-  \def\commmonheadfootline{\let\hsize=\pagewidth \texinfochars}
+-  %
+   \ifodd\pageno \getoddheadingmarks \else \getevenheadingmarks \fi
+-  \global\setbox\headlinebox = \vbox{\commmonheadfootline \makeheadline}%
+-  %
++  \setbox\headlinebox = \vbox{\let\hsize=\pagewidth \makeheadline}%
+   \ifodd\pageno \getoddfootingmarks \else \getevenfootingmarks \fi
+-  \global\setbox\footlinebox = \vbox{\commmonheadfootline \makefootline}%
++  \setbox\footlinebox = \vbox{\let\hsize=\pagewidth \makefootline}%
+   %
+   {%
+     % Have to do this stuff outside the \shipout because we want it to
+@@ -1012,15 +1007,24 @@ where each line of input produces a line
+ % paragraph.
+ %
+ \gdef\dosuppressfirstparagraphindent{%
+-  \gdef\indent  {\restorefirstparagraphindent \indent}%
+-  \gdef\noindent{\restorefirstparagraphindent \noindent}%
+-  \global\everypar = {\kern -\parindent \restorefirstparagraphindent}%
++  \gdef\indent{%
++    \restorefirstparagraphindent
++    \indent
++  }%
++  \gdef\noindent{%
++    \restorefirstparagraphindent
++    \noindent
++  }%
++  \global\everypar = {%
++    \kern -\parindent
++    \restorefirstparagraphindent
++  }%
+ }
+-%
++
+ \gdef\restorefirstparagraphindent{%
+-  \global\let\indent = \ptexindent
+-  \global\let\noindent = \ptexnoindent
+-  \global\everypar = {}%
++  \global \let \indent = \ptexindent
++  \global \let \noindent = \ptexnoindent
++  \global \everypar = {}%
+ }
+ 
+ 
+@@ -1131,12 +1135,10 @@ output) for that.)}
+ 
+ \ifpdf
+   %
+-  % Color manipulation macros using ideas from pdfcolor.tex,
++  % Color manipulation macros based on pdfcolor.tex,
+   % except using rgb instead of cmyk; the latter is said to render as a
+   % very dark gray on-screen and a very dark halftone in print, instead
+-  % of actual black. The dark red here is dark enough to print on paper as
+-  % nearly black, but still distinguishable for online viewing.  We use
+-  % black by default, though.
++  % of actual black.
+   \def\rgbDarkRed{0.50 0.09 0.12}
+   \def\rgbBlack{0 0 0}
+   %
+@@ -1246,9 +1248,10 @@ output) for that.)}
+   % used to mark target names; must be expandable.
+   \def\pdfmkpgn#1{#1}
+   %
+-  % by default, use black for everything.
+-  \def\urlcolor{\rgbBlack}
+-  \def\linkcolor{\rgbBlack}
++  % by default, use a color that is dark enough to print on paper as
++  % nearly black, but still distinguishable for online viewing.
++  \def\urlcolor{\rgbDarkRed}
++  \def\linkcolor{\rgbDarkRed}
+   \def\endlink{\setcolor{\maincolor}\pdfendlink}
+   %
+   % Adding outlines to PDF; macros for calculating structure of outlines
+@@ -2083,9 +2086,12 @@ end
+  \endgroup
+ }
+ 
++
+ % In order for the font changes to affect most math symbols and letters,
+-% we have to define the \textfont of the standard families.  We don't
+-% bother to reset \scriptfont and \scriptscriptfont; awaiting user need.
++% we have to define the \textfont of the standard families.  Since
++% texinfo doesn't allow for producing subscripts and superscripts except
++% in the main text, we don't bother to reset \scriptfont and
++% \scriptscriptfont (which would also require loading a lot more fonts).
+ %
+ \def\resetmathfonts{%
+   \textfont0=\tenrm \textfont1=\teni \textfont2=\tensy
+@@ -2099,8 +2105,8 @@ end
+ % \tenSTYLE to set the current font.
+ %
+ % Each font-changing command also sets the names \lsize (one size lower)
+-% and \lllsize (three sizes lower).  These relative commands are used
+-% in, e.g., the LaTeX logo and acronyms.
++% and \lllsize (three sizes lower).  These relative commands are used in
++% the LaTeX logo and acronyms.
+ %
+ % This all needs generalizing, badly.
+ %
+@@ -2136,7 +2142,7 @@ end
+   \let\tenttsl=\secttsl
+   \def\curfontsize{sec}%
+   \def\lsize{subsec}\def\lllsize{reduced}%
+-  \resetmathfonts \setleading{17pt}}
++  \resetmathfonts \setleading{16pt}}
+ \def\subsecfonts{%
+   \let\tenrm=\ssecrm \let\tenit=\ssecit \let\tensl=\ssecsl
+   \let\tenbf=\ssecbf \let\tentt=\ssectt \let\smallcaps=\ssecsc
+@@ -2371,10 +2377,8 @@ end
+   \ifx\next,%
+   \else\ifx\next-%
+   \else\ifx\next.%
+-  \else\ifx\next\.%
+-  \else\ifx\next\comma%
+   \else\ptexslash
+-  \fi\fi\fi\fi\fi
++  \fi\fi\fi
+   \aftersmartic
+ }
+ 
+@@ -2471,14 +2475,14 @@ end
+ }
+ 
+ % We *must* turn on hyphenation at `-' and `_' in @code.
+-% (But see \codedashfinish below.)
+ % Otherwise, it is too hard to avoid overfull hboxes
+ % in the Emacs manual, the Library manual, etc.
+ %
+ % Unfortunately, TeX uses one parameter (\hyphenchar) to control
+ % both hyphenation at - and hyphenation within words.
+ % We must therefore turn them both off (\tclose does that)
+-% and arrange explicitly to hyphenate at a dash. -- rms.
++% and arrange explicitly to hyphenate at a dash.
++%  -- rms.
+ {
+   \catcode`\-=\active \catcode`\_=\active
+   \catcode`\'=\active \catcode`\`=\active
+@@ -2495,35 +2499,14 @@ end
+      \let-\normaldash
+      \let_\realunder
+     \fi
+-    % Given -foo (with a single dash), we do not want to allow a break
+-    % after the hyphen.
+-    \global\let\codedashprev=\codedash
+-    %
+     \codex
+   }
+-  %
+-  \gdef\codedash{\futurelet\next\codedashfinish}
+-  \gdef\codedashfinish{%
+-    \normaldash % always output the dash character itself.
+-    % 
+-    % Now, output a discretionary to allow a line break, unless
+-    % (a) the next character is a -, or
+-    % (b) the preceding character is a -.
+-    % E.g., given --posix, we do not want to allow a break after either -.
+-    % Given --foo-bar, we do want to allow a break between the - and the b.
+-    \ifx\next\codedash \else
+-      \ifx\codedashprev\codedash 
+-      \else \discretionary{}{}{}\fi
+-    \fi
+-    % we need the space after the = for the case when \next itself is a
+-    % space token; it would get swallowed otherwise.  As in @code{- a}.
+-    \global\let\codedashprev= \next
+-  }
+ }
+-\def\normaldash{-}
+-%
++
+ \def\codex #1{\tclose{#1}\endgroup}
+ 
++\def\normaldash{-}
++\def\codedash{-\discretionary{}{}{}}
+ \def\codeunder{%
+   % this is all so @math{@code{var_name}+1} can work.  In math mode, _
+   % is "active" (mathcode"8000) and \normalunderscore (or \char95, etc.)
+@@ -2565,21 +2548,37 @@ end
+ \let\file=\code
+ \let\option=\code
+ 
+-% @uref (abbreviation for `urlref') aka @url takes an optional
+-% (comma-separated) second argument specifying the text to display and
+-% an optional third arg as text to display instead of (rather than in
+-% addition to) the url itself.  First (mandatory) arg is the url.
+-
+-% TeX-only option to allow changing PDF output to show only the second
+-% arg (if given), and not the url (which is then just the link target).
+-\newif\ifurefurlonlylink
+-
+-% The main macro is \urefbreak, which allows breaking at expected
+-% places within the url.  (There used to be another version, which
+-% didn't support automatic breaking.)
++% @uref (abbreviation for `urlref') takes an optional (comma-separated)
++% second argument specifying the text to display and an optional third
++% arg as text to display instead of (rather than in addition to) the url
++% itself.  First (mandatory) arg is the url.
++% (This \urefnobreak definition isn't used now, leaving it for a while
++% for comparison.)
++\def\urefnobreak#1{\dourefnobreak #1,,,\finish}
++\def\dourefnobreak#1,#2,#3,#4\finish{\begingroup
++  \unsepspaces
++  \pdfurl{#1}%
++  \setbox0 = \hbox{\ignorespaces #3}%
++  \ifdim\wd0 > 0pt
++    \unhbox0 % third arg given, show only that
++  \else
++    \setbox0 = \hbox{\ignorespaces #2}%
++    \ifdim\wd0 > 0pt
++      \ifpdf
++        \unhbox0             % PDF: 2nd arg given, show only it
++      \else
++        \unhbox0\ (\code{#1})% DVI: 2nd arg given, show both it and url
++      \fi
++    \else
++      \code{#1}% only url given, so show it
++    \fi
++  \fi
++  \endlink
++\endgroup}
++
++% This \urefbreak definition is the active one.
+ \def\urefbreak{\begingroup \urefcatcodes \dourefbreak}
+ \let\uref=\urefbreak
+-%
+ \def\dourefbreak#1{\urefbreakfinish #1,,,\finish}
+ \def\urefbreakfinish#1,#2,#3,#4\finish{% doesn't work in @example
+   \unsepspaces
+@@ -2588,19 +2587,12 @@ end
+   \ifdim\wd0 > 0pt
+     \unhbox0 % third arg given, show only that
+   \else
+-    \setbox0 = \hbox{\ignorespaces #2}% look for second arg
++    \setbox0 = \hbox{\ignorespaces #2}%
+     \ifdim\wd0 > 0pt
+       \ifpdf
+-        \ifurefurlonlylink
+-          % PDF plus option to not display url, show just arg
+-          \unhbox0             
+-        \else
+-          % PDF, normally display both arg and url for consistency,
+-          % visibility, if the pdf is eventually used to print, etc.
+-          \unhbox0\ (\urefcode{#1})%
+-        \fi
++        \unhbox0             % PDF: 2nd arg given, show only it
+       \else
+-        \unhbox0\ (\urefcode{#1})% DVI, always show arg and url
++        \unhbox0\ (\urefcode{#1})% DVI: 2nd arg given, show both it and url
+       \fi
+     \else
+       \urefcode{#1}% only url given, so show it
+@@ -2640,10 +2632,8 @@ end
+ % we put a little stretch before and after the breakable chars, to help
+ % line breaking of long url's.  The unequal skips make look better in
+ % cmtt at least, especially for dots.
+-\def\urefprestretchamount{.13em}
+-\def\urefpoststretchamount{.1em}
+-\def\urefprestretch{\urefprebreak \hskip0pt plus\urefprestretchamount\relax}
+-\def\urefpoststretch{\urefpostbreak \hskip0pt plus\urefprestretchamount\relax}
++\def\urefprestretch{\urefprebreak \hskip0pt plus.13em }
++\def\urefpoststretch{\urefpostbreak \hskip0pt plus.1em }
+ %
+ \def\urefcodeamp{\urefprestretch \&\urefpoststretch}
+ \def\urefcodedot{\urefprestretch .\urefpoststretch}
+@@ -2841,8 +2831,6 @@ end
+   \let\v=\check
+   \let\~=\tilde
+   \let\dotaccent=\dot
+-  % have to provide another name for sup operator
+-  \let\mathopsup=\sup
+   $\finishmath
+ }
+ \def\finishmath#1{#1$\endgroup}  % Close the group opened by \tex.
+@@ -2866,18 +2854,6 @@ end
+   }
+ }
+ 
+-% for @sub and @sup, if in math mode, just do a normal sub/superscript.
+-% If in text, use math to place as sub/superscript, but switch
+-% into text mode, with smaller fonts.  This is a different font than the
+-% one used for real math sub/superscripts (8pt vs. 7pt), but let's not
+-% fix it (significant additions to font machinery) until someone notices.
+-%
+-\def\sub{\ifmmode \expandafter\sb \else \expandafter\finishsub\fi}
+-\def\finishsub#1{$\sb{\hbox{\selectfonts\lllsize #1}}$}%
+-%
+-\def\sup{\ifmmode \expandafter\ptexsp \else \expandafter\finishsup\fi}
+-\def\finishsup#1{$\ptexsp{\hbox{\selectfonts\lllsize #1}}$}%
+-
+ % ctrl is no longer a Texinfo command, but leave this definition for fun.
+ \def\ctrl #1{{\tt \rawbackslash \hat}#1}
+ 
+@@ -2892,15 +2868,6 @@ end
+   \def\inlinefmtname{#1}%
+   \ifx\inlinefmtname\outfmtnametex \ignorespaces #2\fi
+ }
+-% 
+-% @inlinefmtifelse{FMTNAME,THEN-TEXT,ELSE-TEXT} expands THEN-TEXT if
+-% FMTNAME is tex, else ELSE-TEXT.
+-\long\def\inlinefmtifelse#1{\doinlinefmtifelse #1,,,\finish}
+-\long\def\doinlinefmtifelse#1,#2,#3,#4,\finish{%
+-  \def\inlinefmtname{#1}%
+-  \ifx\inlinefmtname\outfmtnametex \ignorespaces #2\else \ignorespaces #3\fi
+-}
+-%
+ % For raw, must switch into @tex before parsing the argument, to avoid
+ % setting catcodes prematurely.  Doing it this way means that, for
+ % example, @inlineraw{html, foo{bar} gets a parse error instead of being
+@@ -2917,23 +2884,6 @@ end
+   \endgroup % close group opened by \tex.
+ }
+ 
+-% @inlineifset{VAR, TEXT} expands TEXT if VAR is @set.
+-%
+-\long\def\inlineifset#1{\doinlineifset #1,\finish}
+-\long\def\doinlineifset#1,#2,\finish{%
+-  \def\inlinevarname{#1}%
+-  \expandafter\ifx\csname SET\inlinevarname\endcsname\relax
+-  \else\ignorespaces#2\fi
+-}
+-
+-% @inlineifclear{VAR, TEXT} expands TEXT if VAR is not @set.
+-%
+-\long\def\inlineifclear#1{\doinlineifclear #1,\finish}
+-\long\def\doinlineifclear#1,#2,\finish{%
+-  \def\inlinevarname{#1}%
+-  \expandafter\ifx\csname SET\inlinevarname\endcsname\relax \ignorespaces#2\fi
+-}
+-
+ 
+ \message{glyphs,}
+ % and logos.
+@@ -3689,7 +3639,7 @@ end
+   \parskip=\smallskipamount
+   \ifdim\parskip=0pt \parskip=2pt \fi
+   %
+-  % Try typesetting the item mark so that if the document erroneously says
++  % Try typesetting the item mark that if the document erroneously says
+   % something like @itemize @samp (intending @table), there's an error
+   % right away at the @itemize.  It's not the best error message in the
+   % world, but it's better than leaving it to the @item.  This means if
+@@ -3939,23 +3889,19 @@ end
+ }
+ 
+ % multitable-only commands.
+-% 
+-% @headitem starts a heading row, which we typeset in bold.  Assignments
+-% have to be global since we are inside the implicit group of an
+-% alignment entry.  \everycr below resets \everytab so we don't have to
++%
++% @headitem starts a heading row, which we typeset in bold.
++% Assignments have to be global since we are inside the implicit group
++% of an alignment entry.  \everycr resets \everytab so we don't have to
+ % undo it ourselves.
+ \def\headitemfont{\b}% for people to use in the template row; not changeable
+ \def\headitem{%
+   \checkenv\multitable
+   \crcr
+-  \gdef\headitemcrhook{\nobreak}% attempt to avoid page break after headings
+   \global\everytab={\bf}% can't use \headitemfont since the parsing differs
+   \the\everytab % for the first item
+ }%
+ %
+-% default for tables with no headings.
+-\let\headitemcrhook=\relax
+-%
+ % A \tab used to include \hskip1sp.  But then the space in a template
+ % line is not enough.  That is bad.  So let's go back to just `&' until
+ % we again encounter the problem the 1sp was intended to solve.
+@@ -3986,15 +3932,15 @@ end
+   %
+   \everycr = {%
+     \noalign{%
+-      \global\everytab={}% Reset from possible headitem.
++      \global\everytab={}%
+       \global\colcount=0 % Reset the column counter.
+-      %
+-      % Check for saved footnotes, etc.:
++      % Check for saved footnotes, etc.
+       \checkinserts
+-      %
+-      % Perhaps a \nobreak, then reset:
+-      \headitemcrhook
+-      \global\let\headitemcrhook=\relax
++      % Keeps underfull box messages off when table breaks over pages.
++      %\filbreak
++	% Maybe so, but it also creates really weird page breaks when the
++	% table breaks over pages. Wouldn't \vfil be better?  Wait until the
++	% problem manifests itself, so it can be fixed for real --karl.
+     }%
+   }%
+   %
+@@ -4233,7 +4179,7 @@ end
+ \def\value{\begingroup\makevalueexpandable\valuexxx}
+ \def\valuexxx#1{\expandablevalue{#1}\endgroup}
+ {
+-  \catcode`\-=\active \catcode`\_=\active
++  \catcode`\- = \active \catcode`\_ = \active
+   %
+   \gdef\makevalueexpandable{%
+     \let\value = \expandablevalue
+@@ -4253,12 +4199,7 @@ end
+ % variable's value contains other Texinfo commands, it's almost certain
+ % it will fail (although perhaps we could fix that with sufficient work
+ % to do a one-level expansion on the result, instead of complete).
+-% 
+-% Unfortunately, this has the consequence that when _ is in the *value*
+-% of an @set, it does not print properly in the roman fonts (get the cmr
+-% dot accent at position 126 instead).  No fix comes to mind, and it's
+-% been this way since 2003 or earlier, so just ignore it.
+-% 
++%
+ \def\expandablevalue#1{%
+   \expandafter\ifx\csname SET#1\endcsname\relax
+     {[No value for ``#1'']}%
+@@ -4270,9 +4211,8 @@ end
+ 
+ % @ifset VAR ... @end ifset reads the `...' iff VAR has been defined
+ % with @set.
+-% 
+-% To get the special treatment we need for `@end ifset,' we call
+-% \makecond and then redefine.
++%
++% To get special treatment of `@end ifset,' call \makeond and the redefine.
+ %
+ \makecond{ifset}
+ \def\ifset{\parsearg{\doifset{\let\next=\ifsetfail}}}
+@@ -4436,7 +4376,7 @@ end
+   % complicated, when \tex is in effect and \{ is a \delimiter again.
+   % We can't use \lbracecmd and \rbracecmd because texindex assumes
+   % braces and backslashes are used only as delimiters.  Perhaps we
+-  % should use @lbracechar and @rbracechar?
++  % should define @lbrace and @rbrace commands a la @comma.
+   \def\{{{\tt\char123}}%
+   \def\}{{\tt\char125}}%
+   %
+@@ -4457,7 +4397,8 @@ end
+   % @end macro
+   % ...
+   % @funindex commtest
+-  % This is not enough to reproduce the bug, but it gives the flavor.
++  %
++  % The above is not enough to reproduce the bug, but it gives the flavor.
+   %
+   % Sample whatsit resulting:
+   % .@write3{\entry{xyz}{@folio }{@code {xyz@endinput }}}
+@@ -4658,21 +4599,8 @@ end
+   \definedummyword\verb
+   \definedummyword\w
+   \definedummyword\xref
+-  %
+-  % Consider:
+-  %   @macro mkind{arg1,arg2}
+-  %   @cindex \arg2\
+-  %   @end macro
+-  %   @mkind{foo, bar}
+-  % The space after the comma will end up in the temporary definition
+-  % that we make for arg2 (see \parsemargdef ff.).  We want all this to be
+-  % expanded for the sake of the index, so we end up just seeing "bar".
+-  \let\xeatspaces = \eatspaces
+ }
+ 
+-% For testing: output @{ and @} in index sort strings as \{ and \}.
+-\newif\ifusebracesinindexes
+-
+ % \indexnofonts is used when outputting the strings to sort the index
+ % by, and when constructing control sequence names.  It eliminates all
+ % control sequences and just writes whatever the best ASCII sort string
+@@ -4701,16 +4629,11 @@ end
+   % Unfortunately, texindex is not prepared to handle braces in the
+   % content at all.  So for index sorting, we map @{ and @} to strings
+   % starting with |, since that ASCII character is between ASCII { and }.
+-  \ifusebracesinindexes
+-    \def\lbracechar{\lbracecmd}%
+-    \def\rbracechar{\rbracecmd}%
+-  \else
+-    \def\lbracechar{|a}%
+-    \def\rbracechar{|b}%
+-  \fi
+-  \let\{=\lbracechar
+-  \let\}=\rbracechar
++  \def\{{|a}%
++  \def\lbracechar{|a}%
+   %
++  \def\}{|b}%
++  \def\rbracechar{|b}%
+   %
+   % Non-English letters.
+   \def\AA{AA}%
+@@ -5743,16 +5666,13 @@ end
+ %
+ % #1 is the text, #2 is the section type (Ynumbered, Ynothing,
+ % Yappendix, Yomitfromtoc), #3 the chapter number.
+-% Not used for @heading series.
+ %
+ % To test against our argument.
+ \def\Ynothingkeyword{Ynothing}
+-\def\Yappendixkeyword{Yappendix}
+ \def\Yomitfromtockeyword{Yomitfromtoc}
++\def\Yappendixkeyword{Yappendix}
+ %
+ \def\chapmacro#1#2#3{%
+-  \checkenv{}% chapters, etc., should not start inside an environment.
+-  %
+   % Insert the first mark before the heading break (see notes for \domark).
+   \let\prevchapterdefs=\lastchapterdefs
+   \let\prevsectiondefs=\lastsectiondefs
+@@ -5805,7 +5725,6 @@ end
+   %
+   {%
+     \chapfonts \rmisbold
+-    \let\footnote=\errfootnoteheading % give better error message
+     %
+     % Have to define \lastsection before calling \donoderef, because the
+     % xref code eventually uses it.  On the other hand, it has to be called
+@@ -5899,29 +5818,22 @@ end
+ 
+ % Print any size, any type, section title.
+ %
+-% #1 is the text of the title,
+-% #2 is the section level (sec/subsec/subsubsec),
+-% #3 is the section type (Ynumbered, Ynothing, Yappendix, Yomitfromtoc),
+-% #4 is the section number.
++% #1 is the text, #2 is the section level (sec/subsec/subsubsec), #3 is
++% the section type for xrefs (Ynumbered, Ynothing, Yappendix), #4 is the
++% section number.
+ %
+ \def\seckeyword{sec}
+ %
+ \def\sectionheading#1#2#3#4{%
+   {%
+-    \def\sectionlevel{#2}%
+-    \def\temptype{#3}%
+-    %
+-    % It is ok for the @heading series commands to appear inside an
+-    % environment (it's been historically allowed, though the logic is
+-    % dubious), but not the others.
+-    \ifx\temptype\Yomitfromtockeyword\else
+-      \checkenv{}% non-@*heading should not be in an environment.
+-    \fi
+-    \let\footnote=\errfootnoteheading
++    \checkenv{}% should not be in an environment.
+     %
+     % Switch to the right set of fonts.
+     \csname #2fonts\endcsname \rmisbold
+     %
++    \def\sectionlevel{#2}%
++    \def\temptype{#3}%
++    %
+     % Insert first mark before the heading break (see notes for \domark).
+     \let\prevsectiondefs=\lastsectiondefs
+     \ifx\temptype\Ynothingkeyword
+@@ -5973,7 +5885,7 @@ end
+     %
+     % Now the second mark, after the heading break.  No break points
+     % between here and the heading.
+-    \global\let\prevsectiondefs=\lastsectiondefs
++    \let\prevsectiondefs=\lastsectiondefs
+     \domark
+     %
+     % Only insert the space after the number if we have a section number.
+@@ -6340,15 +6252,14 @@ end
+   \catcode `\|=\other
+   \catcode `\<=\other
+   \catcode `\>=\other
+-  \catcode `\`=\other
+-  \catcode `\'=\other
++  \catcode`\`=\other
++  \catcode`\'=\other
+   \escapechar=`\\
+   %
+   % ' is active in math mode (mathcode"8000).  So reset it, and all our
+   % other math active characters (just in case), to plain's definitions.
+   \mathactive
+   %
+-  % Inverse of the list at the beginning of the file.
+   \let\b=\ptexb
+   \let\bullet=\ptexbullet
+   \let\c=\ptexc
+@@ -6364,11 +6275,9 @@ end
+   \let\+=\tabalign
+   \let\}=\ptexrbrace
+   \let\/=\ptexslash
+-  \let\sp=\ptexsp
+   \let\*=\ptexstar
+-  %\let\sup=\ptexsup % do not redefine, we want @sup to work in math mode
+   \let\t=\ptext
+-  \expandafter \let\csname top\endcsname=\ptextop  % we've made it outer
++  \expandafter \let\csname top\endcsname=\ptextop  % outer
+   \let\frenchspacing=\plainfrenchspacing
+   %
+   \def\endldots{\mathinner{\ldots\ldots\ldots\ldots}}%
+@@ -6452,6 +6361,8 @@ end
+ 				% side, and for 6pt waste from
+ 				% each corner char, and rule thickness
+   \normbskip=\baselineskip \normpskip=\parskip \normlskip=\lineskip
++  % Flag to tell @lisp, etc., not to narrow margin.
++  \let\nonarrowing = t%
+   %
+   % If this cartouche directly follows a sectioning command, we need the
+   % \parskip glue (backspaced over by default) or the cartouche can
+@@ -6491,7 +6402,7 @@ end
+ \newdimen\nonfillparindent
+ \def\nonfillstart{%
+   \aboveenvbreak
+-  \ifdim\hfuzz < 12pt \hfuzz = 12pt \fi % Don't be fussy
++  \hfuzz = 12pt % Don't be fussy
+   \sepspaces % Make spaces be word-separators rather than space tokens.
+   \let\par = \lisppar % don't ignore blank lines
+   \obeylines % each line of input is a line of output
+@@ -6618,13 +6529,9 @@ end
+ 
+ 
+ % @raggedright does more-or-less normal line breaking but no right
+-% justification.  From plain.tex.  Don't stretch around special
+-% characters in urls in this environment, since the stretch at the right
+-% should be enough.
++% justification.  From plain.tex.
+ \envdef\raggedright{%
+-  \rightskip0pt plus2.4em \spaceskip.3333em \xspaceskip.5em\relax
+-  \def\urefprestretchamount{0pt}%
+-  \def\urefpoststretchamount{0pt}%
++  \rightskip0pt plus2em \spaceskip.3333em \xspaceskip.5em\relax
+ }
+ \let\Eraggedright\par
+ 
+@@ -7432,6 +7339,7 @@ end
+ %
+ % \anythingelse will almost certainly be an error of some kind.
+ 
++
+ % \mbodybackslash is the definition of \ in @macro bodies.
+ % It maps \foo\ => \csname macarg.foo\endcsname => #N
+ % where N is the macro parameter number.
+@@ -7516,7 +7424,7 @@ end
+ 
+ % Parse the optional {params} list.  Set up \paramno and \paramlist
+ % so \defmacro knows what to do.  Define \macarg.BLAH for each BLAH
+-% in the params list to some hook where the argument is to be expanded.  If
++% in the params list to some hook where the argument si to be expanded.  If
+ % there are less than 10 arguments that hook is to be replaced by ##N where N
+ % is the position in that list, that is to say the macro arguments are to be
+ % defined `a la TeX in the macro body.  
+@@ -7540,7 +7448,8 @@ end
+ % the catcode regime underwhich the body was input).
+ %
+ % If you compile with TeX (not eTeX), and you have macros with 10 or more
+-% arguments, no macro can have more than 256 arguments (else error).
++% arguments, you need that no macro has more than 256 arguments, otherwise an
++% error is produced.
+ \def\parsemargdef#1;{%
+   \paramno=0\def\paramlist{}%
+   \let\hash\relax
+@@ -8375,6 +8284,8 @@ end
+ %
+ % Auto-number footnotes.  Otherwise like plain.
+ \gdef\footnote{%
++  \let\indent=\ptexindent
++  \let\noindent=\ptexnoindent
+   \global\advance\footnoteno by \@ne
+   \edef\thisfootno{$^{\the\footnoteno}$}%
+   %
+@@ -8398,11 +8309,6 @@ end
+ %
+ \gdef\dofootnote{%
+   \insert\footins\bgroup
+-  %
+-  % Nested footnotes are not supported in TeX, that would take a lot
+-  % more work.  (\startsavinginserts does not suffice.)
+-  \let\footnote=\errfootnotenest
+-  %
+   % We want to typeset this text as a normal paragraph, even if the
+   % footnote reference occurs in (for example) a display environment.
+   % So reset some parameters.
+@@ -8440,24 +8346,13 @@ end
+ }
+ }%end \catcode `\@=11
+ 
+-\def\errfootnotenest{%
+-  \errhelp=\EMsimple
+-  \errmessage{Nested footnotes not supported in texinfo.tex,
+-    even though they work in makeinfo; sorry}
+-}
+-
+-\def\errfootnoteheading{%
+-  \errhelp=\EMsimple
+-  \errmessage{Footnotes in chapters, sections, etc., are not supported}
+-}
+-
+ % In case a @footnote appears in a vbox, save the footnote text and create
+ % the real \insert just after the vbox finished.  Otherwise, the insertion
+ % would be lost.
+ % Similarly, if a @footnote appears inside an alignment, save the footnote
+ % text to a box and make the \insert when a row of the table is finished.
+ % And the same can be done for other insert classes.  --kasal, 16nov03.
+-%
++
+ % Replace the \insert primitive by a cheating macro.
+ % Deeper inside, just make sure that the saved insertions are not spilled
+ % out prematurely.
+@@ -8874,20 +8769,20 @@ end
+ {
+   \catcode`\_ = \active
+   \globaldefs=1
+-\parseargdef\documentlanguage{%
++\parseargdef\documentlanguage{\begingroup
++  \let_=\normalunderscore  % normal _ character for filenames
+   \tex % read txi-??.tex file in plain TeX.
+     % Read the file by the name they passed if it exists.
+-    \let_ = \normalunderscore  % normal _ character for filename test
+     \openin 1 txi-#1.tex
+     \ifeof 1
+-      \documentlanguagetrywithoutunderscore #1_\finish
++      \documentlanguagetrywithoutunderscore{#1_\finish}%
+     \else
+       \globaldefs = 1  % everything in the txi-LL files needs to persist
+       \input txi-#1.tex
+     \fi
+     \closein 1
+   \endgroup % end raw TeX
+-}
++\endgroup}
+ %
+ % If they passed de_DE, and txi-de_DE.tex doesn't exist,
+ % try txi-de.tex.
+@@ -9297,18 +9192,6 @@ directory should work if nowhere else do
+   \UTFviiiLoop
+ \endgroup
+ 
+-\def\globallet{\global\let} % save some \expandafter's below
+-
+-% @U{xxxx} to produce U+xxxx, if we support it.
+-\def\U#1{%
+-  \expandafter\ifx\csname uni:#1\endcsname \relax
+-    \errhelp = \EMsimple	
+-    \errmessage{Unicode character U+#1 not supported, sorry}%
+-  \else
+-    \csname uni:#1\endcsname
+-  \fi
+-}
+-
+ \begingroup
+   \catcode`\"=12
+   \catcode`\<=12
+@@ -9317,6 +9200,7 @@ directory should work if nowhere else do
+   \catcode`\;=12
+   \catcode`\!=12
+   \catcode`\~=13
++
+   \gdef\DeclareUnicodeCharacter#1#2{%
+     \countUTFz = "#1\relax
+     %\wlog{\space\space defining Unicode char U+#1 (decimal \the\countUTFz)}%
+@@ -9331,8 +9215,6 @@ directory should work if nowhere else do
+       \expandafter\expandafter\expandafter\expandafter
+        \expandafter\expandafter\expandafter
+        \gdef\UTFviiiTmp{#2}%
+-      % define an additional control sequence for this code point.
+-      \expandafter\globallet\csname uni:#1\endcsname \UTFviiiTmp
+     \endgroup}
+ 
+   \gdef\parseXMLCharref{%
+@@ -10038,9 +9920,11 @@ directory should work if nowhere else do
+ \catcode`\"=\active
+ \def\activedoublequote{{\tt\char34}}
+ \let"=\activedoublequote
+-\catcode`\~=\active \def\activetilde{{\tt\char126}} \let~ = \activetilde
++\catcode`\~=\active
++\def~{{\tt\char126}}
+ \chardef\hat=`\^
+-\catcode`\^=\active \def\activehat{{\tt \hat}} \let^ = \activehat
++\catcode`\^=\active
++\def^{{\tt \hat}}
+ 
+ \catcode`\_=\active
+ \def_{\ifusingtt\normalunderscore\_}
+@@ -10050,26 +9934,16 @@ directory should work if nowhere else do
+ 
+ \catcode`\|=\active
+ \def|{{\tt\char124}}
+-
+ \chardef \less=`\<
+-\catcode`\<=\active \def\activeless{{\tt \less}}\let< = \activeless
++\catcode`\<=\active
++\def<{{\tt \less}}
+ \chardef \gtr=`\>
+-\catcode`\>=\active \def\activegtr{{\tt \gtr}}\let> = \activegtr
+-\catcode`\+=\active \def+{{\tt \char 43}}
+-\catcode`\$=\active \def${\ifusingit{{\sl\$}}\normaldollar}%$ font-lock fix
+-
+-% used for headline/footline in the output routine, in case the page
+-% breaks in the middle of an @tex block.
+-\def\texinfochars{%
+-  \let< = \activeless
+-  \let> = \activegtr
+-  \let~ = \activetilde 
+-  \let^ = \activehat
+-  \markupsetuplqdefault \markupsetuprqdefault 
+-  \let\b = \strong
+-  \let\i = \smartitalic
+-  % in principle, all other definitions in \tex have to be undone too.
+-}
++\catcode`\>=\active
++\def>{{\tt \gtr}}
++\catcode`\+=\active
++\def+{{\tt \char 43}}
++\catcode`\$=\active
++\def${\ifusingit{{\sl\$}}\normaldollar}%$ font-lock fix
+ 
+ % If a .fmt file is being used, characters that might appear in a file
+ % name cannot be active until we have parsed the command line.
+--- libtool-2.4.6.orig/build-aux/useless-if-before-free
++++ libtool-2.4.6/build-aux/useless-if-before-free
+@@ -10,7 +10,7 @@ my $VERSION = '2012-01-06 07:23'; # UTC
+ # If you change this file with Emacs, please let the write hook
+ # do its job.  Otherwise, update this string manually.
+ 
+-# Copyright (C) 2008-2015 Free Software Foundation, Inc.
++# Copyright (C) 2008-2014 Free Software Foundation, Inc.
+ 
+ # This program is free software: you can redistribute it and/or modify
+ # it under the terms of the GNU General Public License as published by
+--- libtool-2.4.6.orig/build-aux/vc-list-files
++++ libtool-2.4.6/build-aux/vc-list-files
+@@ -4,7 +4,7 @@
+ # Print a version string.
+ scriptversion=2011-05-16.22; # UTC
+ 
+-# Copyright (C) 2006-2015 Free Software Foundation, Inc.
++# Copyright (C) 2006-2014 Free Software Foundation, Inc.
+ 
+ # This program is free software: you can redistribute it and/or modify
+ # it under the terms of the GNU General Public License as published by
+--- libtool-2.4.6.orig/config-h.in
++++ libtool-2.4.6/config-h.in
+@@ -215,16 +215,6 @@
+    is a misnomer outside of parameter lists.  */
+ #define _UNUSED_PARAMETER_ _GL_UNUSED
+ 
+-/* gcc supports the "unused" attribute on possibly unused labels, and
+-   g++ has since version 4.5.  Note to support C++ as well as C,
+-   _GL_UNUSED_LABEL should be used with a trailing ;  */
+-#if !defined __cplusplus || __GNUC__ > 4 \
+-    || (__GNUC__ == 4 && __GNUC_MINOR__ >= 5)
+-# define _GL_UNUSED_LABEL _GL_UNUSED
+-#else
+-# define _GL_UNUSED_LABEL
+-#endif
+-
+ /* The __pure__ attribute was added in gcc 2.96.  */
+ #if __GNUC__ > 2 || (__GNUC__ == 2 && __GNUC_MINOR__ >= 96)
+ # define _GL_ATTRIBUTE_PURE __attribute__ ((__pure__))
+--- libtool-2.4.6.orig/configure
++++ libtool-2.4.6/configure
+@@ -793,6 +793,7 @@ infodir
+ docdir
+ oldincludedir
+ includedir
++runstatedir
+ localstatedir
+ sharedstatedir
+ sysconfdir
+@@ -884,6 +885,7 @@ datadir='${datarootdir}'
+ sysconfdir='${prefix}/etc'
+ sharedstatedir='${prefix}/com'
+ localstatedir='${prefix}/var'
++runstatedir='${localstatedir}/run'
+ includedir='${prefix}/include'
+ oldincludedir='/usr/include'
+ docdir='${datarootdir}/doc/${PACKAGE_TARNAME}'
+@@ -1136,6 +1138,15 @@ do
+   | -silent | --silent | --silen | --sile | --sil)
+     silent=yes ;;
+ 
++  -runstatedir | --runstatedir | --runstatedi | --runstated \
++  | --runstate | --runstat | --runsta | --runst | --runs \
++  | --run | --ru | --r)
++    ac_prev=runstatedir ;;
++  -runstatedir=* | --runstatedir=* | --runstatedi=* | --runstated=* \
++  | --runstate=* | --runstat=* | --runsta=* | --runst=* | --runs=* \
++  | --run=* | --ru=* | --r=*)
++    runstatedir=$ac_optarg ;;
++
+   -sbindir | --sbindir | --sbindi | --sbind | --sbin | --sbi | --sb)
+     ac_prev=sbindir ;;
+   -sbindir=* | --sbindir=* | --sbindi=* | --sbind=* | --sbin=* \
+@@ -1273,7 +1284,7 @@ fi
+ for ac_var in	exec_prefix prefix bindir sbindir libexecdir datarootdir \
+ 		datadir sysconfdir sharedstatedir localstatedir includedir \
+ 		oldincludedir docdir infodir htmldir dvidir pdfdir psdir \
+-		libdir localedir mandir
++		libdir localedir mandir runstatedir
+ do
+   eval ac_val=\$$ac_var
+   # Remove trailing slashes.
+@@ -1426,6 +1437,7 @@ Fine tuning of the installation director
+   --sysconfdir=DIR        read-only single-machine data [PREFIX/etc]
+   --sharedstatedir=DIR    modifiable architecture-independent data [PREFIX/com]
+   --localstatedir=DIR     modifiable single-machine data [PREFIX/var]
++  --runstatedir=DIR       modifiable per-process data [LOCALSTATEDIR/run]
+   --libdir=DIR            object code libraries [EPREFIX/lib]
+   --includedir=DIR        C header files [PREFIX/include]
+   --oldincludedir=DIR     C header files for non-gcc [/usr/include]
+@@ -5104,19 +5116,12 @@ fi
+ 
+ 
+   # Code from module announce-gen:
+-  # Code from module bootstrap:
+   # Code from module do-release-commit-and-tag:
+-  # Code from module extract-trace:
+-  # Code from module funclib.sh:
+   # Code from module gendocs:
+-  # Code from module git-version-gen:
+-  # Code from module gitlog-to-changelog:
+   # Code from module gnu-web-doc-update:
+   # Code from module gnumakefile:
+   # Code from module gnupload:
+-  # Code from module inline-source:
+   # Code from module maintainer-makefile:
+-  # Code from module options-parser:
+   # Code from module readme-release:
+   # Code from module update-copyright:
+   # Code from module useless-if-before-free:
+@@ -6369,7 +6374,7 @@ linux* | k*bsd*-gnu | kopensolaris*-gnu
+   lt_cv_deplibs_check_method=pass_all
+   ;;
+ 
+-netbsd*)
++netbsd* | netbsdelf*-gnu)
+   if echo __ELF__ | $CC -E - | $GREP __ELF__ > /dev/null; then
+     lt_cv_deplibs_check_method='match_pattern /lib[^/]+(\.so\.[0-9]+\.[0-9]+|_pic\.a)$'
+   else
+@@ -10217,6 +10222,9 @@ $as_echo_n "checking whether the $compil
+   openbsd* | bitrig*)
+     with_gnu_ld=no
+     ;;
++  linux* | k*bsd*-gnu | gnu*)
++    link_all_deplibs=no
++    ;;
+   esac
+ 
+   ld_shlibs=yes
+@@ -10471,7 +10479,7 @@ _LT_EOF
+       fi
+       ;;
+ 
+-    netbsd*)
++    netbsd* | netbsdelf*-gnu)
+       if echo __ELF__ | $CC -E - | $GREP __ELF__ >/dev/null; then
+ 	archive_cmds='$LD -Bshareable $libobjs $deplibs $linker_flags -o $lib'
+ 	wlarc=
+@@ -11141,6 +11149,7 @@ $as_echo "$lt_cv_irix_exported_symbol" >
+ 	if test yes = "$lt_cv_irix_exported_symbol"; then
+           archive_expsym_cmds='$CC -shared $pic_flag $libobjs $deplibs $compiler_flags $wl-soname $wl$soname `test -n "$verstring" && func_echo_all "$wl-set_version $wl$verstring"` $wl-update_registry $wl$output_objdir/so_locations $wl-exports_file $wl$export_symbols -o $lib'
+ 	fi
++	link_all_deplibs=no
+       else
+ 	archive_cmds='$CC -shared $libobjs $deplibs $compiler_flags -soname $soname `test -n "$verstring" && func_echo_all "-set_version $verstring"` -update_registry $output_objdir/so_locations -o $lib'
+ 	archive_expsym_cmds='$CC -shared $libobjs $deplibs $compiler_flags -soname $soname `test -n "$verstring" && func_echo_all "-set_version $verstring"` -update_registry $output_objdir/so_locations -exports_file $export_symbols -o $lib'
+@@ -11162,7 +11171,7 @@ $as_echo "$lt_cv_irix_exported_symbol" >
+       esac
+       ;;
+ 
+-    netbsd*)
++    netbsd* | netbsdelf*-gnu)
+       if echo __ELF__ | $CC -E - | $GREP __ELF__ >/dev/null; then
+ 	archive_cmds='$LD -Bshareable -o $lib $libobjs $deplibs $linker_flags'  # a.out
+       else
+@@ -12277,6 +12286,18 @@ fi
+   dynamic_linker='GNU/Linux ld.so'
+   ;;
+ 
++netbsdelf*-gnu)
++  version_type=linux
++  need_lib_prefix=no
++  need_version=no
++  library_names_spec='${libname}${release}${shared_ext}$versuffix ${libname}${release}${shared_ext}$major ${libname}${shared_ext}'
++  soname_spec='${libname}${release}${shared_ext}$major'
++  shlibpath_var=LD_LIBRARY_PATH
++  shlibpath_overrides_runpath=no
++  hardcode_into_libs=yes
++  dynamic_linker='NetBSD ld.elf_so'
++  ;;
++
+ netbsd*)
+   version_type=sunos
+   need_lib_prefix=no
+@@ -13900,7 +13921,7 @@ else
+     # at 6.2 and later dlopen does load deplibs.
+     lt_cv_sys_dlopen_deplibs=yes
+     ;;
+-  netbsd*)
++  netbsd* | netbsdelf*-gnu)
+     lt_cv_sys_dlopen_deplibs=yes
+     ;;
+   openbsd*)
+@@ -16498,7 +16519,7 @@ lt_prog_compiler_static_CXX=
+ 	    ;;
+ 	esac
+ 	;;
+-      netbsd*)
++      netbsd* | netbsdelf*-gnu)
+ 	;;
+       *qnx* | *nto*)
+         # QNX uses GNU C++, but need to define -shared option too, otherwise
+@@ -16873,6 +16894,9 @@ $as_echo_n "checking whether the $compil
+       ;;
+     esac
+     ;;
++  linux* | k*bsd*-gnu | gnu*)
++    link_all_deplibs_CXX=no
++    ;;
+   *)
+     export_symbols_cmds_CXX='$NM $libobjs $convenience | $global_symbol_pipe | $SED '\''s/.* //'\'' | sort | uniq > $export_symbols'
+     ;;
+@@ -17566,6 +17590,18 @@ fi
+   dynamic_linker='GNU/Linux ld.so'
+   ;;
+ 
++netbsdelf*-gnu)
++  version_type=linux
++  need_lib_prefix=no
++  need_version=no
++  library_names_spec='${libname}${release}${shared_ext}$versuffix ${libname}${release}${shared_ext}$major ${libname}${shared_ext}'
++  soname_spec='${libname}${release}${shared_ext}$major'
++  shlibpath_var=LD_LIBRARY_PATH
++  shlibpath_overrides_runpath=no
++  hardcode_into_libs=yes
++  dynamic_linker='NetBSD ld.elf_so'
++  ;;
++
+ netbsd*)
+   version_type=sunos
+   need_lib_prefix=no
+@@ -18894,6 +18930,9 @@ $as_echo_n "checking whether the $compil
+   openbsd* | bitrig*)
+     with_gnu_ld=no
+     ;;
++  linux* | k*bsd*-gnu | gnu*)
++    link_all_deplibs_F77=no
++    ;;
+   esac
+ 
+   ld_shlibs_F77=yes
+@@ -19148,7 +19187,7 @@ _LT_EOF
+       fi
+       ;;
+ 
+-    netbsd*)
++    netbsd* | netbsdelf*-gnu)
+       if echo __ELF__ | $CC -E - | $GREP __ELF__ >/dev/null; then
+ 	archive_cmds_F77='$LD -Bshareable $libobjs $deplibs $linker_flags -o $lib'
+ 	wlarc=
+@@ -19768,6 +19807,7 @@ $as_echo "$lt_cv_irix_exported_symbol" >
+ 	if test yes = "$lt_cv_irix_exported_symbol"; then
+           archive_expsym_cmds_F77='$CC -shared $pic_flag $libobjs $deplibs $compiler_flags $wl-soname $wl$soname `test -n "$verstring" && func_echo_all "$wl-set_version $wl$verstring"` $wl-update_registry $wl$output_objdir/so_locations $wl-exports_file $wl$export_symbols -o $lib'
+ 	fi
++	link_all_deplibs_F77=no
+       else
+ 	archive_cmds_F77='$CC -shared $libobjs $deplibs $compiler_flags -soname $soname `test -n "$verstring" && func_echo_all "-set_version $verstring"` -update_registry $output_objdir/so_locations -o $lib'
+ 	archive_expsym_cmds_F77='$CC -shared $libobjs $deplibs $compiler_flags -soname $soname `test -n "$verstring" && func_echo_all "-set_version $verstring"` -update_registry $output_objdir/so_locations -exports_file $export_symbols -o $lib'
+@@ -19789,7 +19829,7 @@ $as_echo "$lt_cv_irix_exported_symbol" >
+       esac
+       ;;
+ 
+-    netbsd*)
++    netbsd* | netbsdelf*-gnu)
+       if echo __ELF__ | $CC -E - | $GREP __ELF__ >/dev/null; then
+ 	archive_cmds_F77='$LD -Bshareable -o $lib $libobjs $deplibs $linker_flags'  # a.out
+       else
+@@ -20726,6 +20766,18 @@ fi
+   dynamic_linker='GNU/Linux ld.so'
+   ;;
+ 
++netbsdelf*-gnu)
++  version_type=linux
++  need_lib_prefix=no
++  need_version=no
++  library_names_spec='${libname}${release}${shared_ext}$versuffix ${libname}${release}${shared_ext}$major ${libname}${shared_ext}'
++  soname_spec='${libname}${release}${shared_ext}$major'
++  shlibpath_var=LD_LIBRARY_PATH
++  shlibpath_overrides_runpath=no
++  hardcode_into_libs=yes
++  dynamic_linker='NetBSD ld.elf_so'
++  ;;
++
+ netbsd*)
+   version_type=sunos
+   need_lib_prefix=no
+@@ -22195,6 +22247,9 @@ $as_echo_n "checking whether the $compil
+   openbsd* | bitrig*)
+     with_gnu_ld=no
+     ;;
++  linux* | k*bsd*-gnu | gnu*)
++    link_all_deplibs_FC=no
++    ;;
+   esac
+ 
+   ld_shlibs_FC=yes
+@@ -22449,7 +22504,7 @@ _LT_EOF
+       fi
+       ;;
+ 
+-    netbsd*)
++    netbsd* | netbsdelf*-gnu)
+       if echo __ELF__ | $CC -E - | $GREP __ELF__ >/dev/null; then
+ 	archive_cmds_FC='$LD -Bshareable $libobjs $deplibs $linker_flags -o $lib'
+ 	wlarc=
+@@ -23069,6 +23124,7 @@ $as_echo "$lt_cv_irix_exported_symbol" >
+ 	if test yes = "$lt_cv_irix_exported_symbol"; then
+           archive_expsym_cmds_FC='$CC -shared $pic_flag $libobjs $deplibs $compiler_flags $wl-soname $wl$soname `test -n "$verstring" && func_echo_all "$wl-set_version $wl$verstring"` $wl-update_registry $wl$output_objdir/so_locations $wl-exports_file $wl$export_symbols -o $lib'
+ 	fi
++	link_all_deplibs_FC=no
+       else
+ 	archive_cmds_FC='$CC -shared $libobjs $deplibs $compiler_flags -soname $soname `test -n "$verstring" && func_echo_all "-set_version $verstring"` -update_registry $output_objdir/so_locations -o $lib'
+ 	archive_expsym_cmds_FC='$CC -shared $libobjs $deplibs $compiler_flags -soname $soname `test -n "$verstring" && func_echo_all "-set_version $verstring"` -update_registry $output_objdir/so_locations -exports_file $export_symbols -o $lib'
+@@ -23090,7 +23146,7 @@ $as_echo "$lt_cv_irix_exported_symbol" >
+       esac
+       ;;
+ 
+-    netbsd*)
++    netbsd* | netbsdelf*-gnu)
+       if echo __ELF__ | $CC -E - | $GREP __ELF__ >/dev/null; then
+ 	archive_cmds_FC='$LD -Bshareable -o $lib $libobjs $deplibs $linker_flags'  # a.out
+       else
+@@ -24027,6 +24083,18 @@ fi
+   dynamic_linker='GNU/Linux ld.so'
+   ;;
+ 
++netbsdelf*-gnu)
++  version_type=linux
++  need_lib_prefix=no
++  need_version=no
++  library_names_spec='${libname}${release}${shared_ext}$versuffix ${libname}${release}${shared_ext}$major ${libname}${shared_ext}'
++  soname_spec='${libname}${release}${shared_ext}$major'
++  shlibpath_var=LD_LIBRARY_PATH
++  shlibpath_overrides_runpath=no
++  hardcode_into_libs=yes
++  dynamic_linker='NetBSD ld.elf_so'
++  ;;
++
+ netbsd*)
+   version_type=sunos
+   need_lib_prefix=no
+@@ -25215,6 +25283,9 @@ $as_echo_n "checking whether the $compil
+   openbsd* | bitrig*)
+     with_gnu_ld=no
+     ;;
++  linux* | k*bsd*-gnu | gnu*)
++    link_all_deplibs_GO=no
++    ;;
+   esac
+ 
+   ld_shlibs_GO=yes
+@@ -25469,7 +25540,7 @@ _LT_EOF
+       fi
+       ;;
+ 
+-    netbsd*)
++    netbsd* | netbsdelf*-gnu)
+       if echo __ELF__ | $CC -E - | $GREP __ELF__ >/dev/null; then
+ 	archive_cmds_GO='$LD -Bshareable $libobjs $deplibs $linker_flags -o $lib'
+ 	wlarc=
+@@ -26100,6 +26171,7 @@ $as_echo "$lt_cv_irix_exported_symbol" >
+ 	if test yes = "$lt_cv_irix_exported_symbol"; then
+           archive_expsym_cmds_GO='$CC -shared $pic_flag $libobjs $deplibs $compiler_flags $wl-soname $wl$soname `test -n "$verstring" && func_echo_all "$wl-set_version $wl$verstring"` $wl-update_registry $wl$output_objdir/so_locations $wl-exports_file $wl$export_symbols -o $lib'
+ 	fi
++	link_all_deplibs_GO=no
+       else
+ 	archive_cmds_GO='$CC -shared $libobjs $deplibs $compiler_flags -soname $soname `test -n "$verstring" && func_echo_all "-set_version $verstring"` -update_registry $output_objdir/so_locations -o $lib'
+ 	archive_expsym_cmds_GO='$CC -shared $libobjs $deplibs $compiler_flags -soname $soname `test -n "$verstring" && func_echo_all "-set_version $verstring"` -update_registry $output_objdir/so_locations -exports_file $export_symbols -o $lib'
+@@ -26121,7 +26193,7 @@ $as_echo "$lt_cv_irix_exported_symbol" >
+       esac
+       ;;
+ 
+-    netbsd*)
++    netbsd* | netbsdelf*-gnu)
+       if echo __ELF__ | $CC -E - | $GREP __ELF__ >/dev/null; then
+ 	archive_cmds_GO='$LD -Bshareable -o $lib $libobjs $deplibs $linker_flags'  # a.out
+       else
+@@ -27442,6 +27514,9 @@ $as_echo_n "checking whether the $compil
+   openbsd* | bitrig*)
+     with_gnu_ld=no
+     ;;
++  linux* | k*bsd*-gnu | gnu*)
++    link_all_deplibs_GCJ=no
++    ;;
+   esac
+ 
+   ld_shlibs_GCJ=yes
+@@ -27696,7 +27771,7 @@ _LT_EOF
+       fi
+       ;;
+ 
+-    netbsd*)
++    netbsd* | netbsdelf*-gnu)
+       if echo __ELF__ | $CC -E - | $GREP __ELF__ >/dev/null; then
+ 	archive_cmds_GCJ='$LD -Bshareable $libobjs $deplibs $linker_flags -o $lib'
+ 	wlarc=
+@@ -28327,6 +28402,7 @@ $as_echo "$lt_cv_irix_exported_symbol" >
+ 	if test yes = "$lt_cv_irix_exported_symbol"; then
+           archive_expsym_cmds_GCJ='$CC -shared $pic_flag $libobjs $deplibs $compiler_flags $wl-soname $wl$soname `test -n "$verstring" && func_echo_all "$wl-set_version $wl$verstring"` $wl-update_registry $wl$output_objdir/so_locations $wl-exports_file $wl$export_symbols -o $lib'
+ 	fi
++	link_all_deplibs_GCJ=no
+       else
+ 	archive_cmds_GCJ='$CC -shared $libobjs $deplibs $compiler_flags -soname $soname `test -n "$verstring" && func_echo_all "-set_version $verstring"` -update_registry $output_objdir/so_locations -o $lib'
+ 	archive_expsym_cmds_GCJ='$CC -shared $libobjs $deplibs $compiler_flags -soname $soname `test -n "$verstring" && func_echo_all "-set_version $verstring"` -update_registry $output_objdir/so_locations -exports_file $export_symbols -o $lib'
+@@ -28348,7 +28424,7 @@ $as_echo "$lt_cv_irix_exported_symbol" >
+       esac
+       ;;
+ 
+-    netbsd*)
++    netbsd* | netbsdelf*-gnu)
+       if echo __ELF__ | $CC -E - | $GREP __ELF__ >/dev/null; then
+ 	archive_cmds_GCJ='$LD -Bshareable -o $lib $libobjs $deplibs $linker_flags'  # a.out
+       else
+@@ -29018,7 +29094,6 @@ fi
+   ac_config_links="$ac_config_links $GNUmakefile:$GNUmakefile"
+ 
+ 
+-
+   # End of code from modules
+ 
+ 
+@@ -31426,7 +31501,6 @@ $as_echo X"$file" |
+     cat <<_LT_EOF >> "$cfgfile"
+ #! $SHELL
+ # Generated automatically by $as_me ($PACKAGE) $VERSION
+-# Libtool was configured on host `(hostname || uname -n) 2>/dev/null | sed 1q`:
+ # NOTE: Changes made to this file will be lost: look at ltmain.sh.
+ 
+ # Provide generalized library-building support services.
+--- libtool-2.4.6.orig/doc/fdl.texi
++++ libtool-2.4.6/doc/fdl.texi
+@@ -97,7 +97,7 @@ format, SGML or XML using a publicly ava
+ DTD, and standard-conforming simple HTML,
+ PostScript or PDF designed for human modification.  Examples
+ of transparent image formats include PNG, XCF and
+-JPG@.  Opaque formats include proprietary formats that can be
++JPG.  Opaque formats include proprietary formats that can be
+ read and edited only by proprietary word processors, SGML or
+ XML for which the DTD and/or processing tools are
+ not generally available, and the machine-generated HTML,
+--- libtool-2.4.6.orig/doc/gendocs_template
++++ libtool-2.4.6/doc/gendocs_template
+@@ -1,6 +1,5 @@
+ <!--#include virtual="/server/header.html" -->
+-<!-- Parent-Version: 1.77 -->
+-<title>%%TITLE%% - GNU Project - Free Software Foundation</title>
++<title>%%TITLE%% - GNU Project - Free Software Foundation (FSF)</title>
+ <!--#include virtual="/server/banner.html" -->
+ <h2>%%TITLE%%</h2>
+ 
+@@ -68,22 +67,19 @@ script</a>.)</p>
+ </div><!-- for id="content", starts in the include above -->
+ <!--#include virtual="/server/footer.html" -->
+ <div id="footer">
+-<div class="unprintable">
+ 
+ <p>Please send general FSF &amp; GNU inquiries to
+ <a href="mailto:gnu@gnu.org">&lt;gnu@gnu.org&gt;</a>.
+ There are also <a href="/contact/">other ways to contact</a>
+-the FSF.  Broken links and other corrections or suggestions can be sent
+-to <a href="mailto:%%EMAIL%%">&lt;%%EMAIL%%&gt;</a>.</p>
+-</div>
+-
+-<p>Copyright &copy; 2015 Free Software Foundation, Inc.</p>
+-
+-<p>This page is licensed under a <a rel="license"
+-href="http://creativecommons.org/licenses/by-nd/3.0/us/">Creative
+-Commons Attribution-NoDerivs 3.0 United States License</a>.</p>
+-
+-<!--#include virtual="/server/bottom-notes.html" -->
++the FSF.<br />
++Please send broken links and other corrections or suggestions to
++<a href="mailto:%%EMAIL%%">&lt;%%EMAIL%%&gt;</a>.</p>
++
++<p>Copyright &copy; 2014 Free Software Foundation, Inc.</p>
++
++<p>Verbatim copying and distribution of this entire article are
++permitted worldwide, without royalty, in any medium, provided this
++notice, and the copyright notice, are preserved.</p>
+ 
+ </div>
+ </div>
+--- libtool-2.4.6.orig/doc/libtool.1
++++ libtool-2.4.6/doc/libtool.1
+@@ -1,7 +1,7 @@
+-.\" DO NOT MODIFY THIS FILE!  It was generated by help2man 1.46.4.
+-.TH LIBTOOL "1" "February 2015" "libtool 2.4.5.7-408c" "User Commands"
++.\" DO NOT MODIFY THIS FILE!  It was generated by help2man 1.47.4.
++.TH LIBTOOL "1" "August 2016" "libtool 2.4.6" "User Commands"
+ .SH NAME
+-libtool \- manual page for libtool 2.4.5.7-408c
++libtool \- Provide generalized library-building support services
+ .SH SYNOPSIS
+ .B libtool
+ [\fI\,OPTION\/\fR]... [\fI\,MODE-ARG\/\fR]...
+@@ -90,17 +90,17 @@ When reporting a bug, please describe a
+ include the following information:
+ .TP
+ host\-triplet:
+-x86_64\-apple\-darwin14.1.0
++x86_64\-w64\-mingw32
+ .TP
+ shell:
+-\fI\,/bin/sh\/\fP
++\fI\,/bin/bash\/\fP
+ .TP
+ compiler:
+-gcc
++x86_64\-w64\-mingw32\-gcc
+ .IP
+-compiler flags: \fB\-g\fR \fB\-O2\fR
+-linker:         \fI\,/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld\/\fP (gnu? no)
+-version:        libtool (GNU libtool) 2.4.5.7\-408c
++compiler flags: \fB\-O3\fR \fB\-g\fR \fB\-O2\fR \fB\-Wformat\fR \fB\-Werror\fR=\fI\,format\-security\/\fR
++linker:         x86_64\-w64\-mingw32\-ld (gnu? yes)
++version:        libtool (GNU libtool) 2.4.6 Debian\-2.4.6\-2
+ automake:       automake (GNU automake) 1.15
+ autoconf:       autoconf (GNU Autoconf) 2.69
+ .SH AUTHOR
+--- libtool-2.4.6.orig/doc/libtool.info
++++ libtool-2.4.6/doc/libtool.info
+@@ -1,7 +1,7 @@
+-This is libtool.info, produced by makeinfo version 5.2 from
++This is libtool.info, produced by makeinfo version 6.3 from
+ libtool.texi.
+ 
+-This manual is for GNU Libtool (version 2.4.6, 16 January 2015).
++This manual is for GNU Libtool (version 2.4.6, 15 December 2016).
+ 
+    Copyright (C) 1996-2015 Free Software Foundation, Inc.
+ 
+@@ -24,115 +24,115 @@ END-INFO-DIR-ENTRY
+ 
+ 
+ Indirect:
+-libtool.info-1: 963
+-libtool.info-2: 313087
++libtool.info-1: 964
++libtool.info-2: 313020
+ 
+ Tag Table:
+ (Indirect)
+-Node: Top963
+-Node: Introduction8156
+-Node: Motivation9962
+-Node: Issues11282
+-Node: Other implementations12760
+-Node: Postmortem13303
+-Node: Libtool paradigm14923
+-Node: Using libtool15868
+-Node: Creating object files17971
+-Node: Linking libraries21707
+-Ref: Linking libraries-Footnote-125520
+-Node: Linking executables25661
+-Ref: Linking executables-Footnote-130912
+-Ref: Linking executables-Footnote-231205
+-Node: Wrapper executables31286
+-Node: Debugging executables33514
+-Node: Installing libraries36328
+-Ref: Installing libraries-Footnote-139490
+-Node: Installing executables39561
+-Node: Static libraries40397
+-Node: Invoking libtool43675
+-Node: Compile mode49331
+-Node: Link mode52292
+-Node: Execute mode61815
+-Node: Install mode62595
+-Node: Finish mode64966
+-Node: Uninstall mode65828
+-Node: Clean mode66269
+-Node: Integrating libtool66728
+-Node: Autoconf macros69558
+-Node: Makefile rules73401
+-Node: Using Automake74504
+-Ref: Using Automake-Footnote-176085
+-Node: Configuring76485
+-Node: LT_INIT77719
+-Ref: LT_INIT-Footnote-195086
+-Node: Configure notes95339
+-Node: Distributing98600
+-Node: Invoking libtoolize99517
+-Node: Autoconf and LTLIBOBJS105698
+-Node: Static-only libraries106442
+-Ref: Static-only libraries-Footnote-1107756
+-Node: Other languages107865
+-Node: C++ libraries108564
+-Node: Tags109987
+-Node: Versioning111400
+-Node: Interfaces112768
+-Node: Libtool versioning113401
+-Node: Updating version info115614
+-Node: Release numbers118645
+-Node: Library tips120482
+-Node: C header files123287
+-Ref: C header files-Footnote-1126942
+-Node: Inter-library dependencies127151
+-Node: Dlopened modules129852
+-Node: Building modules131739
+-Node: Dlpreopening132940
+-Node: Linking with dlopened modules138569
+-Node: Finding the dlname143499
+-Ref: Finding the dlname-Footnote-1144815
+-Node: Dlopen issues144868
+-Node: Using libltdl145909
+-Node: Libltdl interface147741
+-Ref: Libltdl interface-Footnote-1161342
+-Node: Modules for libltdl161636
+-Node: Thread Safety in libltdl164162
+-Node: User defined module data165175
+-Node: Module loaders for libltdl172661
+-Ref: Module loaders for libltdl-Footnote-1181927
+-Node: Distributing libltdl182033
+-Ref: Distributing libltdl-Footnote-1195802
+-Ref: Distributing libltdl-Footnote-2196098
+-Node: Trace interface196248
+-Node: FAQ197083
+-Node: Stripped link flags197421
+-Node: Troubleshooting198866
+-Node: Libtool test suite199389
+-Node: Test descriptions200158
+-Node: When tests fail212539
+-Node: Reporting bugs213542
+-Node: Maintaining215160
+-Node: New ports215903
+-Node: Information sources216596
+-Node: Porting inter-library dependencies219053
+-Node: Tested platforms221769
+-Node: Platform quirks230199
+-Node: References231380
+-Node: Compilers232230
+-Ref: Compilers-Footnote-1233808
+-Node: Reloadable objects234124
+-Node: Multiple dependencies234483
+-Node: Archivers235377
+-Node: Cross compiling235967
+-Node: File name conversion241951
+-Node: File Name Conversion Failure244984
+-Node: Native MinGW File Name Conversion246233
+-Node: Cygwin/Windows File Name Conversion247794
+-Node: Unix/Windows File Name Conversion249165
+-Node: LT_CYGPATH249931
+-Node: Cygwin to MinGW Cross253174
+-Node: Windows DLLs257471
+-Node: libtool script contents264746
+-Node: Cheap tricks285106
+-Node: GNU Free Documentation License286969
+-Node: Combined Index313087
++Node: Top964
++Node: Introduction8157
++Node: Motivation9963
++Node: Issues11283
++Node: Other implementations12761
++Node: Postmortem13304
++Node: Libtool paradigm14924
++Node: Using libtool15869
++Node: Creating object files17972
++Node: Linking libraries21708
++Ref: Linking libraries-Footnote-125521
++Node: Linking executables25662
++Ref: Linking executables-Footnote-130913
++Ref: Linking executables-Footnote-231206
++Node: Wrapper executables31287
++Node: Debugging executables33515
++Node: Installing libraries36329
++Ref: Installing libraries-Footnote-139491
++Node: Installing executables39562
++Node: Static libraries40398
++Node: Invoking libtool43676
++Node: Compile mode49332
++Node: Link mode52293
++Node: Execute mode61816
++Node: Install mode62596
++Node: Finish mode64967
++Node: Uninstall mode65829
++Node: Clean mode66270
++Node: Integrating libtool66729
++Node: Autoconf macros69559
++Node: Makefile rules73402
++Node: Using Automake74505
++Ref: Using Automake-Footnote-176086
++Node: Configuring76486
++Node: LT_INIT77720
++Ref: LT_INIT-Footnote-195087
++Node: Configure notes95340
++Node: Distributing98601
++Node: Invoking libtoolize99518
++Node: Autoconf and LTLIBOBJS105700
++Node: Static-only libraries106444
++Ref: Static-only libraries-Footnote-1107757
++Node: Other languages107866
++Node: C++ libraries108565
++Node: Tags109988
++Node: Versioning111401
++Node: Interfaces112769
++Node: Libtool versioning113402
++Node: Updating version info115615
++Node: Release numbers118646
++Node: Library tips120483
++Node: C header files123288
++Ref: C header files-Footnote-1126943
++Node: Inter-library dependencies127152
++Node: Dlopened modules129853
++Node: Building modules131740
++Node: Dlpreopening132941
++Node: Linking with dlopened modules138580
++Node: Finding the dlname143510
++Ref: Finding the dlname-Footnote-1144826
++Node: Dlopen issues144879
++Node: Using libltdl145920
++Node: Libltdl interface147752
++Ref: Libltdl interface-Footnote-1161353
++Node: Modules for libltdl161647
++Node: Thread Safety in libltdl164173
++Node: User defined module data165186
++Node: Module loaders for libltdl172672
++Ref: Module loaders for libltdl-Footnote-1181938
++Node: Distributing libltdl182044
++Ref: Distributing libltdl-Footnote-1195813
++Ref: Distributing libltdl-Footnote-2196109
++Node: Trace interface196259
++Node: FAQ197094
++Node: Stripped link flags197432
++Node: Troubleshooting198877
++Node: Libtool test suite199400
++Node: Test descriptions200169
++Node: When tests fail212550
++Node: Reporting bugs213553
++Node: Maintaining215171
++Node: New ports215914
++Node: Information sources216607
++Node: Porting inter-library dependencies219064
++Node: Tested platforms221780
++Node: Platform quirks230210
++Node: References231391
++Node: Compilers232241
++Ref: Compilers-Footnote-1233819
++Node: Reloadable objects234135
++Node: Multiple dependencies234494
++Node: Archivers235388
++Node: Cross compiling235978
++Node: File name conversion241962
++Node: File Name Conversion Failure244916
++Node: Native MinGW File Name Conversion246165
++Node: Cygwin/Windows File Name Conversion247726
++Node: Unix/Windows File Name Conversion249097
++Node: LT_CYGPATH249863
++Node: Cygwin to MinGW Cross253106
++Node: Windows DLLs257403
++Node: libtool script contents264678
++Node: Cheap tricks285038
++Node: GNU Free Documentation License286901
++Node: Combined Index313020
+ 
+ End Tag Table
+--- libtool-2.4.6.orig/doc/libtool.info-1
++++ libtool-2.4.6/doc/libtool.info-1
+@@ -1,7 +1,7 @@
+-This is libtool.info, produced by makeinfo version 5.2 from
++This is libtool.info, produced by makeinfo version 6.3 from
+ libtool.texi.
+ 
+-This manual is for GNU Libtool (version 2.4.6, 16 January 2015).
++This manual is for GNU Libtool (version 2.4.6, 15 December 2016).
+ 
+    Copyright (C) 1996-2015 Free Software Foundation, Inc.
+ 
+@@ -2450,6 +2450,7 @@ and accepts the following options:
+ 
+           include libltdl/ltdl.mk
+ 
++
+ '--quiet'
+ '-q'
+      Work silently.  'libtoolize --quiet' is used by GNU Automake to add
+@@ -2565,7 +2566,7 @@ File: libtool.info,  Node: Static-only l
+ When you are developing a package, it is often worthwhile to configure
+ your package with the '--disable-shared' flag, or to override the
+ defaults for 'LT_INIT' by using the 'disable-shared' option (*note The
+-'LT_INIT' macro: LT_INIT.).  This prevents libtool from building shared
++'LT_INIT' macro: LT_INIT.). This prevents libtool from building shared
+ libraries, which has several advantages:
+ 
+    * compilation is twice as fast, which can speed up your development
+@@ -3241,8 +3242,8 @@ must declare the objects you want your a
+ the '-dlopen' or '-dlpreopen' flags when you link your program (*note
+ Link mode::).
+ 
+- -- Data Type: lt_dlsymlist typedef struct { const char *NAME; void *ADDRESS;
+-          } lt_dlsymlist
++ -- Data Type: lt_dlsymlist typedef struct { const char *NAME;
++          void *ADDRESS; } lt_dlsymlist
+      The NAME attribute is a null-terminated character string of the
+      symbol name, such as '"fprintf"'.  The ADDRESS attribute is a
+      generic pointer to the appropriate object, such as '&fprintf'.
+@@ -3302,7 +3303,8 @@ in 'lt_preloaded_symbols'.
+      in turn will call back into a function thus passed for each
+      preloaded module that it opens.
+ 
+- -- Function: int lt_dlpreload_open (const char *ORIGINATOR, lt_dlpreload_callback_func *FUNC)
++ -- Function: int lt_dlpreload_open (const char *ORIGINATOR,
++          lt_dlpreload_callback_func *FUNC)
+      Load all of the preloaded modules for ORIGINATOR.  For every module
+      opened in this way, call FUNC.
+ 
+@@ -3927,8 +3929,8 @@ Some of the internal information about e
+ maintained by libltdl is available to the user, in the form of this
+ structure:
+ 
+- -- Type: struct lt_dlinfo { char *FILENAME; char *NAME; int REF_COUNT; int IS_RESIDENT;
+-          int IS_SYMGLOBAL; int IS_SYMLOCAL;}
++ -- Type: struct lt_dlinfo { char *FILENAME; char *NAME; int REF_COUNT;
++          int IS_RESIDENT; int IS_SYMGLOBAL; int IS_SYMLOCAL;}
+      'lt_dlinfo' is used to store information about a module.  The
+      FILENAME attribute is a null-terminated character string of the
+      real module file name.  If the module is a libtool module then NAME
+@@ -4128,9 +4130,9 @@ The following types are defined in 'ltdl
+  -- Type: lt_user_data
+      'lt_user_data' is used for specifying loader instance data.
+ 
+- -- Type: struct lt_user_dlloader {const char *SYM_PREFIX; lt_module_open *MODULE_OPEN;
+-          lt_module_close *MODULE_CLOSE; lt_find_sym *FIND_SYM; lt_dlloader_exit *DLLOADER_EXIT;
+-          }
++ -- Type: struct lt_user_dlloader {const char *SYM_PREFIX;
++          lt_module_open *MODULE_OPEN; lt_module_close *MODULE_CLOSE;
++          lt_find_sym *FIND_SYM; lt_dlloader_exit *DLLOADER_EXIT; }
+      If you want to define a new way to open dynamic modules, and have
+      the 'lt_dlopen' API use it, you need to instantiate one of these
+      structures and pass it to 'lt_dlloader_add'.  You can pass whatever
+@@ -4208,8 +4210,8 @@ during the initialisation phase.
+ libltdl provides the following functions for writing your own module
+ loaders:
+ 
+- -- Function: int lt_dlloader_add (lt_dlloader *PLACE, lt_user_dlloader *DLLOADER,
+-          const char *LOADER_NAME)
++ -- Function: int lt_dlloader_add (lt_dlloader *PLACE,
++          lt_user_dlloader *DLLOADER, const char *LOADER_NAME)
+      Add a new module loader to the list of all loaders, either as the
+      last loader (if PLACE is 'NULL'), else immediately before the
+      loader passed as PLACE.  LOADER_NAME will be returned by
+@@ -5729,25 +5731,23 @@ rarely causes the build to fail (*note F
+ 
+ build platform     host platform      Notes
+ ---------------------------------------------------------------------------
+-MinGW (MSYS)       MinGW (Windows)    *note Native MinGW File Name
+-                                      Conversion::
++MinGW (MSYS)       MinGW (Windows)    *note Native MinGW File Name Conversion::
+                                       
+-Cygwin             MinGW (Windows)    *note Cygwin/Windows File Name
+-                                      Conversion::
++Cygwin             MinGW (Windows)    *note Cygwin/Windows File Name Conversion::
+                                       
+-Unix + Wine        MinGW (Windows)    Requires Wine.  *Note Unix/Windows
+-                                      File Name Conversion::.
++Unix + Wine        MinGW (Windows)    Requires Wine.
++                                      *Note Unix/Windows File Name Conversion::.
+                                       
+-MinGW (MSYS)       Cygwin             Requires 'LT_CYGPATH'.  *Note
+-                                      LT_CYGPATH::.  Provided for
++MinGW (MSYS)       Cygwin             Requires 'LT_CYGPATH'.
++                                      *Note LT_CYGPATH::.  Provided for
+                                       testing purposes only.
+                                       
+ Unix + Wine        Cygwin             Requires both Wine and
+                                       'LT_CYGPATH', but does not yet
+                                       work with Cygwin 1.7.7 and
+-                                      Wine-1.2.  *Note Unix/Windows File
+-                                      Name Conversion::, and *note
+-                                      LT_CYGPATH::.
++                                      Wine-1.2.
++                                      *Note Unix/Windows File Name Conversion::,
++                                      and *note LT_CYGPATH::.
+ 
+ * Menu:
+ 
+--- libtool-2.4.6.orig/doc/libtoolize.1
++++ libtool-2.4.6/doc/libtoolize.1
+@@ -1,7 +1,7 @@
+-.\" DO NOT MODIFY THIS FILE!  It was generated by help2man 1.46.4.
+-.TH LIBTOOLIZE "1" "January 2015" "libtoolize 2.4.4.19-fda4" "User Commands"
++.\" DO NOT MODIFY THIS FILE!  It was generated by help2man 1.47.4.
++.TH LIBTOOLIZE "1" "August 2016" "libtoolize 2.4.6" "User Commands"
+ .SH NAME
+-libtoolize \- manual page for libtoolize 2.4.4.19-fda4
++libtoolize \- Prepare a package to use libtool
+ .SH SYNOPSIS
+ .B libtoolize
+ [\fI\,OPTION\/\fR]...
+@@ -93,10 +93,10 @@ When reporting a bug, please describe a
+ include the following information:
+ .TP
+ host\-triplet:
+-x86_64\-apple\-darwin14.0.0
++x86_64\-w64\-mingw32
+ .TP
+ version:
+-libtoolize (GNU libtool) 2.4.4.19\-fda4
++libtoolize (GNU libtool) 2.4.6 Debian\-2.4.6\-2
+ .TP
+ automake:
+ automake (GNU automake) 1.15
+--- libtool-2.4.6.orig/doc/stamp-vti
++++ libtool-2.4.6/doc/stamp-vti
+@@ -1,4 +1,4 @@
+-@set UPDATED 16 January 2015
+-@set UPDATED-MONTH January 2015
++@set UPDATED 15 December 2016
++@set UPDATED-MONTH December 2016
+ @set EDITION 2.4.6
+ @set VERSION 2.4.6
+--- libtool-2.4.6.orig/doc/version.texi
++++ libtool-2.4.6/doc/version.texi
+@@ -1,4 +1,4 @@
+-@set UPDATED 16 January 2015
+-@set UPDATED-MONTH January 2015
++@set UPDATED 15 December 2016
++@set UPDATED-MONTH December 2016
+ @set EDITION 2.4.6
+ @set VERSION 2.4.6
+--- libtool-2.4.6.orig/libltdl/Makefile.in
++++ libtool-2.4.6/libltdl/Makefile.in
+@@ -425,6 +425,7 @@ pdfdir = @pdfdir@
+ prefix = @prefix@
+ program_transform_name = @program_transform_name@
+ psdir = @psdir@
++runstatedir = @runstatedir@
+ sbindir = @sbindir@
+ sharedstatedir = @sharedstatedir@
+ srcdir = @srcdir@
+--- libtool-2.4.6.orig/libltdl/configure
++++ libtool-2.4.6/libltdl/configure
+@@ -745,6 +745,7 @@ infodir
+ docdir
+ oldincludedir
+ includedir
++runstatedir
+ localstatedir
+ sharedstatedir
+ sysconfdir
+@@ -827,6 +828,7 @@ datadir='${datarootdir}'
+ sysconfdir='${prefix}/etc'
+ sharedstatedir='${prefix}/com'
+ localstatedir='${prefix}/var'
++runstatedir='${localstatedir}/run'
+ includedir='${prefix}/include'
+ oldincludedir='/usr/include'
+ docdir='${datarootdir}/doc/${PACKAGE_TARNAME}'
+@@ -1079,6 +1081,15 @@ do
+   | -silent | --silent | --silen | --sile | --sil)
+     silent=yes ;;
+ 
++  -runstatedir | --runstatedir | --runstatedi | --runstated \
++  | --runstate | --runstat | --runsta | --runst | --runs \
++  | --run | --ru | --r)
++    ac_prev=runstatedir ;;
++  -runstatedir=* | --runstatedir=* | --runstatedi=* | --runstated=* \
++  | --runstate=* | --runstat=* | --runsta=* | --runst=* | --runs=* \
++  | --run=* | --ru=* | --r=*)
++    runstatedir=$ac_optarg ;;
++
+   -sbindir | --sbindir | --sbindi | --sbind | --sbin | --sbi | --sb)
+     ac_prev=sbindir ;;
+   -sbindir=* | --sbindir=* | --sbindi=* | --sbind=* | --sbin=* \
+@@ -1216,7 +1227,7 @@ fi
+ for ac_var in	exec_prefix prefix bindir sbindir libexecdir datarootdir \
+ 		datadir sysconfdir sharedstatedir localstatedir includedir \
+ 		oldincludedir docdir infodir htmldir dvidir pdfdir psdir \
+-		libdir localedir mandir
++		libdir localedir mandir runstatedir
+ do
+   eval ac_val=\$$ac_var
+   # Remove trailing slashes.
+@@ -1369,6 +1380,7 @@ Fine tuning of the installation director
+   --sysconfdir=DIR        read-only single-machine data [PREFIX/etc]
+   --sharedstatedir=DIR    modifiable architecture-independent data [PREFIX/com]
+   --localstatedir=DIR     modifiable single-machine data [PREFIX/var]
++  --runstatedir=DIR       modifiable per-process data [LOCALSTATEDIR/run]
+   --libdir=DIR            object code libraries [EPREFIX/lib]
+   --includedir=DIR        C header files [PREFIX/include]
+   --oldincludedir=DIR     C header files for non-gcc [/usr/include]
+@@ -5254,7 +5266,7 @@ linux* | k*bsd*-gnu | kopensolaris*-gnu
+   lt_cv_deplibs_check_method=pass_all
+   ;;
+ 
+-netbsd*)
++netbsd* | netbsdelf*-gnu)
+   if echo __ELF__ | $CC -E - | $GREP __ELF__ > /dev/null; then
+     lt_cv_deplibs_check_method='match_pattern /lib[^/]+(\.so\.[0-9]+\.[0-9]+|_pic\.a)$'
+   else
+@@ -9241,6 +9253,9 @@ $as_echo_n "checking whether the $compil
+   openbsd* | bitrig*)
+     with_gnu_ld=no
+     ;;
++  linux* | k*bsd*-gnu | gnu*)
++    link_all_deplibs=no
++    ;;
+   esac
+ 
+   ld_shlibs=yes
+@@ -9495,7 +9510,7 @@ _LT_EOF
+       fi
+       ;;
+ 
+-    netbsd*)
++    netbsd* | netbsdelf*-gnu)
+       if echo __ELF__ | $CC -E - | $GREP __ELF__ >/dev/null; then
+ 	archive_cmds='$LD -Bshareable $libobjs $deplibs $linker_flags -o $lib'
+ 	wlarc=
+@@ -10165,6 +10180,7 @@ $as_echo "$lt_cv_irix_exported_symbol" >
+ 	if test yes = "$lt_cv_irix_exported_symbol"; then
+           archive_expsym_cmds='$CC -shared $pic_flag $libobjs $deplibs $compiler_flags $wl-soname $wl$soname `test -n "$verstring" && func_echo_all "$wl-set_version $wl$verstring"` $wl-update_registry $wl$output_objdir/so_locations $wl-exports_file $wl$export_symbols -o $lib'
+ 	fi
++	link_all_deplibs=no
+       else
+ 	archive_cmds='$CC -shared $libobjs $deplibs $compiler_flags -soname $soname `test -n "$verstring" && func_echo_all "-set_version $verstring"` -update_registry $output_objdir/so_locations -o $lib'
+ 	archive_expsym_cmds='$CC -shared $libobjs $deplibs $compiler_flags -soname $soname `test -n "$verstring" && func_echo_all "-set_version $verstring"` -update_registry $output_objdir/so_locations -exports_file $export_symbols -o $lib'
+@@ -10186,7 +10202,7 @@ $as_echo "$lt_cv_irix_exported_symbol" >
+       esac
+       ;;
+ 
+-    netbsd*)
++    netbsd* | netbsdelf*-gnu)
+       if echo __ELF__ | $CC -E - | $GREP __ELF__ >/dev/null; then
+ 	archive_cmds='$LD -Bshareable -o $lib $libobjs $deplibs $linker_flags'  # a.out
+       else
+@@ -11301,6 +11317,18 @@ fi
+   dynamic_linker='GNU/Linux ld.so'
+   ;;
+ 
++netbsdelf*-gnu)
++  version_type=linux
++  need_lib_prefix=no
++  need_version=no
++  library_names_spec='${libname}${release}${shared_ext}$versuffix ${libname}${release}${shared_ext}$major ${libname}${shared_ext}'
++  soname_spec='${libname}${release}${shared_ext}$major'
++  shlibpath_var=LD_LIBRARY_PATH
++  shlibpath_overrides_runpath=no
++  hardcode_into_libs=yes
++  dynamic_linker='NetBSD ld.elf_so'
++  ;;
++
+ netbsd*)
+   version_type=sunos
+   need_lib_prefix=no
+@@ -12923,7 +12951,7 @@ else
+     # at 6.2 and later dlopen does load deplibs.
+     lt_cv_sys_dlopen_deplibs=yes
+     ;;
+-  netbsd*)
++  netbsd* | netbsdelf*-gnu)
+     lt_cv_sys_dlopen_deplibs=yes
+     ;;
+   openbsd*)
+@@ -14947,7 +14975,6 @@ $as_echo X"$file" |
+     cat <<_LT_EOF >> "$cfgfile"
+ #! $SHELL
+ # Generated automatically by $as_me ($PACKAGE) $VERSION
+-# Libtool was configured on host `(hostname || uname -n) 2>/dev/null | sed 1q`:
+ # NOTE: Changes made to this file will be lost: look at ltmain.sh.
+ 
+ # Provide generalized library-building support services.
+--- libtool-2.4.6.orig/m4/00gnulib.m4
++++ libtool-2.4.6/m4/00gnulib.m4
+@@ -1,28 +1,12 @@
+-# 00gnulib.m4 serial 3
+-dnl Copyright (C) 2009-2015 Free Software Foundation, Inc.
++# 00gnulib.m4 serial 2
++dnl Copyright (C) 2009-2014 Free Software Foundation, Inc.
+ dnl This file is free software; the Free Software Foundation
+ dnl gives unlimited permission to copy and/or distribute it,
+ dnl with or without modifications, as long as this notice is preserved.
+ 
+ dnl This file must be named something that sorts before all other
+ dnl gnulib-provided .m4 files.  It is needed until such time as we can
+-dnl assume Autoconf 2.64, with its improved AC_DEFUN_ONCE and
+-dnl m4_divert semantics.
+-
+-# Until autoconf 2.63, handling of the diversion stack required m4_init
+-# to be called first; but this does not happen with aclocal.  Wrapping
+-# the entire execution in another layer of the diversion stack fixes this.
+-# Worse, prior to autoconf 2.62, m4_wrap depended on the underlying m4
+-# for whether it was FIFO or LIFO; in order to properly balance with
+-# m4_init, we need to undo our push just before anything wrapped within
+-# the m4_init body.  The way to ensure this is to wrap both sides of
+-# m4_init with a one-shot macro that does the pop at the right time.
+-m4_ifndef([_m4_divert_diversion],
+-[m4_divert_push([KILL])
+-m4_define([gl_divert_fixup], [m4_divert_pop()m4_define([$0])])
+-m4_define([m4_init],
+-  [gl_divert_fixup()]m4_defn([m4_init])[gl_divert_fixup()])])
+-
++dnl assume Autoconf 2.64, with its improved AC_DEFUN_ONCE semantics.
+ 
+ # AC_DEFUN_ONCE([NAME], VALUE)
+ # ----------------------------
+--- libtool-2.4.6.orig/m4/gnulib-common.m4
++++ libtool-2.4.6/m4/gnulib-common.m4
+@@ -1,5 +1,5 @@
+-# gnulib-common.m4 serial 36
+-dnl Copyright (C) 2007-2015 Free Software Foundation, Inc.
++# gnulib-common.m4 serial 34
++dnl Copyright (C) 2007-2014 Free Software Foundation, Inc.
+ dnl This file is free software; the Free Software Foundation
+ dnl gives unlimited permission to copy and/or distribute it,
+ dnl with or without modifications, as long as this notice is preserved.
+@@ -49,16 +49,6 @@ AC_DEFUN([gl_COMMON_BODY], [
+    is a misnomer outside of parameter lists.  */
+ #define _UNUSED_PARAMETER_ _GL_UNUSED
+ 
+-/* gcc supports the "unused" attribute on possibly unused labels, and
+-   g++ has since version 4.5.  Note to support C++ as well as C,
+-   _GL_UNUSED_LABEL should be used with a trailing ;  */
+-#if !defined __cplusplus || __GNUC__ > 4 \
+-    || (__GNUC__ == 4 && __GNUC_MINOR__ >= 5)
+-# define _GL_UNUSED_LABEL _GL_UNUSED
+-#else
+-# define _GL_UNUSED_LABEL
+-#endif
+-
+ /* The __pure__ attribute was added in gcc 2.96.  */
+ #if __GNUC__ > 2 || (__GNUC__ == 2 && __GNUC_MINOR__ >= 96)
+ # define _GL_ATTRIBUTE_PURE __attribute__ ((__pure__))
+@@ -319,28 +309,26 @@ m4_ifdef([AC_PROG_MKDIR_P], [
+ ])
+ 
+ # AC_C_RESTRICT
+-# This definition is copied from post-2.69 Autoconf and overrides the
+-# AC_C_RESTRICT macro from autoconf 2.60..2.69.  It can be removed
+-# once autoconf >= 2.70 can be assumed.  It's painful to check version
+-# numbers, and in practice this macro is more up-to-date than Autoconf
+-# is, so override Autoconf unconditionally.
++# This definition overrides the AC_C_RESTRICT macro from autoconf 2.60..2.61,
++# so that mixed use of GNU C and GNU C++ and mixed use of Sun C and Sun C++
++# works.
++# This definition can be removed once autoconf >= 2.62 can be assumed.
++# AC_AUTOCONF_VERSION was introduced in 2.62, so use that as the witness.
++m4_ifndef([AC_AUTOCONF_VERSION],[
+ AC_DEFUN([AC_C_RESTRICT],
+ [AC_CACHE_CHECK([for C/C++ restrict keyword], [ac_cv_c_restrict],
+   [ac_cv_c_restrict=no
+    # The order here caters to the fact that C++ does not require restrict.
+    for ac_kw in __restrict __restrict__ _Restrict restrict; do
+-     AC_COMPILE_IFELSE(
+-      [AC_LANG_PROGRAM(
+-	 [[typedef int *int_ptr;
+-	   int foo (int_ptr $ac_kw ip) { return ip[0]; }
+-	   int bar (int [$ac_kw]); /* Catch GCC bug 14050.  */
+-	   int bar (int ip[$ac_kw]) { return ip[0]; }
+-	 ]],
+-	 [[int s[1];
+-	   int *$ac_kw t = s;
+-	   t[0] = 0;
+-	   return foo (t) + bar (t);
+-	 ]])],
++     AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
++      [[typedef int * int_ptr;
++        int foo (int_ptr $ac_kw ip) {
++        return ip[0];
++       }]],
++      [[int s[1];
++        int * $ac_kw t = s;
++        t[0] = 0;
++        return foo(t)]])],
+       [ac_cv_c_restrict=$ac_kw])
+      test "$ac_cv_c_restrict" != no && break
+    done
+@@ -350,21 +338,21 @@ AC_DEFUN([AC_C_RESTRICT],
+    nothing if this is not supported.  Do not define if restrict is
+    supported directly.  */
+ #undef restrict
+-/* Work around a bug in Sun C++: it does not support _Restrict or
+-   __restrict__, even though the corresponding Sun C compiler ends up with
+-   "#define restrict _Restrict" or "#define restrict __restrict__" in the
+-   previous line.  Perhaps some future version of Sun C++ will work with
+-   restrict; if so, hopefully it defines __RESTRICT like Sun C does.  */
++/* Work around a bug in Sun C++: it does not support _Restrict, even
++   though the corresponding Sun C compiler does, which causes
++   "#define restrict _Restrict" in the previous line.  Perhaps some future
++   version of Sun C++ will work with _Restrict; if so, it'll probably
++   define __RESTRICT, just as Sun C does.  */
+ #if defined __SUNPRO_CC && !defined __RESTRICT
+ # define _Restrict
+-# define __restrict__
+ #endif])
+  case $ac_cv_c_restrict in
+    restrict) ;;
+    no) AC_DEFINE([restrict], []) ;;
+    *)  AC_DEFINE_UNQUOTED([restrict], [$ac_cv_c_restrict]) ;;
+  esac
+-])# AC_C_RESTRICT
++])
++])
+ 
+ # gl_BIGENDIAN
+ # is like AC_C_BIGENDIAN, except that it can be AC_REQUIREd.
+@@ -391,59 +379,3 @@ AC_DEFUN([gl_CACHE_VAL_SILENT],
+ # AS_VAR_COPY was added in autoconf 2.63b
+ m4_define_default([AS_VAR_COPY],
+ [AS_LITERAL_IF([$1[]$2], [$1=$$2], [eval $1=\$$2])])
+-
+-# AC_PROG_SED was added in autoconf 2.59b
+-m4_ifndef([AC_PROG_SED],
+-[AC_DEFUN([AC_PROG_SED],
+-[AC_CACHE_CHECK([for a sed that does not truncate output], ac_cv_path_SED,
+-    [dnl ac_script should not contain more than 99 commands (for HP-UX sed),
+-     dnl but more than about 7000 bytes, to catch a limit in Solaris 8 /usr/ucb/sed.
+-     ac_script=s/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb/
+-     for ac_i in 1 2 3 4 5 6 7; do
+-       ac_script="$ac_script$as_nl$ac_script"
+-     done
+-     echo "$ac_script" 2>/dev/null | sed 99q >conftest.sed
+-     AS_UNSET([ac_script])
+-     if test -z "$SED"; then
+-       ac_path_SED_found=false
+-       _AS_PATH_WALK([], [
+-         for ac_prog in sed gsed; do
+-           for ac_exec_ext in '' $ac_executable_extensions; do
+-             ac_path_SED="$as_dir/$ac_prog$ac_exec_ext"
+-             AS_EXECUTABLE_P(["$ac_path_SED"]) || continue
+-             case `"$ac_path_SED" --version 2>&1` in
+-               *GNU*) ac_cv_path_SED=$ac_path_SED ac_path_SED_found=:;;
+-               *)
+-                 ac_count=0
+-                 _AS_ECHO_N([0123456789]) >conftest.in
+-                 while :
+-                 do
+-                   cat conftest.in conftest.in >conftest.tmp
+-                   mv conftest.tmp conftest.in
+-                   cp conftest.in conftest.nl
+-                   echo >> conftest.nl
+-                   "$ac_path_SED" -f conftest.sed <conftest.nl >conftest.out 2>/dev/null || break
+-                   diff conftest.out conftest.nl >/dev/null 2>&1 || break
+-                   ac_count=`expr $ac_count + 1`
+-                   if test $ac_count -gt ${ac_path_SED_max-0}; then
+-                     # Best so far, but keep looking for better
+-                     ac_cv_path_SED=$ac_path_SED
+-                     ac_path_SED_max=$ac_count
+-                   fi
+-                   test $ac_count -gt 10 && break
+-                 done
+-                 rm -f conftest.in conftest.tmp conftest.nl conftest.out;;
+-             esac
+-             $ac_path_SED_found && break 3
+-           done
+-         done])
+-       if test -z "$ac_cv_path_SED"; then
+-         AC_ERROR([no acceptable sed could be found in \$PATH])
+-       fi
+-     else
+-       ac_cv_path_SED=$SED
+-     fi
+- SED="$ac_cv_path_SED"
+- AC_SUBST([SED])dnl
+- rm -f conftest.sed
+-])])])
+--- libtool-2.4.6.orig/m4/gnulib-comp.m4
++++ libtool-2.4.6/m4/gnulib-comp.m4
+@@ -1,5 +1,5 @@
+ # DO NOT EDIT! GENERATED AUTOMATICALLY!
+-# Copyright (C) 2002-2015 Free Software Foundation, Inc.
++# Copyright (C) 2002-2014 Free Software Foundation, Inc.
+ #
+ # This file is free software; you can redistribute it and/or modify
+ # it under the terms of the GNU General Public License as published by
+@@ -39,19 +39,12 @@ AC_DEFUN([GL_EARLY],
+   m4_pattern_allow([^gl_LTLIBOBJS$])dnl a variable
+   AC_REQUIRE([gl_PROG_AR_RANLIB])
+   # Code from module announce-gen:
+-  # Code from module bootstrap:
+   # Code from module do-release-commit-and-tag:
+-  # Code from module extract-trace:
+-  # Code from module funclib.sh:
+   # Code from module gendocs:
+-  # Code from module git-version-gen:
+-  # Code from module gitlog-to-changelog:
+   # Code from module gnu-web-doc-update:
+   # Code from module gnumakefile:
+   # Code from module gnupload:
+-  # Code from module inline-source:
+   # Code from module maintainer-makefile:
+-  # Code from module options-parser:
+   # Code from module readme-release:
+   # Code from module update-copyright:
+   # Code from module useless-if-before-free:
+@@ -84,7 +77,6 @@ AC_DEFUN([GL_INIT],
+           [GNUmakefile=$GNUmakefile])])
+   AC_CONFIG_COMMANDS_PRE([m4_ifdef([AH_HEADER],
+     [AC_SUBST([CONFIG_INCLUDE], m4_defn([AH_HEADER]))])])
+-  AC_REQUIRE([AC_PROG_SED])
+   # End of code from modules
+   m4_ifval(GL_LIBSOURCES_LIST, [
+     m4_syscmd([test ! -d ]m4_defn([GL_LIBSOURCES_DIR])[ ||
+@@ -222,22 +214,14 @@ AC_DEFUN([GLtests_LIBSOURCES], [
+ # gnulib-tool and may be removed by future gnulib-tool invocations.
+ AC_DEFUN([GL_FILE_LIST], [
+   build-aux/announce-gen
+-  build-aux/bootstrap.in
+   build-aux/do-release-commit-and-tag
+-  build-aux/extract-trace
+-  build-aux/funclib.sh
+   build-aux/gendocs.sh
+-  build-aux/git-version-gen
+-  build-aux/gitlog-to-changelog
+   build-aux/gnu-web-doc-update
+   build-aux/gnupload
+-  build-aux/inline-source
+-  build-aux/options-parser
+   build-aux/update-copyright
+   build-aux/useless-if-before-free
+   build-aux/vc-list-files
+   doc/gendocs_template
+-  doc/gendocs_template_min
+   m4/00gnulib.m4
+   m4/gnulib-common.m4
+   top/GNUmakefile
+--- libtool-2.4.6.orig/maint.mk
++++ libtool-2.4.6/maint.mk
+@@ -2,7 +2,7 @@
+ # This Makefile fragment tries to be general-purpose enough to be
+ # used by many projects via the gnulib maintainer-makefile module.
+ 
+-## Copyright (C) 2001-2015 Free Software Foundation, Inc.
++## Copyright (C) 2001-2014 Free Software Foundation, Inc.
+ ##
+ ## This program is free software: you can redistribute it and/or modify
+ ## it under the terms of the GNU General Public License as published by
+@@ -21,6 +21,13 @@
+ # ME := $(word $(words $(MAKEFILE_LIST)),$(MAKEFILE_LIST))
+ ME := maint.mk
+ 
++# Diagnostic for continued use of deprecated variable.
++# Remove in 2013
++ifneq ($(build_aux),)
++ $(error "$(ME): \
++set $$(_build-aux) relative to $$(srcdir) instead of $$(build_aux)")
++endif
++
+ # Helper variables.
+ _empty =
+ _sp = $(_empty) $(_empty)
+@@ -69,7 +76,7 @@ _dot_escaped_srcdir = $(subst .,\.,$(src
+ ifeq ($(srcdir),.)
+   _prepend_srcdir_prefix =
+ else
+-  _prepend_srcdir_prefix = | $(SED) 's|^|$(srcdir)/|'
++  _prepend_srcdir_prefix = | sed 's|^|$(srcdir)/|'
+ endif
+ 
+ # In order to be able to consistently filter "."-relative names,
+@@ -78,7 +85,7 @@ endif
+ _sc_excl = \
+   $(or $(exclude_file_name_regexp--$@),^$$)
+ VC_LIST_EXCEPT = \
+-  $(VC_LIST) | $(SED) 's|^$(_dot_escaped_srcdir)/||' \
++  $(VC_LIST) | sed 's|^$(_dot_escaped_srcdir)/||' \
+ 	| if test -f $(srcdir)/.x-$@; then grep -vEf $(srcdir)/.x-$@; \
+ 	  else grep -Ev -e "$${VC_LIST_EXCEPT_DEFAULT-ChangeLog}"; fi \
+ 	| grep -Ev -e '($(VC_LIST_ALWAYS_EXCLUDE_REGEX)|$(_sc_excl))' \
+@@ -148,12 +155,11 @@ export LC_ALL = C
+ ## Sanity checks.  ##
+ ## --------------- ##
+ 
+-ifneq ($(_gl-Makefile),)
+ _cfg_mk := $(wildcard $(srcdir)/cfg.mk)
+ 
+ # Collect the names of rules starting with 'sc_'.
+-syntax-check-rules := $(sort $(shell $(SED) -n \
+-   's/^\(sc_[a-zA-Z0-9_-]*\):.*/\1/p' $(srcdir)/$(ME) $(_cfg_mk)))
++syntax-check-rules := $(sort $(shell sed -n 's/^\(sc_[a-zA-Z0-9_-]*\):.*/\1/p' \
++			$(srcdir)/$(ME) $(_cfg_mk)))
+ .PHONY: $(syntax-check-rules)
+ 
+ ifeq ($(shell $(VC_LIST) >/dev/null 2>&1; echo $$?),0)
+@@ -190,7 +196,6 @@ local-check :=								\
+     $(filter-out $(local-checks-to-skip), $(local-checks-available)))
+ 
+ syntax-check: $(local-check)
+-endif
+ 
+ # _sc_search_regexp
+ #
+@@ -440,10 +445,10 @@ sc_require_config_h:
+ # You must include <config.h> before including any other header file.
+ # This can possibly be via a package-specific header, if given by cfg.mk.
+ sc_require_config_h_first:
+-	@if $(VC_LIST_EXCEPT) | grep '\.c$$' > /dev/null; then		\
++	@if $(VC_LIST_EXCEPT) | grep -l '\.c$$' > /dev/null; then	\
+ 	  fail=0;							\
+ 	  for i in $$($(VC_LIST_EXCEPT) | grep '\.c$$'); do		\
+-	    grep '^# *include\>' $$i | $(SED) 1q			\
++	    grep '^# *include\>' $$i | sed 1q				\
+ 		| grep -E '^# *include $(config_h_header)' > /dev/null	\
+ 	      || { echo $$i; fail=1; };					\
+ 	  done;								\
+@@ -463,8 +468,8 @@ sc_prohibit_HAVE_MBRTOWC:
+ # re: a regular expression that matches IFF something provided by $h is used.
+ define _sc_header_without_use
+   dummy=; : so we do not need a semicolon before each use;		\
+-  h_esc=`echo '[<"]'"$$h"'[">]'|$(SED) 's/\./\\\\./g'`;			\
+-  if $(VC_LIST_EXCEPT) | grep '\.c$$' > /dev/null; then			\
++  h_esc=`echo '[<"]'"$$h"'[">]'|sed 's/\./\\\\./g'`;			\
++  if $(VC_LIST_EXCEPT) | grep -l '\.c$$' > /dev/null; then		\
+     files=$$(grep -l '^# *include '"$$h_esc"				\
+ 	     $$($(VC_LIST_EXCEPT) | grep '\.c$$')) &&			\
+     grep -LE "$$re" $$files | grep . &&					\
+@@ -586,7 +591,7 @@ sc_prohibit_root_dev_ino_without_use:
+ 
+ sc_prohibit_openat_without_use:
+ 	@h='openat.h' \
+-	re='\<(openat_(permissive|needs_fchdir|(save|restore)_fail)|l?(stat|ch(own|mod))at|(euid)?accessat|(FCHMOD|FCHOWN|STAT)AT_INLINE)\>' \
++	re='\<(openat_(permissive|needs_fchdir|(save|restore)_fail)|l?(stat|ch(own|mod))at|(euid)?accessat)\>' \
+ 	  $(_sc_header_without_use)
+ 
+ # Prohibit the inclusion of c-ctype.h without an actual use.
+@@ -711,7 +716,7 @@ sc_changelog:
+ # Ensure that each .c file containing a "main" function also
+ # calls set_program_name.
+ sc_program_name:
+-	@require='set_program_name *\(.*\);'				\
++	@require='set_program_name *\(m?argv\[0\]\);'			\
+ 	in_vc_files='\.c$$'						\
+ 	containing='\<main *('						\
+ 	halt='the above files do not call set_program_name'		\
+@@ -784,7 +789,7 @@ sc_useless_cpp_parens:
+ # #if HAVE_HEADER_H that you remove, be sure that your project explicitly
+ # requires the gnulib module that guarantees the usability of that header.
+ gl_assured_headers_ = \
+-  cd $(gnulib_dir)/lib && echo *.in.h|$(SED) 's/\.in\.h//g'
++  cd $(gnulib_dir)/lib && echo *.in.h|sed 's/\.in\.h//g'
+ 
+ # Convert the list of names to upper case, and replace each space with "|".
+ az_ = abcdefghijklmnopqrstuvwxyz
+@@ -835,7 +840,7 @@ define def_sym_regex
+ 	      && perl -lne '$(gl_extract_significant_defines_)' $$f;	\
+ 	  done;								\
+ 	) | sort -u							\
+-	  | $(SED) 's/^/^ *# *(define|undef)  */;s/$$/\\>/'
++	  | sed 's/^/^ *# *(define|undef)  */;s/$$/\\>/'
+ endef
+ 
+ # Don't define macros that we already get from gnulib header files.
+@@ -996,14 +1001,6 @@ sc_prohibit_undesirable_word_seq:
+ 	  | grep -vE '$(ignore_undesirable_word_sequence_RE_)' | grep .	\
+ 	  && { echo '$(ME): undesirable word sequence' >&2; exit 1; } || :
+ 
+-# Except for shell files and for loops, double semicolon is probably a mistake
+-sc_prohibit_double_semicolon:
+-	@prohibit='; *;[	{} \]*(/[/*]|$$)'			\
+-	in_vc_files='\.[chly]$$'					\
+-	exclude='\bfor *\(.*\)'						\
+-	halt="Double semicolon detected"				\
+-	  $(_sc_search_regexp)
+-
+ _ptm1 = use "test C1 && test C2", not "test C1 -''a C2"
+ _ptm2 = use "test C1 || test C2", not "test C1 -''o C2"
+ # Using test's -a and -o operators is not portable.
+@@ -1057,12 +1054,12 @@ sc_const_long_option:
+ 	  $(_sc_search_regexp)
+ 
+ NEWS_hash =								\
+-  $$($(SED) -n '/^\*.* $(PREV_VERSION_REGEXP) ([0-9-]*)/,$$p'		\
++  $$(sed -n '/^\*.* $(PREV_VERSION_REGEXP) ([0-9-]*)/,$$p'		\
+        $(srcdir)/NEWS							\
+      | perl -0777 -pe							\
+ 	's/^Copyright.+?Free\sSoftware\sFoundation,\sInc\.\n//ms'	\
+      | md5sum -								\
+-     | $(SED) 's/ .*//')
++     | sed 's/ .*//')
+ 
+ # Ensure that we don't accidentally insert an entry into an old NEWS block.
+ sc_immutable_NEWS:
+@@ -1100,7 +1097,7 @@ sc_makefile_at_at_check:
+ 	  && { echo '$(ME): use $$(...), not @...@' 1>&2; exit 1; } || :
+ 
+ news-check: NEWS
+-	$(AM_V_GEN)if $(SED) -n $(news-check-lines-spec)p $<		\
++	$(AM_V_GEN)if sed -n $(news-check-lines-spec)p $<		\
+ 	    | grep -E $(news-check-regexp) >/dev/null; then		\
+ 	  :;								\
+ 	else								\
+@@ -1149,7 +1146,7 @@ sc_po_check:
+ 	    files="$$files $$file";					\
+ 	  done;								\
+ 	  grep -E -l '$(_gl_translatable_string_re)' $$files		\
+-	    | $(SED) 's|^$(_dot_escaped_srcdir)/||' | sort -u > $@-2;	\
++	    | sed 's|^$(_dot_escaped_srcdir)/||' | sort -u > $@-2;	\
+ 	  diff -u -L $(po_file) -L $(po_file) $@-1 $@-2			\
+ 	    || { printf '$(ME): '$(fix_po_file_diag) 1>&2; exit 1; };	\
+ 	  rm -f $@-1 $@-2;						\
+@@ -1195,7 +1192,7 @@ sc_copyright_check:
+ 	in_vc_files=$(sample-test)					\
+ 	halt='out of date copyright in $(sample-test); update it'	\
+ 	  $(_sc_search_regexp)
+-	@require='Copyright @copyright\{\} .*'$$(date +%Y)		\
++	@require='Copyright @copyright\{\} .*'$$(date +%Y)' Free'	\
+ 	in_vc_files=$(texi)						\
+ 	halt='out of date copyright in $(texi); update it'		\
+ 	  $(_sc_search_regexp)
+@@ -1514,7 +1511,7 @@ refresh-gnulib-patches:
+ 	  test -n "$$t" && gl=$$t;					\
+ 	fi;								\
+ 	for diff in $$(cd $$gl; git ls-files | grep '\.diff$$'); do	\
+-	  b=$$(printf %s "$$diff"|$(SED) 's/\.diff$$//');		\
++	  b=$$(printf %s "$$diff"|sed 's/\.diff$$//');			\
+ 	  VERSION_CONTROL=none						\
+ 	    patch "$(gnulib_dir)/$$b" "$$gl/$$diff" || exit 1;		\
+ 	  ( cd $(gnulib_dir) || exit 1;					\
+@@ -1533,8 +1530,7 @@ refresh-po:
+ 	wget --no-verbose --directory-prefix $(PODIR) --no-directories --recursive --level 1 --accept .po --accept .po.1 $(POURL) && \
+ 	echo 'en@boldquot' > $(PODIR)/LINGUAS && \
+ 	echo 'en@quot' >> $(PODIR)/LINGUAS && \
+-	ls $(PODIR)/*.po | $(SED) 's/\.po//;s,$(PODIR)/,,' | \
+-	  sort >> $(PODIR)/LINGUAS
++	ls $(PODIR)/*.po | sed 's/\.po//;s,$(PODIR)/,,' | sort >> $(PODIR)/LINGUAS
+ 
+  # Running indent once is not idempotent, but running it twice is.
+ INDENT_SOURCES ?= $(C_SOURCES)
+@@ -1644,18 +1640,18 @@ _gl_tight_scope: $(bin_PROGRAMS)
+ 	       test -f $$f && d= || d=$(srcdir)/; echo $$d$$f; done`;	\
+ 	( printf '^%s$$\n' '__.*' $(_gl_TS_unmarked_extern_functions);	\
+ 	  grep -h -A1 '^extern .*[^;]$$' $$src				\
+-	    | grep -vE '^(extern |--)' | $(SED) 's/ .*//';		\
++	    | grep -vE '^(extern |--)' | sed 's/ .*//';			\
+ 	  perl -lne							\
+ 	     '$(_gl_TS_function_match) and print "^$$1\$$"' $$hdr;	\
+ 	) | sort -u > $$t;						\
+-	nm -g $(_gl_TS_obj_files)|$(SED) -n 's/.* T //p'|grep -Ev -f $$t \
++	nm -e $(_gl_TS_obj_files) | sed -n 's/.* T //p'|grep -Ev -f $$t	\
+ 	  && { echo the above functions should have static scope >&2;	\
+ 	       exit 1; } || : ;						\
+ 	( printf '^%s$$\n' '__.*' $(_gl_TS_unmarked_extern_vars);	\
+ 	  perl -lne '$(_gl_TS_var_match) and print "^$$1\$$"'		\
+ 		$$hdr $(_gl_TS_other_headers)				\
+ 	) | sort -u > $$t;						\
+-	nm -g $(_gl_TS_obj_files) | $(SED) -n 's/.* [BCDGRS] //p'	\
++	nm -e $(_gl_TS_obj_files) | sed -n 's/.* [BCDGRS] //p'		\
+             | sort -u | grep -Ev -f $$t					\
+ 	  && { echo the above variables should have static scope >&2;	\
+ 	       exit 1; } || :

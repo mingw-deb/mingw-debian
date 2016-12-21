@@ -1,5 +1,5 @@
 # DO NOT EDIT! GENERATED AUTOMATICALLY!
-# Copyright (C) 2002-2015 Free Software Foundation, Inc.
+# Copyright (C) 2002-2014 Free Software Foundation, Inc.
 #
 # This file is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -39,19 +39,12 @@ AC_DEFUN([GL_EARLY],
   m4_pattern_allow([^gl_LTLIBOBJS$])dnl a variable
   AC_REQUIRE([gl_PROG_AR_RANLIB])
   # Code from module announce-gen:
-  # Code from module bootstrap:
   # Code from module do-release-commit-and-tag:
-  # Code from module extract-trace:
-  # Code from module funclib.sh:
   # Code from module gendocs:
-  # Code from module git-version-gen:
-  # Code from module gitlog-to-changelog:
   # Code from module gnu-web-doc-update:
   # Code from module gnumakefile:
   # Code from module gnupload:
-  # Code from module inline-source:
   # Code from module maintainer-makefile:
-  # Code from module options-parser:
   # Code from module readme-release:
   # Code from module update-copyright:
   # Code from module useless-if-before-free:
@@ -84,7 +77,6 @@ AC_DEFUN([GL_INIT],
           [GNUmakefile=$GNUmakefile])])
   AC_CONFIG_COMMANDS_PRE([m4_ifdef([AH_HEADER],
     [AC_SUBST([CONFIG_INCLUDE], m4_defn([AH_HEADER]))])])
-  AC_REQUIRE([AC_PROG_SED])
   # End of code from modules
   m4_ifval(GL_LIBSOURCES_LIST, [
     m4_syscmd([test ! -d ]m4_defn([GL_LIBSOURCES_DIR])[ ||
@@ -222,22 +214,14 @@ AC_DEFUN([GLtests_LIBSOURCES], [
 # gnulib-tool and may be removed by future gnulib-tool invocations.
 AC_DEFUN([GL_FILE_LIST], [
   build-aux/announce-gen
-  build-aux/bootstrap.in
   build-aux/do-release-commit-and-tag
-  build-aux/extract-trace
-  build-aux/funclib.sh
   build-aux/gendocs.sh
-  build-aux/git-version-gen
-  build-aux/gitlog-to-changelog
   build-aux/gnu-web-doc-update
   build-aux/gnupload
-  build-aux/inline-source
-  build-aux/options-parser
   build-aux/update-copyright
   build-aux/useless-if-before-free
   build-aux/vc-list-files
   doc/gendocs_template
-  doc/gendocs_template_min
   m4/00gnulib.m4
   m4/gnulib-common.m4
   top/GNUmakefile

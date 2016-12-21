@@ -1,8 +1,6 @@
-Index: libtool-2.4.6/libtoolize.in
-===================================================================
---- libtool-2.4.6.orig/libtoolize.in
-+++ libtool-2.4.6/libtoolize.in
-@@ -114,7 +114,7 @@ When reporting a bug, please describe a
+--- a/libtoolize.in
++++ b/libtoolize.in
+@@ -114,7 +114,7 @@
  include the following information:
  
         host-triplet:   @host_triplet@
@@ -11,11 +9,9 @@ Index: libtool-2.4.6/libtoolize.in
         automake:       `($AUTOMAKE --version) 2>/dev/null |$SED 1q`
         autoconf:       `($AUTOCONF --version) 2>/dev/null |$SED 1q`
  
-Index: libtool-2.4.6/build-aux/ltmain.in
-===================================================================
---- libtool-2.4.6.orig/build-aux/ltmain.in
-+++ libtool-2.4.6/build-aux/ltmain.in
-@@ -156,7 +156,7 @@ include the following information:
+--- a/build-aux/ltmain.in
++++ b/build-aux/ltmain.in
+@@ -156,7 +156,7 @@
         compiler:       $LTCC
         compiler flags: $LTCFLAGS
         linker:         $LD (gnu? $with_gnu_ld)
@@ -24,3 +20,4 @@ Index: libtool-2.4.6/build-aux/ltmain.in
         automake:       `($AUTOMAKE --version) 2>/dev/null |$SED 1q`
         autoconf:       `($AUTOCONF --version) 2>/dev/null |$SED 1q`
  
+Binary files a/doc/libtool.info-2 and b/doc/libtool.info-2 differ
