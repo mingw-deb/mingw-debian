@@ -26,7 +26,7 @@ Depends: gcc | c-compiler, cpp, libc6-dev | libc-dev,
   ${misc:Depends}
 Suggests: libtool-doc, autoconf (>> 2.50), automaken, gfortran | fortran95-compiler, gcj-jdk
 Conflicts: autoconf (<= 2.12), automake (<= 1.3), libtool1.4
-Recommends: libltdl-dev
+Recommends: libltdl-mingw-w64-dev
 Description: Generic library support script
  This is GNU libtool, a generic library support script.  Libtool hides
  the complexity of generating special library types (such as shared
@@ -96,9 +96,9 @@ Multi-Arch: same
 Section: libdevel
 Suggests: libtool-doc
 Recommends: libtool
-Conflicts: libtool (<< 1.5.20), libtool1.4, libltdl3-dev, libltdl7-dev
-Replaces: libtool (<< 1.5.20), libltdl3-dev, libltdl7-dev
-Provides: libltdl3-dev, libltdl7-dev
+Conflicts: libtool-mingw-w64 (<< 1.5.20), libtool1.4-mingw-w64, libltdl3-mingw-w64-dev, libltdl7-mingw-w64-dev
+Replaces: libtool-mingw-w64 (<< 1.5.20), libltdl3-mingw-w64-dev, libltdl7-mingw-w64-dev
+Provides: libltdl3-mingw-w64-dev, libltdl7-mingw-w64-dev
 Depends: libltdl7-mingw-w64 (= ${binary:Version}), ${misc:Depends}
 Description: System independent dlopen wrapper for GNU libtool
  This package contains the header files and static libraries for the

@@ -1,6 +1,6 @@
 libtool (2.4.6-2) unstable; urgency=medium
 
-  * Don't show the debain version in --version, just in --help
+  * Don't show the Debian version in --version, just in --help
     (Closes: #832874)
 
  -- Kurt Roeckx <kurt@roeckx.be>  Sat, 20 Aug 2016 14:34:31 +0200
