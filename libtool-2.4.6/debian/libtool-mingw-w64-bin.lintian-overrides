@@ -1,0 +1,7 @@
+#MingW stuff
+libtool-mingw-w64-bin: non-standard-dir-in-usr usr/i686-w64-mingw32/
+libtool-mingw-w64-bin: non-standard-dir-in-usr usr/x86_64-w64-mingw32/
+libtool-mingw-w64-bin: file-in-unusual-dir usr/i686-w64-mingw32/*
+libtool-mingw-w64-bin: file-in-unusual-dir usr/x86_64-w64-mingw32/*
+libtool-mingw-w64-bin: executable-not-elf-or-script usr/i686-w64-mingw32/bin/*
+libtool-mingw-w64-bin: executable-not-elf-or-script usr/x86_64-w64-mingw32/bin/*

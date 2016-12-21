@@ -1,0 +1,8 @@
+# the whole libltdl source is included, including the COPYING.LIB
+libltdl-mingw-w64-dev binary: extra-license-file
+# changes according to the mingw-convention
+libltdl-mingw-w64-dev: non-standard-dir-in-usr usr/i686-w64-mingw32/
+libltdl-mingw-w64-dev: non-standard-dir-in-usr usr/x86_64-w64-mingw32/
+libltdl-mingw-w64-dev: arch-dependent-file-not-in-arch-specific-directory
+libltdl-mingw-w64-dev: file-in-unusual-dir usr/i686-w64-mingw32*
+libltdl-mingw-w64-dev: file-in-unusual-dir usr/x86_64-w64-mingw32/*

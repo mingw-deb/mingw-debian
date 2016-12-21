@@ -1,0 +1,7 @@
+#MingW stuff
+libltdl7-mingw-w64: non-standard-dir-in-usr usr/i686-w64-mingw32/
+libltdl7-mingw-w64: non-standard-dir-in-usr usr/x86_64-w64-mingw32/
+libltdl7-mingw-w64: file-in-unusual-dir usr/i686-w64-mingw32/*
+libltdl7-mingw-w64: file-in-unusual-dir usr/x86_64-w64-mingw32/*
+libltdl7-mingw-w64: executable-not-elf-or-script usr/i686-w64-mingw32/bin/*
+libltdl7-mingw-w64: executable-not-elf-or-script usr/x86_64-w64-mingw32/bin/*
