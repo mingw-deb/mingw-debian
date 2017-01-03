@@ -1,0 +1,173 @@
+Source: hwloc
+Priority: extra
+Maintainer: Samuel Thibault <sthibault@debian.org>
+Build-Depends: debhelper (>= 9), libltdl-dev,
+  valgrind [amd64 arm64 armhf i386 mips mipsel powerpc ppc64el s390x mips64el ppc64],
+  libcairo2-dev, libx11-dev, libxml2-dev, libxml2-utils, libncurses5-dev,
+  libnuma-dev [amd64 arm64 i386 ia64 mips mips64 mipsel mips64el powerpc ppc64el sparc],
+  libpciaccess-dev, pkg-config,
+  libibverbs-dev [linux-any],
+  ocl-icd-opencl-dev [!hurd-i386] | opencl-dev, opencl-headers,
+  autoconf (>= 2.63),
+  dh-autoreconf,
+  dpkg-dev (>= 1.16)
+Build-Depends-Indep: doxygen-latex, transfig
+Build-Conflicts: autoconf2.13
+Standards-Version: 3.9.8
+Section: libs
+Homepage: http://www.open-mpi.org/projects/hwloc/
+Vcs-Git: http://github.com/open-mpi/hwloc-debian.git
+Vcs-Browser: http://github.com/open-mpi/hwloc-debian
+
+Package: hwloc
+Section: admin
+Architecture: any
+Multi-Arch: foreign
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Hierarchical view of the machine - utilities
+ Hardware Locality (hwloc) provides a portable abstraction (across OS, versions,
+ architectures, ...) of the hierarchical topology of modern architectures. It
+ primarily aims at helping high-performance computing applications with
+ gathering information about the hardware so as to exploit it accordingly and
+ efficiently.
+ .
+ hwloc provides a hierarchical view of the machine, NUMA memory nodes,
+ sockets, shared caches, cores and simultaneous multithreading. It also gathers
+ various attributes such as cache and memory information.
+ .
+ hwloc supports old kernels not having sysfs topology information,
+ with knowledge of cpusets, offline cpus, and Kerrighed support
+ .
+ This package contains utilities to show the topology of the machine (lstopo and
+ hwloc-ls), manipulate cpu masks (hwloc-calc), and bind processes (hwloc-bind).
+
+Package: hwloc-nox
+Section: admin
+Architecture: any
+Multi-Arch: foreign
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Conflicts: hwloc
+Description: Hierarchical view of the machine - non-X version of utilities
+ Hardware Locality (hwloc) provides a portable abstraction (across OS, versions,
+ architectures, ...) of the hierarchical topology of modern architectures. It
+ primarily aims at helping high-performance computing applications with
+ gathering information about the hardware so as to exploit it accordingly and
+ efficiently.
+ .
+ hwloc provides a hierarchical view of the machine, NUMA memory nodes,
+ sockets, shared caches, cores and simultaneous multithreading. It also gathers
+ various attributes such as cache and memory information.
+ .
+ hwloc supports old kernels not having sysfs topology information,
+ with knowledge of cpusets, offline cpus, and Kerrighed support
+ .
+ This package contains utilities to show the topology of the machine (lstopo
+ and hwloc-ls, without X support), manipulate cpu masks (hwloc-calc), and bind
+ processes (hwloc-bind).
+
+Package: libhwloc-dev
+Section: libdevel
+Architecture: any
+Multi-Arch: same
+Depends: ${misc:Depends}, libhwloc5 (= ${binary:Version}), libnuma-dev [amd64 arm64 i386 ia64 mips mips64 mipsel mips64el powerpc ppc64el sparc], libltdl-dev
+Description: Hierarchical view of the machine - static libs and headers
+ Hardware Locality (hwloc) provides a portable abstraction (across OS, versions,
+ architectures, ...) of the hierarchical topology of modern architectures. It
+ primarily aims at helping high-performance computing applications with
+ gathering information about the hardware so as to exploit it accordingly and
+ efficiently.
+ .
+ libhwloc provides a hierarchical view of the machine, NUMA memory nodes,
+ sockets, shared caches, cores and simultaneous multithreading. It also gathers
+ various attributes such as cache and memory information.
+ .
+ libhwloc supports old kernels not having sysfs topology information,
+ with knowledge of cpusets, offline cpus, and Kerrighed support
+ .
+ This package contains static libraries and development headers.
+
+Package: libhwloc5
+Architecture: any
+Multi-Arch: same
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Recommends: libhwloc-plugins
+Breaks: libhwloc-plugins (<< 1.10~), libhwloc-contrib-plugins (<< 1.10~)
+Suggests: libhwloc-contrib-plugins
+Provides: libhwloc0, libhwloc1, libhwloc2, libhwloc3, libhwloc4
+Replaces: libhwloc0, libhwloc1, libhwloc2, libhwloc3, libhwloc4
+Conflicts: libhwloc0, libhwloc1, libhwloc2, libhwloc3, libhwloc4
+Description: Hierarchical view of the machine - shared libs
+ libhwloc provides a portable abstraction (across OS, versions,
+ architectures, ...) of the hierarchical topology of modern architectures. It
+ primarily aims at helping high-performance computing applications with
+ gathering information about the hardware so as to exploit it accordingly and
+ efficiently.
+ .
+ libhwloc provides a hierarchical view of the machine, NUMA memory nodes,
+ sockets, shared caches, cores and simultaneous multithreading. It also gathers
+ various attributes such as cache and memory information.
+ .
+ libhwloc supports old kernels not having sysfs topology information,
+ with knowledge of cpusets, offline cpus, and Kerrighed support
+ .
+ This package contains shared libraries.
+
+Package: libhwloc-plugins
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libhwloc5
+Description: Hierarchical view of the machine - plugins
+ libhwloc provides a portable abstraction (across OS, versions,
+ architectures, ...) of the hierarchical topology of modern architectures. It
+ primarily aims at helping high-performance computing applications with
+ gathering information about the hardware so as to exploit it accordingly and
+ efficiently.
+ .
+ libhwloc provides a hierarchical view of the machine, NUMA memory nodes,
+ sockets, shared caches, cores and simultaneous multithreading. It also gathers
+ various attributes such as cache and memory information.
+ .
+ libhwloc supports old kernels not having sysfs topology information,
+ with knowledge of cpusets, offline cpus, and Kerrighed support
+ .
+ This package contains plugins to add more discovery support. This includes
+  - PCI support
+  - libxml support
+
+Package: libhwloc-common
+Architecture: all
+Depends: ${misc:Depends}
+Description: Hierarchical view of the machine - common files
+ Hardware Locality (hwloc) provides a portable abstraction (across OS, versions,
+ architectures, ...) of the hierarchical topology of modern architectures. It
+ primarily aims at helping high-performance computing applications with
+ gathering information about the hardware so as to exploit it accordingly and
+ efficiently.
+ .
+ libhwloc provides a hierarchical view of the machine, NUMA memory nodes,
+ sockets, shared caches, cores and simultaneous multithreading. It also gathers
+ various attributes such as cache and memory information.
+ .
+ libhwloc supports old kernels not having sysfs topology information,
+ with knowledge of cpusets, offline cpus, and Kerrighed support
+ .
+ This package contains the XML DTD of the lstopo XML output.
+
+Package: libhwloc-doc
+Section: doc
+Architecture: all
+Depends: ${misc:Depends}, libjs-jquery
+Description: Hierarchical view of the machine - documentation
+ Hardware Locality (hwloc) provides a portable abstraction (across OS, versions,
+ architectures, ...) of the hierarchical topology of modern architectures. It
+ primarily aims at helping high-performance computing applications with
+ gathering information about the hardware so as to exploit it accordingly and
+ efficiently.
+ .
+ libhwloc provides a hierarchical view of the machine, NUMA memory nodes,
+ sockets, shared caches, cores and simultaneous multithreading. It also gathers
+ various attributes such as cache and memory information.
+ .
+ libhwloc supports old kernels not having sysfs topology information,
+ with knowledge of cpusets, offline cpus, and Kerrighed support
+ .
+ This package contains documentation.

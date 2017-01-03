@@ -1,0 +1,292 @@
+reverted:
+--- a/include/hwloc.h
++++ b/include/hwloc.h
+@@ -62,6 +62,7 @@
+  */
+ 
+ #include <hwloc/bitmap.h>
++#include <hwloc/cpuset.h>
+ 
+ 
+ #ifdef __cplusplus
+--- a/include/Makefile.am
++++ b/include/Makefile.am
+@@ -12,6 +12,7 @@ include_HEADERS = hwloc.h
+ include_hwlocdir = $(includedir)/hwloc
+ include_hwloc_HEADERS = \
+         hwloc/bitmap.h \
++        hwloc/cpuset.h \
+         hwloc/helper.h \
+         hwloc/inlines.h \
+         hwloc/diff.h \
+--- /dev/null
++++ b/include/hwloc/cpuset.h
+@@ -0,0 +1,75 @@
++/*
++ * Copyright © 2009 CNRS
++ * Copyright © 2009-2010 inria.  All rights reserved.
++ * Copyright © 2009-2010, 2013 Université Bordeaux 1
++ * Copyright © 2009-2010 Cisco Systems, Inc.  All rights reserved.
++ * See COPYING in top-level directory.
++ */
++
++/** \file
++ * \brief The old deprecated Cpuset API.
++ * This interface should not be used anymore, it will be dropped in a later release.
++ *
++ * hwloc/bitmap.h should be used instead. Most hwloc_cpuset_foo functions are
++ * replaced with hwloc_bitmap_foo. The only exceptions are:
++ * - hwloc_cpuset_from_string -> hwloc_bitmap_sscanf
++ * - hwloc_cpuset_cpu -> hwloc_bitmap_only
++ * - hwloc_cpuset_all_but_cpu -> hwloc_bitmap_allbut
++ */
++
++#ifndef HWLOC_CPUSET_H
++#define HWLOC_CPUSET_H
++
++#ifdef __cplusplus
++extern "C" {
++#endif
++
++#include "hwloc/bitmap.h"
++
++static __hwloc_inline hwloc_bitmap_t __hwloc_attribute_deprecated hwloc_cpuset_alloc(void) { return hwloc_bitmap_alloc(); }
++static __hwloc_inline void __hwloc_attribute_deprecated hwloc_cpuset_free(hwloc_bitmap_t bitmap) { hwloc_bitmap_free(bitmap); }
++static __hwloc_inline hwloc_bitmap_t __hwloc_attribute_deprecated hwloc_cpuset_dup(hwloc_const_bitmap_t bitmap) { return hwloc_bitmap_dup(bitmap); }
++static __hwloc_inline void __hwloc_attribute_deprecated hwloc_cpuset_copy(hwloc_bitmap_t dst, hwloc_const_bitmap_t src) { hwloc_bitmap_copy(dst, src); }
++static __hwloc_inline int __hwloc_attribute_deprecated hwloc_cpuset_snprintf(char * __hwloc_restrict buf, size_t buflen, hwloc_const_bitmap_t bitmap) { return hwloc_bitmap_snprintf(buf, buflen, bitmap); }
++static __hwloc_inline int __hwloc_attribute_deprecated hwloc_cpuset_asprintf(char ** strp, hwloc_const_bitmap_t bitmap) { return hwloc_bitmap_asprintf(strp, bitmap); }
++static __hwloc_inline int __hwloc_attribute_deprecated hwloc_cpuset_from_string(hwloc_bitmap_t bitmap, const char * __hwloc_restrict string) { return hwloc_bitmap_sscanf(bitmap, string); }
++static __hwloc_inline void __hwloc_attribute_deprecated hwloc_cpuset_zero(hwloc_bitmap_t bitmap) { hwloc_bitmap_zero(bitmap); }
++static __hwloc_inline void __hwloc_attribute_deprecated hwloc_cpuset_fill(hwloc_bitmap_t bitmap) { hwloc_bitmap_fill(bitmap); }
++static __hwloc_inline void __hwloc_attribute_deprecated hwloc_cpuset_from_ulong(hwloc_bitmap_t bitmap, unsigned long mask) { hwloc_bitmap_from_ulong(bitmap, mask); }
++static __hwloc_inline void __hwloc_attribute_deprecated hwloc_cpuset_from_ith_ulong(hwloc_bitmap_t bitmap, unsigned i, unsigned long mask) { hwloc_bitmap_from_ith_ulong(bitmap, i, mask); }
++static __hwloc_inline unsigned __hwloc_attribute_deprecated long hwloc_cpuset_to_ulong(hwloc_const_bitmap_t bitmap) { return hwloc_bitmap_to_ulong(bitmap); }
++static __hwloc_inline unsigned __hwloc_attribute_deprecated long hwloc_cpuset_to_ith_ulong(hwloc_const_bitmap_t bitmap, unsigned i) { return hwloc_bitmap_to_ith_ulong(bitmap, i); }
++static __hwloc_inline void __hwloc_attribute_deprecated hwloc_cpuset_cpu(hwloc_bitmap_t bitmap, unsigned index_) { hwloc_bitmap_only(bitmap, index_); }
++static __hwloc_inline void __hwloc_attribute_deprecated hwloc_cpuset_all_but_cpu(hwloc_bitmap_t bitmap, unsigned index_) { hwloc_bitmap_allbut(bitmap, index_); }
++static __hwloc_inline void __hwloc_attribute_deprecated hwloc_cpuset_set(hwloc_bitmap_t bitmap, unsigned index_) { hwloc_bitmap_set(bitmap, index_); }
++static __hwloc_inline void __hwloc_attribute_deprecated hwloc_cpuset_set_range(hwloc_bitmap_t bitmap, unsigned begin, unsigned end) { hwloc_bitmap_set_range(bitmap, begin, end); }
++static __hwloc_inline void __hwloc_attribute_deprecated hwloc_cpuset_set_ith_ulong(hwloc_bitmap_t bitmap, unsigned i, unsigned long mask) { hwloc_bitmap_set_ith_ulong(bitmap, i, mask); }
++static __hwloc_inline void __hwloc_attribute_deprecated hwloc_cpuset_clr(hwloc_bitmap_t bitmap, unsigned index_) { hwloc_bitmap_clr(bitmap, index_); }
++static __hwloc_inline void __hwloc_attribute_deprecated hwloc_cpuset_clr_range(hwloc_bitmap_t bitmap, unsigned begin, unsigned end) { hwloc_bitmap_clr_range(bitmap, begin, end); }
++static __hwloc_inline int __hwloc_attribute_deprecated hwloc_cpuset_isset(hwloc_const_bitmap_t bitmap, unsigned index_) { return hwloc_bitmap_isset(bitmap, index_); }
++static __hwloc_inline int __hwloc_attribute_deprecated hwloc_cpuset_iszero(hwloc_const_bitmap_t bitmap) { return hwloc_bitmap_iszero(bitmap); }
++static __hwloc_inline int __hwloc_attribute_deprecated hwloc_cpuset_isfull(hwloc_const_bitmap_t bitmap) { return hwloc_bitmap_isfull(bitmap); }
++static __hwloc_inline int __hwloc_attribute_deprecated hwloc_cpuset_isequal(hwloc_const_bitmap_t bitmap1, hwloc_const_bitmap_t bitmap2) { return hwloc_bitmap_isequal(bitmap1, bitmap2); }
++static __hwloc_inline int __hwloc_attribute_deprecated hwloc_cpuset_intersects(hwloc_const_bitmap_t bitmap1, hwloc_const_bitmap_t bitmap2) { return hwloc_bitmap_intersects(bitmap1, bitmap2); }
++static __hwloc_inline int __hwloc_attribute_deprecated hwloc_cpuset_isincluded(hwloc_const_bitmap_t sub_bitmap, hwloc_const_bitmap_t super_bitmap) { return hwloc_bitmap_isincluded(sub_bitmap, super_bitmap); }
++static __hwloc_inline void __hwloc_attribute_deprecated hwloc_cpuset_or(hwloc_bitmap_t res, hwloc_const_bitmap_t bitmap1, hwloc_const_bitmap_t bitmap2) { hwloc_bitmap_or(res, bitmap1, bitmap2); }
++static __hwloc_inline void __hwloc_attribute_deprecated hwloc_cpuset_and(hwloc_bitmap_t res, hwloc_const_bitmap_t bitmap1, hwloc_const_bitmap_t bitmap2) { hwloc_bitmap_and(res, bitmap1, bitmap2); }
++static __hwloc_inline void __hwloc_attribute_deprecated hwloc_cpuset_andnot(hwloc_bitmap_t res, hwloc_const_bitmap_t bitmap1, hwloc_const_bitmap_t bitmap2) { hwloc_bitmap_andnot(res, bitmap1, bitmap2); }
++static __hwloc_inline void __hwloc_attribute_deprecated hwloc_cpuset_xor(hwloc_bitmap_t res, hwloc_const_bitmap_t bitmap1, hwloc_const_bitmap_t bitmap2) { hwloc_bitmap_xor(res, bitmap1, bitmap2); }
++static __hwloc_inline void __hwloc_attribute_deprecated hwloc_cpuset_not(hwloc_bitmap_t res, hwloc_const_bitmap_t bitmap) { hwloc_bitmap_not(res, bitmap); }
++static __hwloc_inline int __hwloc_attribute_deprecated hwloc_cpuset_first(hwloc_const_bitmap_t bitmap) { return hwloc_bitmap_first(bitmap); }
++static __hwloc_inline int __hwloc_attribute_deprecated hwloc_cpuset_last(hwloc_const_bitmap_t bitmap) { return hwloc_bitmap_last(bitmap); }
++static __hwloc_inline int __hwloc_attribute_deprecated hwloc_cpuset_next(hwloc_const_bitmap_t bitmap, unsigned prev) { return hwloc_bitmap_next(bitmap, prev); }
++static __hwloc_inline void __hwloc_attribute_deprecated hwloc_cpuset_singlify(hwloc_bitmap_t bitmap) { hwloc_bitmap_singlify(bitmap); }
++static __hwloc_inline int __hwloc_attribute_deprecated hwloc_cpuset_compare_first(hwloc_const_bitmap_t bitmap1, hwloc_const_bitmap_t bitmap2) { return hwloc_bitmap_compare_first(bitmap1, bitmap2); }
++static __hwloc_inline int __hwloc_attribute_deprecated hwloc_cpuset_compare(hwloc_const_bitmap_t bitmap1, hwloc_const_bitmap_t bitmap2) { return hwloc_bitmap_compare(bitmap1, bitmap2); }
++static __hwloc_inline int __hwloc_attribute_deprecated hwloc_cpuset_weight(hwloc_const_bitmap_t bitmap) { return hwloc_bitmap_weight(bitmap); }
++
++#define hwloc_cpuset_foreach_begin hwloc_bitmap_foreach_begin
++#define hwloc_cpuset_foreach_end hwloc_bitmap_foreach_end
++
++#ifdef __cplusplus
++} /* extern "C" */
++#endif
++
++#endif /* HWLOC_CPUSET_H */
+--- a/include/hwloc/rename.h
++++ b/include/hwloc/rename.h
+@@ -297,6 +297,51 @@ extern "C" {
+ #define hwloc_bitmap_compare HWLOC_NAME(bitmap_compare)
+ #define hwloc_bitmap_weight HWLOC_NAME(bitmap_weight)
+ 
++/* hwloc/cpuset.h -- deprecated but still available */
++
++#define hwloc_cpuset_alloc HWLOC_NAME(cpuset_alloc)
++#define hwloc_cpuset_free HWLOC_NAME(cpuset_free)
++#define hwloc_cpuset_dup HWLOC_NAME(cpuset_dup)
++#define hwloc_cpuset_copy HWLOC_NAME(cpuset_copy)
++#define hwloc_cpuset_snprintf HWLOC_NAME(cpuset_snprintf)
++#define hwloc_cpuset_asprintf HWLOC_NAME(cpuset_asprintf)
++#define hwloc_cpuset_from_string HWLOC_NAME(cpuset_from_string)
++#define hwloc_cpuset_zero HWLOC_NAME(cpuset_zero)
++#define hwloc_cpuset_fill HWLOC_NAME(cpuset_fill)
++#define hwloc_cpuset_from_ulong HWLOC_NAME(cpuset_from_ulong)
++#define hwloc_cpuset_taskset_snprintf HWLOC_NAME(cpuset_taskset_snprintf)
++#define hwloc_cpuset_taskset_asprintf HWLOC_NAME(cpuset_taskset_asprintf)
++#define hwloc_cpuset_taskset_sscanf HWLOC_NAME(cpuset_taskset_sscanf)
++
++#define hwloc_cpuset_from_ith_ulong HWLOC_NAME(cpuset_from_ith_ulong)
++#define hwloc_cpuset_to_ulong HWLOC_NAME(cpuset_to_ulong)
++#define hwloc_cpuset_to_ith_ulong HWLOC_NAME(cpuset_to_ith_ulong)
++#define hwloc_cpuset_cpu HWLOC_NAME(cpuset_cpu)
++#define hwloc_cpuset_all_but_cpu HWLOC_NAME(cpuset_all_but_cpu)
++#define hwloc_cpuset_set HWLOC_NAME(cpuset_set)
++#define hwloc_cpuset_set_range HWLOC_NAME(cpuset_set_range)
++#define hwloc_cpuset_set_ith_ulong HWLOC_NAME(cpuset_set_ith_ulong)
++#define hwloc_cpuset_clr HWLOC_NAME(cpuset_clr)
++#define hwloc_cpuset_clr_range HWLOC_NAME(cpuset_clr_range)
++#define hwloc_cpuset_isset HWLOC_NAME(cpuset_isset)
++#define hwloc_cpuset_iszero HWLOC_NAME(cpuset_iszero)
++#define hwloc_cpuset_isfull HWLOC_NAME(cpuset_isfull)
++#define hwloc_cpuset_isequal HWLOC_NAME(cpuset_isequal)
++#define hwloc_cpuset_intersects HWLOC_NAME(cpuset_intersects)
++#define hwloc_cpuset_isincluded HWLOC_NAME(cpuset_isincluded)
++#define hwloc_cpuset_or HWLOC_NAME(cpuset_or)
++#define hwloc_cpuset_and HWLOC_NAME(cpuset_and)
++#define hwloc_cpuset_andnot HWLOC_NAME(cpuset_andnot)
++#define hwloc_cpuset_xor HWLOC_NAME(cpuset_xor)
++#define hwloc_cpuset_not HWLOC_NAME(cpuset_not)
++#define hwloc_cpuset_first HWLOC_NAME(cpuset_first)
++#define hwloc_cpuset_last HWLOC_NAME(cpuset_last)
++#define hwloc_cpuset_next HWLOC_NAME(cpuset_next)
++#define hwloc_cpuset_singlify HWLOC_NAME(cpuset_singlify)
++#define hwloc_cpuset_compare_first HWLOC_NAME(cpuset_compare_first)
++#define hwloc_cpuset_compare HWLOC_NAME(cpuset_compare)
++#define hwloc_cpuset_weight HWLOC_NAME(cpuset_weight)
++
+ /* hwloc/helper.h */
+ 
+ #define hwloc_get_type_or_below_depth HWLOC_NAME(get_type_or_below_depth)
+--- a/src/bitmap.c
++++ b/src/bitmap.c
+@@ -6,6 +6,14 @@
+  * See COPYING in top-level directory.
+  */
+ 
++/* cpuset.h converts from the old cpuset API to the new bitmap API, we don't want it here */
++#ifndef HWLOC_CPUSET_H
++/* make sure cpuset.h will not be automatically included here */
++#define HWLOC_CPUSET_H 1
++#else
++#error Do not include cpuset.h in cpuset.c
++#endif
++
+ #include <private/autogen/config.h>
+ #include <hwloc/autogen/config.h>
+ #include <hwloc.h>
+@@ -1159,3 +1167,101 @@ int hwloc_bitmap_weight(const struct hwl
+ 
+ 	return result;
+ }
++
++
++/********************************************************************
++ * everything below should be dropped when hwloc/cpuset.h is dropped
++ */
++
++/* for HWLOC_DECLSPEC */
++#include <hwloc/autogen/config.h>
++
++/* forward declarations (public headers do not export this API anymore) */
++HWLOC_DECLSPEC struct hwloc_bitmap_s * hwloc_cpuset_alloc(void);
++HWLOC_DECLSPEC void hwloc_cpuset_free(struct hwloc_bitmap_s * set);
++HWLOC_DECLSPEC struct hwloc_bitmap_s * hwloc_cpuset_dup(const struct hwloc_bitmap_s * old);
++HWLOC_DECLSPEC void hwloc_cpuset_copy(struct hwloc_bitmap_s * dst, const struct hwloc_bitmap_s * src);
++HWLOC_DECLSPEC int hwloc_cpuset_snprintf(char * __hwloc_restrict buf, size_t buflen, const struct hwloc_bitmap_s * __hwloc_restrict set);
++HWLOC_DECLSPEC int hwloc_cpuset_asprintf(char ** strp, const struct hwloc_bitmap_s * __hwloc_restrict set);
++HWLOC_DECLSPEC int hwloc_cpuset_from_string(struct hwloc_bitmap_s *set, const char * __hwloc_restrict string);
++HWLOC_DECLSPEC int hwloc_cpuset_taskset_snprintf(char * __hwloc_restrict buf, size_t buflen, const struct hwloc_bitmap_s * __hwloc_restrict set);
++HWLOC_DECLSPEC int hwloc_cpuset_taskset_asprintf(char ** strp, const struct hwloc_bitmap_s * __hwloc_restrict set);
++HWLOC_DECLSPEC int hwloc_cpuset_taskset_sscanf(struct hwloc_bitmap_s *set, const char * __hwloc_restrict string);
++HWLOC_DECLSPEC void hwloc_cpuset_zero(struct hwloc_bitmap_s * set);
++HWLOC_DECLSPEC void hwloc_cpuset_fill(struct hwloc_bitmap_s * set);
++HWLOC_DECLSPEC void hwloc_cpuset_from_ulong(struct hwloc_bitmap_s *set, unsigned long mask);
++HWLOC_DECLSPEC void hwloc_cpuset_from_ith_ulong(struct hwloc_bitmap_s *set, unsigned i, unsigned long mask);
++HWLOC_DECLSPEC unsigned long hwloc_cpuset_to_ulong(const struct hwloc_bitmap_s *set);
++HWLOC_DECLSPEC unsigned long hwloc_cpuset_to_ith_ulong(const struct hwloc_bitmap_s *set, unsigned i);
++HWLOC_DECLSPEC void hwloc_cpuset_cpu(struct hwloc_bitmap_s * set, unsigned cpu);
++HWLOC_DECLSPEC void hwloc_cpuset_all_but_cpu(struct hwloc_bitmap_s * set, unsigned cpu);
++HWLOC_DECLSPEC void hwloc_cpuset_set(struct hwloc_bitmap_s * set, unsigned cpu);
++HWLOC_DECLSPEC void hwloc_cpuset_set_range(struct hwloc_bitmap_s * set, unsigned begincpu, unsigned endcpu);
++HWLOC_DECLSPEC void hwloc_cpuset_set_ith_ulong(struct hwloc_bitmap_s *set, unsigned i, unsigned long mask);
++HWLOC_DECLSPEC void hwloc_cpuset_clr(struct hwloc_bitmap_s * set, unsigned cpu);
++HWLOC_DECLSPEC void hwloc_cpuset_clr_range(struct hwloc_bitmap_s * set, unsigned begincpu, unsigned endcpu);
++HWLOC_DECLSPEC int hwloc_cpuset_isset(const struct hwloc_bitmap_s * set, unsigned cpu);
++HWLOC_DECLSPEC int hwloc_cpuset_iszero(const struct hwloc_bitmap_s *set);
++HWLOC_DECLSPEC int hwloc_cpuset_isfull(const struct hwloc_bitmap_s *set);
++HWLOC_DECLSPEC int hwloc_cpuset_isequal(const struct hwloc_bitmap_s *set1, const struct hwloc_bitmap_s *set2);
++HWLOC_DECLSPEC int hwloc_cpuset_intersects(const struct hwloc_bitmap_s *set1, const struct hwloc_bitmap_s *set2);
++HWLOC_DECLSPEC int hwloc_cpuset_isincluded(const struct hwloc_bitmap_s *sub_set, const struct hwloc_bitmap_s *super_set);
++HWLOC_DECLSPEC void hwloc_cpuset_or(struct hwloc_bitmap_s *res, const struct hwloc_bitmap_s *set1, const struct hwloc_bitmap_s *set2);
++HWLOC_DECLSPEC void hwloc_cpuset_and(struct hwloc_bitmap_s *res, const struct hwloc_bitmap_s *set1, const struct hwloc_bitmap_s *set2);
++HWLOC_DECLSPEC void hwloc_cpuset_andnot(struct hwloc_bitmap_s *res, const struct hwloc_bitmap_s *set1, const struct hwloc_bitmap_s *set2);
++HWLOC_DECLSPEC void hwloc_cpuset_xor(struct hwloc_bitmap_s *res, const struct hwloc_bitmap_s *set1, const struct hwloc_bitmap_s *set2);
++HWLOC_DECLSPEC void hwloc_cpuset_not(struct hwloc_bitmap_s *res, const struct hwloc_bitmap_s *set);
++HWLOC_DECLSPEC int hwloc_cpuset_first(const struct hwloc_bitmap_s * set);
++HWLOC_DECLSPEC int hwloc_cpuset_last(const struct hwloc_bitmap_s * set);
++HWLOC_DECLSPEC int hwloc_cpuset_next(const struct hwloc_bitmap_s * set, unsigned prev_cpu);
++HWLOC_DECLSPEC void hwloc_cpuset_singlify(struct hwloc_bitmap_s * set);
++HWLOC_DECLSPEC int hwloc_cpuset_compare_first(const struct hwloc_bitmap_s * set1, const struct hwloc_bitmap_s * set2);
++HWLOC_DECLSPEC int hwloc_cpuset_compare(const struct hwloc_bitmap_s * set1, const struct hwloc_bitmap_s * set2);
++HWLOC_DECLSPEC int hwloc_cpuset_weight(const struct hwloc_bitmap_s * set);
++
++/* actual symbols converting from cpuset ABI into bitmap ABI */
++struct hwloc_bitmap_s * hwloc_cpuset_alloc(void) { return hwloc_bitmap_alloc(); }
++void hwloc_cpuset_free(struct hwloc_bitmap_s * set) { hwloc_bitmap_free(set); }
++struct hwloc_bitmap_s * hwloc_cpuset_dup(const struct hwloc_bitmap_s * old) { return hwloc_bitmap_dup(old); }
++void hwloc_cpuset_copy(struct hwloc_bitmap_s * dst, const struct hwloc_bitmap_s * src) { hwloc_bitmap_copy(dst, src); }
++int hwloc_cpuset_snprintf(char * __hwloc_restrict buf, size_t buflen, const struct hwloc_bitmap_s * __hwloc_restrict set) { return hwloc_bitmap_snprintf(buf, buflen, set); }
++int hwloc_cpuset_asprintf(char ** strp, const struct hwloc_bitmap_s * __hwloc_restrict set) { return hwloc_bitmap_asprintf(strp, set); }
++int hwloc_cpuset_from_string(struct hwloc_bitmap_s *set, const char * __hwloc_restrict string) { return hwloc_bitmap_sscanf(set, string); }
++int hwloc_cpuset_taskset_snprintf(char * __hwloc_restrict buf, size_t buflen, const struct hwloc_bitmap_s * __hwloc_restrict set) { return hwloc_bitmap_taskset_snprintf(buf, buflen, set); }
++int hwloc_cpuset_taskset_asprintf(char ** strp, const struct hwloc_bitmap_s * __hwloc_restrict set) { return hwloc_bitmap_taskset_asprintf(strp, set); }
++int hwloc_cpuset_taskset_sscanf(struct hwloc_bitmap_s *set, const char * __hwloc_restrict string) { return hwloc_bitmap_taskset_sscanf(set, string); }
++void hwloc_cpuset_zero(struct hwloc_bitmap_s * set) { hwloc_bitmap_zero(set); }
++void hwloc_cpuset_fill(struct hwloc_bitmap_s * set) { hwloc_bitmap_fill(set); }
++void hwloc_cpuset_from_ulong(struct hwloc_bitmap_s *set, unsigned long mask) { hwloc_bitmap_from_ulong(set, mask); }
++void hwloc_cpuset_from_ith_ulong(struct hwloc_bitmap_s *set, unsigned i, unsigned long mask) { hwloc_bitmap_from_ith_ulong(set, i, mask); }
++unsigned long hwloc_cpuset_to_ulong(const struct hwloc_bitmap_s *set) { return hwloc_bitmap_to_ulong(set); }
++unsigned long hwloc_cpuset_to_ith_ulong(const struct hwloc_bitmap_s *set, unsigned i) { return hwloc_bitmap_to_ith_ulong(set, i); }
++void hwloc_cpuset_cpu(struct hwloc_bitmap_s * set, unsigned cpu) { hwloc_bitmap_only(set, cpu); }
++void hwloc_cpuset_all_but_cpu(struct hwloc_bitmap_s * set, unsigned cpu) { hwloc_bitmap_allbut(set, cpu); }
++void hwloc_cpuset_set(struct hwloc_bitmap_s * set, unsigned cpu) { hwloc_bitmap_set(set, cpu); }
++void hwloc_cpuset_set_range(struct hwloc_bitmap_s * set, unsigned begincpu, unsigned endcpu) { hwloc_bitmap_set_range(set, begincpu, endcpu); }
++void hwloc_cpuset_set_ith_ulong(struct hwloc_bitmap_s *set, unsigned i, unsigned long mask) { hwloc_bitmap_set_ith_ulong(set, i, mask); }
++void hwloc_cpuset_clr(struct hwloc_bitmap_s * set, unsigned cpu) { hwloc_bitmap_clr(set, cpu); }
++void hwloc_cpuset_clr_range(struct hwloc_bitmap_s * set, unsigned begincpu, unsigned endcpu) { hwloc_bitmap_clr_range(set, begincpu, endcpu); }
++int hwloc_cpuset_isset(const struct hwloc_bitmap_s * set, unsigned cpu) { return hwloc_bitmap_isset(set, cpu); }
++int hwloc_cpuset_iszero(const struct hwloc_bitmap_s *set) { return hwloc_bitmap_iszero(set); }
++int hwloc_cpuset_isfull(const struct hwloc_bitmap_s *set) { return hwloc_bitmap_isfull(set); }
++int hwloc_cpuset_isequal(const struct hwloc_bitmap_s *set1, const struct hwloc_bitmap_s *set2) { return hwloc_bitmap_isequal(set1, set2); }
++int hwloc_cpuset_intersects(const struct hwloc_bitmap_s *set1, const struct hwloc_bitmap_s *set2) { return hwloc_bitmap_intersects(set1, set2); }
++int hwloc_cpuset_isincluded(const struct hwloc_bitmap_s *sub_set, const struct hwloc_bitmap_s *super_set) { return hwloc_bitmap_isincluded(sub_set, super_set); }
++void hwloc_cpuset_or(struct hwloc_bitmap_s *res, const struct hwloc_bitmap_s *set1, const struct hwloc_bitmap_s *set2) { hwloc_bitmap_or(res, set1, set2); }
++void hwloc_cpuset_and(struct hwloc_bitmap_s *res, const struct hwloc_bitmap_s *set1, const struct hwloc_bitmap_s *set2) { hwloc_bitmap_and(res, set1, set2); }
++void hwloc_cpuset_andnot(struct hwloc_bitmap_s *res, const struct hwloc_bitmap_s *set1, const struct hwloc_bitmap_s *set2) { hwloc_bitmap_andnot(res, set1, set2); }
++void hwloc_cpuset_xor(struct hwloc_bitmap_s *res, const struct hwloc_bitmap_s *set1, const struct hwloc_bitmap_s *set2) { hwloc_bitmap_xor(res, set1, set2); }
++void hwloc_cpuset_not(struct hwloc_bitmap_s *res, const struct hwloc_bitmap_s *set) { hwloc_bitmap_not(res, set); }
++int hwloc_cpuset_first(const struct hwloc_bitmap_s * set) { return hwloc_bitmap_first(set); }
++int hwloc_cpuset_last(const struct hwloc_bitmap_s * set) { return hwloc_bitmap_last(set); }
++int hwloc_cpuset_next(const struct hwloc_bitmap_s * set, unsigned prev_cpu) { return hwloc_bitmap_next(set, prev_cpu); }
++void hwloc_cpuset_singlify(struct hwloc_bitmap_s * set) { hwloc_bitmap_singlify(set); }
++int hwloc_cpuset_compare_first(const struct hwloc_bitmap_s * set1, const struct hwloc_bitmap_s * set2) { return hwloc_bitmap_compare_first(set1, set2); }
++int hwloc_cpuset_compare(const struct hwloc_bitmap_s * set1, const struct hwloc_bitmap_s * set2) { return hwloc_bitmap_compare(set1, set2); }
++int hwloc_cpuset_weight(const struct hwloc_bitmap_s * set) { return hwloc_bitmap_weight(set); }
++
++/*
++ * end of everything to be dropped when hwloc/cpuset.h is dropped
++ *****************************************************************/
+--- a/include/Makefile.in
++++ b/include/Makefile.in
+@@ -143,7 +143,7 @@ am__uninstall_files_from_dir = { \
+ am__installdirs = "$(DESTDIR)$(includedir)" \
+ 	"$(DESTDIR)$(include_hwlocdir)" \
+ 	"$(DESTDIR)$(include_hwloc_autogendir)"
+-am__include_hwloc_HEADERS_DIST = hwloc/bitmap.h hwloc/helper.h \
++am__include_hwloc_HEADERS_DIST = hwloc/bitmap.h hwloc/cpuset.h hwloc/helper.h \
+ 	hwloc/inlines.h hwloc/diff.h hwloc/myriexpress.h \
+ 	hwloc/openfabrics-verbs.h hwloc/opencl.h hwloc/cuda.h \
+ 	hwloc/cudart.h hwloc/nvml.h hwloc/plugins.h hwloc/gl.h \
+@@ -378,7 +378,7 @@ top_builddir = @top_builddir@
+ top_srcdir = @top_srcdir@
+ @HWLOC_BUILD_STANDALONE_TRUE@include_HEADERS = hwloc.h
+ @HWLOC_BUILD_STANDALONE_TRUE@include_hwlocdir = $(includedir)/hwloc
+-@HWLOC_BUILD_STANDALONE_TRUE@include_hwloc_HEADERS = hwloc/bitmap.h \
++@HWLOC_BUILD_STANDALONE_TRUE@include_hwloc_HEADERS = hwloc/bitmap.h hwloc/cpuset.h \
+ @HWLOC_BUILD_STANDALONE_TRUE@	hwloc/helper.h hwloc/inlines.h \
+ @HWLOC_BUILD_STANDALONE_TRUE@	hwloc/diff.h hwloc/myriexpress.h \
+ @HWLOC_BUILD_STANDALONE_TRUE@	hwloc/openfabrics-verbs.h \
