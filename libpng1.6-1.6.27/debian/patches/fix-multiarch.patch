@@ -1,0 +1,15 @@
+Description: Make CMake multiarch
+Author: Gianfranco Costamagna <locutusofborg@debian.org>
+Forwarded: https://sourceforge.net/p/libpng/bugs/257/
+
+--- libpng1.6-1.6.26.orig/CMakeLists.txt
++++ libpng1.6-1.6.26/CMakeLists.txt
+@@ -39,6 +39,8 @@ set(PNGLIB_RELEASE 26)
+ set(PNGLIB_NAME libpng${PNGLIB_MAJOR}${PNGLIB_MINOR})
+ set(PNGLIB_VERSION ${PNGLIB_MAJOR}.${PNGLIB_MINOR}.${PNGLIB_RELEASE})
+ 
++include(GNUInstallDirs)
++
+ # needed packages
+ find_package(ZLIB REQUIRED)
+ include_directories(${ZLIB_INCLUDE_DIR})
