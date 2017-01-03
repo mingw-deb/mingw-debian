@@ -1,0 +1,2 @@
+version=3
+https://cairographics.org/releases/ cairo-([\d+\.]+|\d+)\.tar\.xz
