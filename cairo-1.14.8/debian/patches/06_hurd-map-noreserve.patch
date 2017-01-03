@@ -1,0 +1,32 @@
+Index: cairo/test/cairo-test-trace.c
+===================================================================
+--- cairo.orig/test/cairo-test-trace.c	2015-10-30 09:09:01.835024635 +0100
++++ cairo/test/cairo-test-trace.c	2015-10-30 09:09:01.831024583 +0100
+@@ -545,7 +545,11 @@
+ 
+     base = mmap (NULL, DATA_SIZE,
+ 		 PROT_READ | PROT_WRITE,
++#ifdef MAP_NORESERVE
+ 		 MAP_SHARED | MAP_NORESERVE,
++#else
++		 MAP_SHARED,
++#endif
+ 		 fd, 0);
+     close (fd);
+ 
+Index: cairo/util/cairo-sphinx/sphinx.c
+===================================================================
+--- cairo.orig/util/cairo-sphinx/sphinx.c	2015-10-30 09:09:01.835024635 +0100
++++ cairo/util/cairo-sphinx/sphinx.c	2015-10-30 09:09:01.831024583 +0100
+@@ -1337,7 +1337,11 @@
+ 
+     base = mmap (NULL, DATA_SIZE,
+ 		 PROT_READ | PROT_WRITE,
++#ifdef MAP_NORESERVE
+ 		 MAP_SHARED | MAP_NORESERVE,
++#else
++		 MAP_SHARED,
++#endif
+ 		 fd, 0);
+     close (fd);
+ 
