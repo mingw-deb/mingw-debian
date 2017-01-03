@@ -1,0 +1,4 @@
+usr/bin/lstopo
+usr/bin/lstopo-no-graphics
+usr/bin/hwloc-*
+usr/share/applications

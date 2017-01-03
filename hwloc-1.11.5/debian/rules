@@ -1,0 +1,27 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@ --with autoreconf --parallel
+
+DEB_HOST_MULTIARCH  ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
+
+override_dh_auto_configure:
+	dh_auto_configure -- --enable-static --enable-plugins --enable-doxygen
+
+override_dh_auto_install:
+	dh_auto_install
+
+	mkdir -p $(CURDIR)/debian/tmp/usr/include/$(DEB_HOST_MULTIARCH)/hwloc/autogen
+	mv $(CURDIR)/debian/tmp/usr/include/hwloc/autogen/config.h $(CURDIR)/debian/tmp/usr/include/$(DEB_HOST_MULTIARCH)/hwloc/autogen/
+
+debian/libhwloc5.links: debian/libhwloc5.links.in
+	sed -e 's/@DEB_HOST_MULTIARCH@/$(DEB_HOST_MULTIARCH)/g' < $< > $@
+override_dh_link: debian/libhwloc5.links
+	dh_link
+
+override_dh_clean:
+	dh_clean
+	rm -f debian/libhwloc5.links
+
+override_dh_makeshlibs:
+	dh_makeshlibs -V
