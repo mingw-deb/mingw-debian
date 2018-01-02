@@ -8,5 +8,5 @@ usr/*/bin/icuinfo.exe
 usr/*/bin/makeconv.exe
 usr/*/bin/pkgdata.exe
 usr/*/bin/uconv.exe
-usr/*/sbin
+#usr/*/sbin
 usr/*/share/man

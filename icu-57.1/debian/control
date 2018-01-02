@@ -3,7 +3,7 @@ Section: libs
 Priority: optional
 Maintainer: Laszlo Boszormenyi (GCS) <gcs@debian.org>
 Standards-Version: 3.9.7
-Build-Depends:  debhelper (>> 9~), dpkg-dev (>= 1.16.1~), autotools-dev, g++ (>= 4:5-0), g++-5 (>= 5.2.1-10)
+Build-Depends:  debhelper (>> 9~), dpkg-dev (>= 1.16.1~), autotools-dev, g++ (>= 5.2.1-10)
 Build-Depends-Indep: gcc-mingw-w64, g++-mingw-w64, doxygen (>= 1.7.1)
 Homepage: http://www.icu-project.org
 
@@ -18,23 +18,11 @@ Description: International Components for Unicode
  Unicode and locale support.  This package contains the runtime
  libraries for ICU.
 
-Package: libicu57-mingw-w64-dbg
-Section: debug
-Priority: extra
-Architecture: any
-Pre-Depends: ${misc:Pre-Depends}
-Depends: ${misc:Depends}, libicu57-mingw-w64 (= ${binary:Version})
-Description: International Components for Unicode (debug symbols)
- ICU is a C++ and C library that provides robust and full-featured
- Unicode and locale support.
- .
- This package contains debugging symbols for the libraries.
-
 Package: libicu-mingw-w64-dev
 Section: libdevel
 Architecture: any
 Pre-Depends: ${misc:Pre-Depends}
-Depends: ${misc:Depends}, ${shlibs:Depends}, libicu57-mingw-w64 (= ${binary:Version}), icu-devtools-mingw-w64 (>= ${binary:Version}), libc6-dev | libc-dev, libstdc++-5-dev (>= 5.2.1-10)
+Depends: ${misc:Depends}, ${shlibs:Depends}, libicu57-mingw-w64 (= ${binary:Version}), icu-devtools-mingw-w64 (>= ${binary:Version}), libc6-dev | libc-dev, g++-mingw-w64
 Replaces: icu-devtools-mingw-w64 (<< 57.1-1~)
 Breaks: icu-devtools-mingw-w64 (<< 57.1-1~)
 Suggests: icu-mingw-w64-doc
@@ -56,20 +44,6 @@ Description: Development utilities for International Components for Unicode
  Unicode and locale support. This package contains programs used to
  manipulate data files found in the ICU sources and is a dependency of
  libicu-dev.  End users would generally not need to install this package.
-
-Package: icu-devtools-mingw-w64-dbg
-Section: debug
-Priority: extra
-Architecture: any
-Pre-Depends: ${misc:Pre-Depends}
-Depends: ${misc:Depends}, libicu57-mingw-w64 (= ${binary:Version})
-Description: Development utilities for International Components for Unicode (debug symbols)
- ICU is a C++ and C library that provides robust and full-featured
- Unicode and locale support. This package contains programs used to
- manipulate data files found in the ICU sources and is a dependency of
- libicu-dev.  End users would generally not need to install this package.
- .
- This package contains debugging symbols for icu-devtools.
 
 Package: icu-mingw-w64-doc
 Section: doc

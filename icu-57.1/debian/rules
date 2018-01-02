@@ -8,6 +8,8 @@ CPPFLAGS=-Wdate-time
 CFLAGS=-O3 -g -O2 -Wformat -Werror=format-security
 CXXFLAGS=-O3 --std=c++03
 
+#CURDIR=$(PWD)
+
 l_SONAME=57
 
 TARGETS := \
@@ -29,6 +31,7 @@ EXECUTE = \
 	/usr/bin/$${target}
 
 override_dh_clean:
+	echo "Current directory = $(CURDIR)"
 	for target in $(TARGETS); do \
 		rm -rf build-$$target; \
 	done
@@ -37,6 +40,8 @@ override_dh_clean:
 		-exec rm {} \;
 
 override_dh_auto_configure:
+	echo "CURDIR=„$(CURDIR)“"
+	echo "DESTDIR=„$(TESTDIR)“"
 	for target in $(TARGETS); do \
 		mkdir -p build-$$target/bin && \
 		cd build-$$target && \
@@ -60,9 +65,9 @@ override_dh_auto_install:
 	for target in $(TARGETS); do \
 		cd build-$$target && \
 		$(EXECUTE) $(MAKE) install DESTDIR=$(CURDIR)/debian/tmp/ && \
-		$(EXECUTE) $(MAKE) install-doc DESTDIR=$(CURDIR)/debian/tmp/ && \
+		$(EXECUTE) $(MAKE) install-doc DESTDIR=$(CURDIR)/debian/tmp/ || exit; \
 		echo delete extra license file && \
-		rm  -f $(CURDIR)/debian/tmp/usr/$$target/share/icu/57.1/LICENSE || exit ; \
+		rm  -f $(CURDIR)/debian/tmp/usr/$$target/share/icu/57.1/LICENSE  ; \
 		cd .. ; \
 	done
 	# this should be redundant as fakeroot treats all unknown files to be owned by root.
@@ -81,15 +86,16 @@ override_dh_installdocs-indep:
 	fakeroot chown -R root:root "$(CURDIR)/debian/tmp"
 
 override_dh_strip:
-	fakeroot dh_strip -plibicu$(l_SONAME) --dbg-package=libicu$(l_SONAME)-mingw-w64-dbg
-	fakeroot dh_strip -picu-devtools --dbg-package=icu-devtools-mingw-w64-dbg
-	# libicudata library doesn't contain any debug symbols, remove that
-	for file in `find debian/libicu$(l_SONAME)-mingw-w64-dbg/usr/lib/debug -type f -print`; do \
-		fakeroot /bin/sh -c "if ! nm -a '$$file' | grep -q debug; then rm '$$file' ; fi"; \
-	done
+	fakeroot dh_strip -O --sourcedirectory=$(CURDIR)/source/
+#	fakeroot dh_strip -plibicu$(l_SONAME) --dbg-package=libicu$(l_SONAME)-mingw-w64-dbg
+#	fakeroot dh_strip -picu-devtools --dbg-package=icu-devtools-mingw-w64-dbg
+#	# libicudata library doesn't contain any debug symbols, remove that
+#	for file in `find debian/libicu$(l_SONAME)-mingw-w64-dbg/usr/lib/debug -type f -print`; do \
+#		fakeroot /bin/sh -c "if ! nm -a '$$file' | grep -q debug; then rm '$$file' ; fi"; \
+#	done
 
-binary:
-	dh binary --sourcedirectory=$(CURDIR)/source/
+#binary:
+#	dh binary --sourcedirectory=$(CURDIR)/source/
 
 override_dh_testroot:
 	fakeroot dh_testroot -O --sourcedirectory=$(CURDIR)/source/
@@ -110,9 +116,19 @@ override_dh_builddeb:
 	dh $@ --sourcedirectory=$(CURDIR)/source/
 	#dh $@ --sourcedirectory=$(CURDIR/)source/ --parallel
 
-.PHONY: override_dh_clean override_dh_auto_configure override_dh_auto_build \
-	override_dh_auto_install override_dh_installdocs-indep \
-	override_dh_strip
+.PHONY: override_dh_clean \
+	override_dh_auto_configure \
+	override_dh_auto_build \
+	override_dh_auto_install \
+	override_dh_installdocs-indep \
+	override_dh_strip \
+	override_dh_testroot \
+	override_dh_fixperms \
+	override_dh_compress \
+	override_dh_makeshlibs \
+	override_dh_gencontrol \
+	override_dh_md5sums \
+	override_dh_builddeb
 
 # Local Variables:
 # compile-command: "(cd .. ; debuild -r env)"
