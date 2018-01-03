@@ -1,8 +1,8 @@
 Source: mingw-buildscripts
-Section: unknown
+Section: devel
 Priority: optional
-Maintainer: Tobias Schlemmer <tobias@tobias4.schlemmersoft.de>
-Build-Depends: debhelper (>=9), lib32gcc-5-dev
+Maintainer: Tobias Schlemmer <keinstein@users.sourceforge.net>
+Build-Depends: debhelper (>=9), lib32gcc-7-dev
 Standards-Version: 3.9.8
 Homepage: <insert the upstream URL, if relevant>
 #Vcs-Git: git://anonscm.debian.org/collab-maint/mingw-buildscripts.git

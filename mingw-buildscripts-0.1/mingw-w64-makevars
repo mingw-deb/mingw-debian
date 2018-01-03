@@ -23,6 +23,13 @@ then
 fi
 WINEDLLPATH="$WINEDLLPATH/usr/$arch/lib:/usr/lib/$arch:$gccdirs"
 
+case ${arch} in
+x86_64-*) address_bits=64
+	;;
+i[3456789]86-*) address_bits=32
+	;;
+esac
+
 
 outputpath=""
 
@@ -55,6 +62,7 @@ done
 WINWINEDLLPATH=`makeoutputpath`
 UNIXPATH="$PATH"
 
+export address_bits
 export CC
 export CXX
 export RANLIB
