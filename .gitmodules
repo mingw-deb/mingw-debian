@@ -4,3 +4,6 @@
 [submodule "pacman-mirrors"]
 	path = pacman-mirrors
 	url = git@github.com:mingw-deb/debian-pacman-mirrors.git
+[submodule "archlinux-buildscripts"]
+	path = archlinux-buildscripts
+	url = git@github.com:mingw-deb/debian-archlinux-buildscripts.git
