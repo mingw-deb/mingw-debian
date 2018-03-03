@@ -1,3 +1,6 @@
 [submodule "pacman"]
 	path = pacman
 	url = git@github.com:mingw-deb/debian-pacman.git
+[submodule "pacman-mirrors"]
+	path = pacman-mirrors
+	url = git@github.com:mingw-deb/debian-pacman-mirrors.git
