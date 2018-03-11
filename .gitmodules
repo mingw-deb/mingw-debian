@@ -31,3 +31,6 @@
 [submodule "libcroco"]
 	path = libcroco
 	url = git@github.com:mingw-deb/libcroco.git
+[submodule "libffi"]
+	path = libffi
+	url = git@github.com:mingw-deb/libffi.git
