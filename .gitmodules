@@ -55,3 +55,6 @@
 [submodule "pdcurses"]
 	path = pdcurses
 	url = git@github.com:mingw-deb/pdcurses.git
+[submodule "wxmsw"]
+	path = wxmsw
+	url = git@github.com:mingw-deb/wxmsw.git
