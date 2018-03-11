@@ -25,3 +25,9 @@
 [submodule "jack"]
 	path = jack
 	url = git@github.com:mingw-deb/jack.git
+[submodule "glib2"]
+	path = glib2
+	url = git@github.com:mingw-deb/glib2.git
+[submodule "libcroco"]
+	path = libcroco
+	url = git@github.com:mingw-deb/libcroco.git
