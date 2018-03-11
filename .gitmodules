@@ -13,3 +13,6 @@
 [submodule "expat"]
 	path = expat
 	url = git@github.com:mingw-deb/expat.git
+[submodule "cppunit"]
+	path = cppunit
+	url = git@github.com:mingw-deb/cppunit.git
