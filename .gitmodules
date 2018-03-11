@@ -52,3 +52,6 @@
 [submodule "libunistring"]
 	path = libunistring
 	url = git@github.com:mingw-deb/libunistring.git
+[submodule "pdcurses"]
+	path = pdcurses
+	url = git@github.com:mingw-deb/pdcurses.git
