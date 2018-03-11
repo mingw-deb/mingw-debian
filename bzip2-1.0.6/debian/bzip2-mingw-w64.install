@@ -1,0 +1,3 @@
+usr/*/bin/*.exe
+usr/*/bin/bz*
+usr/*/share/man

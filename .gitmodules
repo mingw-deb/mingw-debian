@@ -7,3 +7,6 @@
 [submodule "archlinux-buildscripts"]
 	path = archlinux-buildscripts
 	url = git@github.com:mingw-deb/debian-archlinux-buildscripts.git
+[submodule "boost"]
+	path = boost
+	url = git@github.com:mingw-deb/boost.git

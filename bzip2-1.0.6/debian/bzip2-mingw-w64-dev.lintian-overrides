@@ -1,0 +1,4 @@
+non-standard-dir-in-usr usr/i686-w64-mingw32/
+non-standard-dir-in-usr usr/x86_64-w64-mingw32/
+file-in-unusual-dir usr/i686-w64-mingw32/*
+file-in-unusual-dir usr/x86_64-w64-mingw32/*

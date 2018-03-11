@@ -1,0 +1,9 @@
+#!/bin/sh
+env >/tmp/debian-links-env
+echo "$@" >> /tmp/debian-links-env
+cd debian/bzip2-mingw-w64-doc/usr/share/doc/bzip2-mingw-w64/
+for d in *.ps *.ps.gz *.texi *.texi.gz *.html *.html.gz
+do
+    test -f "$d" && echo "/usr/share/doc/bzip2-mingw-w64/$d /usr/share/doc/bzip2-mingw-w64-doc/$d"
+done
+exit 0

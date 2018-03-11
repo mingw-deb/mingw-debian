@@ -69,7 +69,7 @@ override_dh_auto_install:
 		cd .. ; \
 	done
 	# this should be redundant as fakeroot treats all unknown files to be owned by root.
-	echo fakeroot &&  chown -R root:root "$(CURDIR)/debian/tmp"
+	fakeroot chown -R root:root "$(CURDIR)/debian/tmp"
 
 override_dh_installdocs-indep:
 	dh_installdocs -i
@@ -81,10 +81,10 @@ override_dh_installdocs-indep:
 			ln -s `basename $$normal` $$file; \
 		fi; \
 	done
-	echo fakeroot &&  chown -R root:root "$(CURDIR)/debian/tmp"
+	fakeroot chown -R root:root "$(CURDIR)/debian/tmp"
 
 override_dh_strip:
-	echo fakeroot &&  dh_strip
+	fakeroot dh_strip
 	#fakeroot dh_strip -plibicu$(l_SONAME) --dbg-package=libicu$(l_SONAME)-mingw-w64-dbg
 	#fakeroot dh_strip -picu-devtools --dbg-package=icu-devtools-mingw-w64-dbg
 	# libicudata library doesn't contain any debug symbols, remove that
@@ -96,22 +96,22 @@ binary:
 	dh binary --sourcedirectory=$(CURDIR)
 
 override_dh_testroot:
-	dh_testroot -O --sourcedirectory=$(CURDIR)
+	fakeroot dh_testroot -O --sourcedirectory=$(CURDIR)
 	#fakeroot dh_testroot -O --sourcedirectory=$(CURDIR)
 override_dh_fixperms:
-	echo fakeroot &&  dh_fixperms -O --sourcedirectory=$(CURDIR)
+	fakeroot dh_fixperms -O --sourcedirectory=$(CURDIR)
 override_dh_compress:
-	echo fakeroot &&  dh_compress -O --sourcedirectory=$(CURDIR)
+	fakeroot dh_compress -O --sourcedirectory=$(CURDIR)
 override_dh_makeshlibs:
-	echo fakeroot &&  dh_makeshlibs -O --sourcedirectory=$(CURDIR)
+	fakeroot dh_makeshlibs -O --sourcedirectory=$(CURDIR)
 override_dh_gencontrol:
-	echo fakeroot &&  dh_gencontrol -O --sourcedirectory=$(CURDIR)
+	fakeroot dh_gencontrol -O --sourcedirectory=$(CURDIR)
 override_dh_md5sums:
-	echo fakeroot &&  dh_md5sums -O --sourcedirectory=$(CURDIR)
+	fakeroot dh_md5sums -O --sourcedirectory=$(CURDIR)
 override_dh_builddeb:
-	echo fakeroot &&  dh_builddeb -O --sourcedirectory=$(CURDIR)
+	fakeroot dh_builddeb -O --sourcedirectory=$(CURDIR)
 
-%:
+%:	
 	dh $@ --sourcedirectory=$(CURDIR)
 	#dh $@ --sourcedirectory=$(CURDIR/)source/ --parallel
 
