@@ -46,3 +46,6 @@
 [submodule "libpng"]
 	path = libpng
 	url = git@github.com:mingw-deb/libpng.git
+[submodule "libtiff"]
+	path = libtiff
+	url = git@github.com:mingw-deb/libtiff.git
