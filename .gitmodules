@@ -16,3 +16,6 @@
 [submodule "cppunit"]
 	path = cppunit
 	url = git@github.com:mingw-deb/cppunit.git
+[submodule "gettext"]
+	path = gettext
+	url = git@github.com:mingw-deb/gettext.git
