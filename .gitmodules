@@ -22,3 +22,6 @@
 [submodule "gdb"]
 	path = gdb
 	url = git@github.com:mingw-deb/gdb.git
+[submodule "jack"]
+	path = jack
+	url = git@github.com:mingw-deb/jack.git
