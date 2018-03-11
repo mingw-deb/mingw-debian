@@ -37,3 +37,9 @@
 [submodule "libintl"]
 	path = libintl
 	url = git@github.com:mingw-deb/libintl.git
+[submodule "libjpeg-turbo"]
+	path = libjpeg-turbo
+	url = git@github.com:mingw-deb/libjpeg-turbo.git
+[submodule "libpcre"]
+	path = libpcre
+	url = git@github.com:mingw-deb/libpcre.git
