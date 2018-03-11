@@ -34,3 +34,6 @@
 [submodule "libffi"]
 	path = libffi
 	url = git@github.com:mingw-deb/libffi.git
+[submodule "libintl"]
+	path = libintl
+	url = git@github.com:mingw-deb/libintl.git
