@@ -10,3 +10,6 @@
 [submodule "boost"]
 	path = boost
 	url = git@github.com:mingw-deb/boost.git
+[submodule "expat"]
+	path = expat
+	url = git@github.com:mingw-deb/expat.git
