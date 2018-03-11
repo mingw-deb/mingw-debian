@@ -19,3 +19,6 @@
 [submodule "gettext"]
 	path = gettext
 	url = git@github.com:mingw-deb/gettext.git
+[submodule "gdb"]
+	path = gdb
+	url = git@github.com:mingw-deb/gdb.git
