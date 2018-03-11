@@ -43,3 +43,6 @@
 [submodule "libpcre"]
 	path = libpcre
 	url = git@github.com:mingw-deb/libpcre.git
+[submodule "libpng"]
+	path = libpng
+	url = git@github.com:mingw-deb/libpng.git
