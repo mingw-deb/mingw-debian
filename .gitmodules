@@ -58,3 +58,9 @@
 [submodule "wxmsw"]
 	path = wxmsw
 	url = git@github.com:mingw-deb/wxmsw.git
+[submodule "readline"]
+	path = readline
+	url = git@github.com:mingw-deb/readline.git
+[submodule "termcap"]
+	path = termcap
+	url = git@github.com:mingw-deb/termcap.git
